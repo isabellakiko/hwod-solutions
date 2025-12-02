@@ -1,0 +1,29 @@
+{
+  "id": "188",
+  "title": "拼接URL",
+  "examType": "B",
+  "score": 100,
+  "description": "给定一个url前缀和url后缀,通过,分割 需要将其连接为一个完整的url\n如果前缀结尾和后缀开头都没有/，需要自动补上/连接符如果前缀结尾和后缀开头都为/，需要自动去重\n约束：不用考虑前后缀URL不合法情况\n",
+  "inputDesc": "url前缀(一个长度小于100的字符串)，url后缀(一个长度小于100的字符串)",
+  "outputDesc": "拼接后的url\n\n\n逻辑题，可以直接看代码实现了解逻辑。\n20230813 本题Java解法中split函数比较难搞，对于下面情况按照\",\"分割出来的字符串数组分别是：\n我们需要注意处理下。\nJS和Python的split函数就要规矩的多，上面三种输入情况，都会返回一个长度为2的字符串数组。\n更新解法使用了正则表达式，其中\nprefix前缀，需要将其结尾的多个/去除，使用正则 /+$ 来匹配结尾的多个/\nsuffix后缀，需要将其开头的多个/去除，使用正则 ^/+ 来匹配开头的多个/\n最后拼接 prefix + \"/\" + suffix 即可\n\n对于python而言，有更简单的lstrip和rstrip方法，实现同样效果。\n",
+  "examples": [
+    {
+      "input": "/acm,/contest",
+      "output": "/acm/contest",
+      "explanation": "前缀无/结尾，后缀无/开头，自动补上/"
+    },
+    {
+      "input": "/acm/,/contest",
+      "output": "/acm/contest",
+      "explanation": "前缀有/结尾，后缀有/开头，去重为一个/"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**字符串处理**问题。\n\n**核心思路：**\n- 去除前缀结尾的/\n- 去除后缀开头的/\n- 用/连接\n\n**算法步骤：**\n1. 使用正则/+$去除前缀结尾的多个/\n2. 使用正则^/+去除后缀开头的多个/\n3. 返回prefix + \"/\" + suffix\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    String s = sc.nextLine();\n\n    String[] arr = s.split(\",\");\n\n    String prefix = arr.length > 0 && arr[0].length() > 0 ? arr[0] : \"/\";\n    String suffix = arr.length > 1 && arr[1].length() > 0 ? arr[1] : \"/\";\n\n    System.out.println(getResult(prefix, suffix));\n  }\n\n  public static String getResult(String prefix, String suffix) {\n    prefix = prefix.replaceAll(\"/+$\", \"\");\n    suffix = suffix.replaceAll(\"^/+\", \"\");\n    return prefix + \"/\" + suffix;\n  }\n}",
+    "python": "# 输入获取\nprefix, suffix = input().split(\",\")\n\nprefix = prefix.rstrip(\"/\")\nsuffix = suffix.lstrip(\"/\")\n\nprint(prefix + \"/\" + suffix)",
+    "javascript": "",
+    "cpp": "",
+    "c": ""
+  }
+}

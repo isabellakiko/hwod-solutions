@@ -1,0 +1,29 @@
+{
+  "id": "118",
+  "title": "云短信平台优惠活动",
+  "examType": "A",
+  "score": 200,
+  "description": "某云短信厂商，为庆祝国庆，推出充值优惠活动。 现在给出客户预算，和优惠售价序列，求最多可获得的短信总条数。",
+  "inputDesc": "第一行客户预算M，其中 0 ≤ M ≤ 10^6\n第二行给出售价表， P1, P2, … Pn , 其中 1 ≤ n ≤ 100 ,\nPi为充值 i 元获得的短信条数。1 ≤ Pi ≤ 1000 , 1 ≤ n ≤ 100",
+  "outputDesc": "最多获得的短信条数",
+  "examples": [
+    {
+      "input": "6\n10 20 30 40 60",
+      "output": "70",
+      "explanation": "预算6元。充1元得10条+充5元得60条=70条最优"
+    },
+    {
+      "input": "15\n10 20 30 40 60 60 70 80 90 150",
+      "output": "210",
+      "explanation": "预算15元。充5元得60条+充10元得150条=210条最优"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**完全背包**问题。\n\n**核心思路：**\n- 预算M相当于背包容量\n- 充值i元相当于物品重量i\n- 获得Pi条短信相当于物品价值\n- 每种充值可无限次使用\n\n**状态转移：**\n- dp[j] = max(dp[j], dp[j-i] + P[i])\n- 遍历顺序：从小到大（完全背包）\n\n**时间复杂度**：O(N×M)",
+  "codes": {
+    "java": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        // 处理输入\n        Scanner in = new Scanner(System.in);\n        int money = Integer.parseInt(in.nextLine());\n        int[] topupInfo = Arrays.stream(in.nextLine().split(\" \"))\n                .mapToInt(Integer::parseInt)\n                .toArray();\n\n        int[] dp = new int[money + 1];\n\n        for (int i = 0; i < topupInfo.length; i++) {\n            for (int j = i + 1; j <= money; j++) {\n                dp[j] = Math.max(dp[j], dp[j - (i + 1)] + topupInfo[i]);\n            }\n        }\n        System.out.println(dp[money]);\n    }\n}",
+    "python": "def main():\n    # 处理输入\n    money = int(input())\n    topup_info = list(map(int, input().split()))\n\n    dp = [0] * (money + 1)\n\n    for i in range(len(topup_info)):\n        for j in range(i + 1, money + 1):\n            dp[j] = max(dp[j], dp[j - (i + 1)] + topup_info[i])\n\n    print(dp[money])\n\nif __name__ == \"__main__\":\n    main()",
+    "javascript": "const readline = require('readline');\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nrl.on('line', (line) => {\n  const inputs = line.split(' ');\n  if (inputs.length === 1) {\n    const money = parseInt(inputs[0]);\n    rl.on('line', (line) => {\n      const topupInfo = line.split(' ').map(Number);\n      const dp = new Array(money + 1).fill(0);\n\n      for (let i = 0; i < topupInfo.length; i++) {\n        for (let j = i + 1; j <= money; j++) {\n          dp[j] = Math.max(dp[j], dp[j - (i + 1)] + topupInfo[i]);\n        }\n      }\n      console.log(dp[money]);\n      rl.close();\n    });\n  }\n});",
+    "cpp": "#include <iostream>\n#include <vector>\n#include <string>\n#include <sstream>\n#include <algorithm>\n\nusing namespace std;\nint main() {\n    // 处理输入\n    int money;\n    cin >> money;\n    cin.ignore();\n\n    string line;\n    getline(cin, line);\n    istringstream iss(line);\n    vector<int> topup_info;\n    int value;\n\n    while (iss >> value) {\n        topup_info.push_back(value);\n    }\n\n    vector<int> dp(money + 1, 0);\n\n    for (size_t i = 0; i < topup_info.size(); i++) {\n        for (int j = static_cast<int>(i) + 1; j <= money; j++) {\n            dp[j] = max(dp[j], dp[j - (i + 1)] + topup_info[i]);\n        }\n    }\n    cout << dp[money] << endl;\n\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\n\n \nint main() {\n    int money;\n  \n    scanf(\"%d\", &money);\n\n    // 定义售价表数组，并读取售价表\n    int topupInfo[100];\n    int n = 0;\n    while (scanf(\"%d\", &topupInfo[n]) != EOF) {\n        n++;\n    }\n \n    int dp[1001] = {0};\n\n    // 遍历每一个充值选项\n    for (int i = 0; i < n; i++) {\n        // 从当前预算开始，向后更新 dp 数组\n        for (int j = i + 1; j <= money; j++) {\n            // 更新 dp[j] 为在充值 i+1 元的情况下获得的最大短信数\n            dp[j] = dp[j] > dp[j - (i + 1)] + topupInfo[i] ? dp[j] : dp[j - (i + 1)] + topupInfo[i];\n        }\n    }\n\n    // 输出在预算 money 下最多可获得的短信条数\n    printf(\"%d\\n\", dp[money]);\n\n    return 0;\n}"
+  }
+}

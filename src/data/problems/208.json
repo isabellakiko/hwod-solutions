@@ -1,0 +1,29 @@
+{
+  "id": "208",
+  "title": "基站维护工程师",
+  "examType": "B",
+  "score": 200,
+  "description": "小王是一名基站维护工程师，负责某区域的基站维护。 某地方有 n 个基站(1 < n < 10)，已知各基站之间的距离 s(0 < s < 500)，并且基站 x 到基站 y 的距离，与基站 y 到基站 x 的距离并不一定会相同。 小王从基站 1 出发，途经每个基站 1 次，然后返回基站 1 ，需要请你为他选择一条距离最短的路。\n",
+  "inputDesc": "站点数n和各站点之间的距离(均为整数)\n",
+  "outputDesc": "最短路程的数值\n\n\n用例输入含义是，\n3 //有3个基站， 0 2 1 // 站点1到站点1的距离0，到站点2的距离2，到站点3的距离1 1 0 2 // 站点2到站点1的距离1，到站点2的距离0，到站点3的距离2 2 1 0 // 站点3到站点1的距离2，到站点2的距离1，到站点3的距离0\n图示如下\n\n可以发现，1 → 3 → 2 → 1 的路线距离是最短的，只有3距离。\n\n题目中说：\n小王从基站 1 出发，途经每个基站 1 次，然后返回基站 1\n并且按照题目输入来看，每个站点都与剩下的其他站点相连，因此本题其实就是求解n-1个站点（即2~n站点，起始站点1）的全排列。\n比如用例一共三个站点，从1站点出发，即求2，3站点的全排列：23，32\n因此一共有两种途径选择：1 → 2 → 3 → 1 和 1 → 3 → 2 → 1\n我们只要比较各排列路径中距离最小的即为题解。\n两个站点i，j之间距离，即为matrix[i-1][j-1]，比如求解1 → 2距离，起始就是matrix[0][1]。\n\n题目中说 1 < n < 10 ，也就是说最多有9个站点，而我们求解n-1个站点的全排列，即8个站点的全排列，一共有8！= 40320 个，每个排列求解距离要进行一个O(n)的遍历，即9次遍历。因此一共是差不多40w次循环，好在没什么计算量。\n我测试了一下10*10矩阵的用时为200ms左右，应该符合要求。\n\n",
+  "examples": [
+    {
+      "input": "3\n0 2 1\n1 0 2\n2 1 0",
+      "output": "3",
+      "explanation": "1→3→2→1路线距离1+1+1=3最短"
+    },
+    {
+      "input": "4\n0 1 2 3\n1 0 1 2\n2 1 0 1\n3 2 1 0",
+      "output": "4",
+      "explanation": "1→2→3→4→1距离1+1+1+1=4"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**TSP旅行商问题(全排列)**。\n\n**核心思路：**\n- 枚举2~n站点的全排列\n- 计算每条路径的距离\n\n**算法步骤：**\n1. 从站点1出发\n2. DFS枚举剩余n-1个站点的全排列\n3. 计算每条路径距离（含返回站点1）\n4. 返回最小距离\n\n**时间复杂度**：O((N-1)!*N)",
+  "codes": {
+    "java": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        int n = sc.nextInt();\n\n        int[][] matrix = new int[n][n];\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++) {\n                matrix[i][j] = sc.nextInt();\n            }\n        }\n\n        System.out.println(getResult(matrix, n));\n    }\n\n    public static int getResult(int[][] matrix, int n) {\n        boolean[] used = new boolean[n];\n        LinkedList<Integer> path = new LinkedList<>();\n        ArrayList<LinkedList<Integer>> res = new ArrayList<>();\n\n        dfs(n, used, path, res);\n\n        int ans = Integer.MAX_VALUE;\n\n        for (LinkedList<Integer> pa : res) {\n            int dis = matrix[0][pa.get(0)];\n            for (int i = 0; i < pa.size() - 1; i++) {\n                int p = pa.get(i);\n                int c = pa.get(i + 1);\n                dis += matrix[p][c];\n            }\n            dis += matrix[pa.getLast()][0];\n            ans = Math.min(ans, dis);\n        }\n\n        return ans;\n    }\n\n    public static void dfs(int n, boolean[] used, LinkedList<Integer> path, ArrayList<LinkedList<Integer>> res) {\n        if (path.size() == n - 1) {\n            res.add((LinkedList<Integer>)path.clone());\n            return;\n        }\n\n        for (int i = 1; i < n; i++) {\n            if (!used[i]) {\n                path.push(i);\n                used[i] = true;\n                dfs(n, used, path, res);\n                used[i] = false;\n                path.pop();\n            }\n        }\n    }\n\n}",
+    "python": "import sys\n\n# 输入获取\nn = int(input())\nmatrix = [list(map(int, input().split())) for i in range(n)]\n\n\n# 算法入口\ndef getResult(matrix, n):\n    res = []\n    dfs(n, [False] * n, [], res)\n\n    ans = sys.maxsize\n\n    for path in res:\n        dis = matrix[0][path[0]]\n        for i in range(len(path) - 1):\n            dis += matrix[path[i]][path[i + 1]]\n        dis += matrix[path[-1]][0]\n        ans = min(ans, dis)\n\n    return ans\n\n\ndef dfs(n, used, path, res):\n    if len(path) == n - 1:\n        return res.append(path[:])\n\n    for i in range(1, n):\n        if not used[i]:\n            path.append(i)\n            used[i] = True\n            dfs(n, used, path, res)\n            used[i] = False\n            path.pop()\n\n\n# 算法调用\nprint(getResult(matrix, n))",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nconst lines = [];\nlet n;\nrl.on(\"line\", (line) => {\n  lines.push(line);\n\n  if (lines.length === 1) {\n    n = lines[0] - 0;\n  }\n\n  if (n && lines.length === n + 1) {\n    lines.shift();\n    const matrix = lines.map((line) => line.split(\" \").map(Number));\n    console.log(getResult(matrix, n));\n    lines.length = 0;\n  }\n});\n\nfunction getResult(matrix, n) {\n  const res = [];\n  dfs(n, [], [], res);\n\n  let ans = Infinity;\n\n  for (let path of res) {\n    let dis = matrix[0][path[0]];\n    path.reduce((p, c) => {\n      dis += matrix[p][c];\n      return c;\n    });\n    dis += matrix[path.at(-1)][0];\n    ans = Math.min(ans, dis);\n  }\n\n  return ans;\n}\n\nfunction dfs(n, used, path, res) {\n  if (path.length === n - 1) return res.push([...path]);\n\n  for (let i = 1; i < n; i++) {\n    if (!used[i]) {\n      path.push(i);\n      used[i] = true;\n      dfs(n, used, path, res);\n      used[i] = false;\n      path.pop();\n    }\n  }\n}",
+    "cpp": "",
+    "c": ""
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "163",
+  "title": "羊、狼、农夫过河",
+  "examType": "A",
+  "score": 200,
+  "description": "羊、狼、农夫都在岸边，当羊的数量小于狼的数量时，狼会攻击羊，农夫则会损失羊。农夫有一艘容量固定的船，能够承载固定数量的动物。\n要求求出不损失羊情况下将全部羊和狼运到对岸需要的最小次数。\n只计算农夫去对岸的次数，回程时农夫不会运送羊和狼。\n备注：农夫在或农夫离开后羊的数量大于狼的数量时狼不会攻击羊。\n",
+  "inputDesc": "第一行输入为M，N，X， 分别代表羊的数量，狼的数量，小船的容量。\n",
+  "outputDesc": "输出不损失羊情况下将全部羊和狼运到对岸需要的最小次数（若无法满足条件则输出0）。\n\n第一次运2只狼\n第二次运3只羊\n第三次运2只羊和1只狼\n本题求不损失羊的前提下，将羊和狼全部运到对岸的最小次数。\n首先，要搞清楚，如何保证不损失羊？\n农夫在或农夫离开后羊的数量大于狼的数量时狼不会攻击羊。\n这里有个文字断句陷阱，到底是这样断句\n还是这样断句\n经过一位网友的真实机考反馈，上面画删除线的断句理解是错误的。\n\n那么”农夫在时，狼不会攻击羊“，这句话到底会有什么影响呢？\n只计算农夫去对岸的次数，回程时农夫不会运送羊和狼。\n通过上面这句话，我们可以理解，农夫回程不会带动物。因此可以认定：\n因此，”农夫在时，狼不会攻击羊“，这句话只会影响：船上，羊和狼的关系，即农夫在船上时，如果羊数量 <= 狼数量，此时因为农夫在，因此狼不会攻击羊。\n\n本题没有什么好的解题思路，只能通过暴力枚举所有羊、狼数量情况，只需要满足下面三个条件：\n",
+  "examples": [
+    {
+      "input": "5 3 3",
+      "output": "3",
+      "explanation": "5羊3狼船容量3，需3次运完"
+    },
+    {
+      "input": "3 3 2",
+      "output": "0",
+      "explanation": "3羊3狼船容量2，无法保证羊的安全，输出0"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**DFS回溯**问题。\n\n**核心思路：**\n- 枚举每次运送的羊和狼数量\n- 保证本岸和对岸羊数>狼数(或羊数=0)\n- 农夫在时狼不攻击羊\n\n**算法步骤：**\n1. DFS枚举船上羊数i和狼数j\n2. 检查本岸剩余：羊-i>狼-j或羊-i=0\n3. 检查对岸状态：羊+i>狼+j或羊+i=0\n4. 找所有可行方案的最小次数\n\n**时间复杂度**：O(指数级)，但数据规模小可接受",
+  "codes": {
+    "java": "import java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int m = sc.nextInt();\n    int n = sc.nextInt();\n    int x = sc.nextInt();\n\n    System.out.println(getResult(m, n, x));\n  }\n\n  /**\n   * @param sheep 本岸羊数量\n   * @param wolf 本岸狼数量\n   * @param boat 船负载\n   * @return 最少运送次数\n   */\n  public static int getResult(int sheep, int wolf, int boat) {\n    ArrayList<Integer> ans = new ArrayList<>();\n    dfs(sheep, wolf, boat, 0, 0, 0, ans);\n\n    if (ans.size() > 0) {\n      return Collections.min(ans);\n    } else {\n      return 0;\n    }\n  }\n\n  public static void dfs(\n      int sheep,\n      int wolf,\n      int boat,\n      int oppo_sheep,\n      int oppo_wolf,\n      int count,\n      ArrayList<Integer> ans) {\n    if (sheep == 0 && wolf == 0) {\n      ans.add(count);\n      return;\n    }\n\n    if (sheep + wolf <= boat) {\n      ans.add(count + 1);\n      return;\n    }\n\n    // i 代表船上羊数量，最多Math.min(boat, sheep)\n    for (int i = 0; i <= Math.min(boat, sheep); i++) {\n      // j 代表船上狼数量，最多Math.min(boat, wolf)\n      for (int j = 0; j <= Math.min(boat, wolf); j++) {\n        // 空运\n        if (i + j == 0) continue;\n        // 超载\n        if (i + j > boat) break;\n\n        // 本岸羊 <= 本岸狼，说明狼运少了\n        if (sheep - i <= wolf - j && sheep - i != 0) continue;\n\n        // 对岸羊 <= 对岸狼，说明狼运多了\n        if (oppo_sheep + i <= oppo_wolf + j && oppo_sheep + i != 0) break;\n\n        // 对岸没羊，但是对岸狼已经超过船载量，即下次即使整船都运羊，也无法保证对岸羊 > 对岸狼\n        if (oppo_sheep + i == 0 && oppo_wolf + j >= boat) break;\n\n        dfs(sheep - i, wolf - j, boat, oppo_sheep + i, oppo_wolf + j, count + 1, ans);\n      }\n    }\n  }\n}",
+    "python": "import math\n\n# 输入获取\nm, n, x = map(int, input().split())\n\n\n# 算法入口\ndef getResult(sheep, wolf, boat):\n    ans = []\n    dfs(sheep, wolf, boat, 0, 0, 0, ans)\n\n    if len(ans) > 0:\n        return min(ans)\n    else:\n        return 0\n\n\ndef dfs(sheep, wolf, boat, oppo_sheep, oppo_wolf, count, ans):\n    if sheep == 0 and wolf == 0:\n        ans.append(count)\n        return\n\n    if sheep + wolf <= boat:\n        ans.append(count + 1)\n        return\n\n    # i 代表船上羊数量，最多Math.min(boat, sheep)\n    for i in range(min(boat, sheep) + 1):\n        # j 代表船上狼数量，最多Math.min(boat, wolf)\n        for j in range(min(boat, wolf) + 1):\n            # 空运\n            if i + j == 0:\n                continue\n\n            # 超载\n            if i + j > boat:\n                break\n\n            # 本岸羊 <= 本岸狼，说明狼运少了\n            if sheep - i <= wolf - j and sheep - i != 0:\n                continue\n\n            # 对岸羊 <= 对岸狼，说明狼运多了\n            if oppo_sheep + i <= oppo_wolf + j and oppo_sheep + i != 0:\n                break\n\n            # 对岸没羊，但是对岸狼已经超过船载量，即下次即使整船都运羊，也无法保证对岸羊 > 对岸狼\n            if oppo_sheep + i == 0 and oppo_wolf + j >= boat:\n                break\n\n            dfs(sheep - i, wolf - j, boat, oppo_sheep + i, oppo_wolf + j, count + 1, ans)\n\n\n# 算法调用\nprint(getResult(m, n, x))",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nrl.on(\"line\", (line) => {\n  const [m, n, x] = line.split(\" \").map(Number);\n\n  console.log(getResult(m, n, x));\n});\n\nfunction getResult(sheep, wolf, boat) {\n  const ans = [];\n  dfs(sheep, wolf, boat, 0, 0, 0, ans);\n\n  if (ans.length) {\n    return Math.min.apply(null, ans);\n  } else {\n    return 0;\n  }\n}\n\nfunction dfs(sheep, wolf, boat, oppo_sheep, oppo_wolf, count, ans) {\n  if (sheep === 0 && wolf === 0) {\n    ans.push(count);\n    return;\n  }\n\n  if (sheep + wolf <= boat) {\n    ans.push(count + 1);\n    return;\n  }\n\n  // i 代表船上羊数量，最多Math.min(boat, sheep)\n  for (let i = 0; i <= Math.min(boat, sheep); i++) {\n    // j 代表船上狼数量，最多Math.min(boat, wolf)\n    for (let j = 0; j <= Math.min(boat, wolf); j++) {\n      // 空运\n      if (i + j === 0) continue;\n\n      // 超载\n      if (i + j > boat) break;\n\n      // 本岸羊 <= 本岸狼，说明狼运少了\n      if (sheep - i <= wolf - j && sheep - i !== 0) continue;\n\n      // 对岸羊 <= 对岸狼，说明狼运多了\n      if (oppo_sheep + i <= oppo_wolf + j && oppo_sheep + i !== 0) break;\n\n      // 对岸没羊，但是对岸狼已经超过船载量，即下次即使整船都运羊，也无法保证对岸羊 > 对岸狼\n      if (oppo_sheep + i === 0 && oppo_wolf + j >= boat) break;\n\n      dfs(\n        sheep - i,\n        wolf - j,\n        boat,\n        oppo_sheep + i,\n        oppo_wolf + j,\n        count + 1,\n        ans\n      );\n    }\n  }\n}",
+    "cpp": "",
+    "c": ""
+  }
+}

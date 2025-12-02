@@ -1,0 +1,34 @@
+{
+  "id": "76",
+  "title": "最大花费金额",
+  "examType": "A",
+  "score": 100,
+  "description": "双十一众多商品进行打折销售，小明想购买自己心仪的一些物品，但由于受购买资金限制，所以他决定从众多心仪商品中购买三件，而且想尽可能的花完资金。\n现在请你设计一个程序帮助小明计算尽可能花费的最大资金数额。\n",
+  "inputDesc": "输入第一行为一维整型数组M，数组长度小于100，数组元素记录单个商品的价格，单个商品价格小于1000。输入第二行为购买资金的额度R，R小于100000。输入格式是正确的，无需考虑格式错误的情况。\n",
+  "outputDesc": "输出尽可能花费的最大资金数额，如果无法购买三件商品则输出-1。",
+  "examples": [
+    {
+      "input": "23,26,36,27\n78",
+      "output": "76",
+      "explanation": "选择23+26+27=76，最接近且不超过78。"
+    },
+    {
+      "input": "10,20,30,40,50\n100",
+      "output": "100",
+      "explanation": "选择10+40+50=100或20+30+50=100，刚好等于资金额度。"
+    },
+    {
+      "input": "100,200\n500",
+      "output": "-1",
+      "explanation": "商品不足3件，无法购买，返回-1。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**三数之和变形**问题（双指针）。\n\n**算法步骤：**\n1. 对价格数组排序\n2. 固定第一个数i，用双指针l和r找另外两个数\n3. 计算三数之和sum\n4. 若sum==target，直接返回\n5. 若sum<target，记录答案，l右移尝试更大的和\n6. 若sum>target，r左移尝试更小的和\n\n**时间复杂度**：O(N²)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n  // 输入获取\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    Integer[] arrM =\n        Arrays.stream(sc.nextLine().split(\",\")).map(Integer::parseInt).toArray(Integer[]::new);\n\n    int r = Integer.parseInt(sc.nextLine());\n\n    System.out.println(getResult(arrM, r));\n  }\n\n  // 算法入口\n  public static int getResult(Integer[] arr, int target) {\n    // 题目说小明要购买三件，如果商品不足三件直接返回-1\n    if (arr.length < 3) return -1;\n\n    // 数组升序\n    Arrays.sort(arr);\n\n    int ans = -1;\n\n    for (int i = 0; i < arr.length; i++) {\n      int l = i + 1;\n      int r = arr.length - 1;\n\n      while (l < r) {\n        int sum = arr[i] + arr[l] + arr[r];\n        if (sum == target) {\n          return sum;\n        } else if (sum < target) {\n          ans = Math.max(ans, sum);\n          l++;\n        } else {\n          r--;\n        }\n      }\n    }\n\n    return ans;\n  }\n}",
+    "python": "# 输入获取\narr = list(map(int, input().split(\",\")))\ntarget = int(input())\n\n\n# 算法入口\ndef getResult():\n    # 题目说小明要购买三件，如果商品不足三件直接返回-1\n    if len(arr) < 3:\n        return -1\n\n    # 数组升序\n    arr.sort()\n\n    ans = -1\n\n    for i in range(len(arr)):\n        l = i + 1\n        r = len(arr) - 1\n\n        while l < r:\n            total = arr[i] + arr[l] + arr[r]\n\n            if total == target:\n                return total\n            elif total < target:\n                ans = max(ans, total)\n                l += 1\n            else:\n                r -= 1\n\n    return ans\n\n\n# 算法调用\nprint(getResult())",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nconst lines = [];\nrl.on(\"line\", (line) => {\n  lines.push(line);\n\n  if (lines.length === 2) {\n    const arrM = lines[0].split(\",\").map(Number);\n    const r = lines[1] - 0;\n    console.log(getResult(arrM, r));\n    lines.length = 0;\n  }\n});\n\nfunction getResult(arr, target) {\n  // 题目说小明要购买三件，如果商品不足三件直接返回-1\n  if (arr.length < 3) return -1;\n\n  // 数组升序\n  arr.sort((a, b) => a - b);\n\n  let ans = -1;\n\n  for (let i = 0; i < arr.length; i++) {\n    let l = i + 1;\n    let r = arr.length - 1;\n\n    while (l < r) {\n      const sum = arr[i] + arr[l] + arr[r];\n\n      if (sum == target) {\n        return sum;\n      } else if (sum < target) {\n        ans = Math.max(ans, sum);\n        l++;\n      } else {\n        r--;\n      }\n    }\n  }\n\n  return ans;\n}",
+    "cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <sstream>\nusing namespace std;\n\nint main() {\n    string line;\n    getline(cin, line);\n    \n    vector<int> arr;\n    stringstream ss(line);\n    string token;\n    while (getline(ss, token, ',')) {\n        arr.push_back(stoi(token));\n    }\n    \n    int target;\n    cin >> target;\n    \n    if (arr.size() < 3) {\n        cout << -1 << endl;\n        return 0;\n    }\n    \n    sort(arr.begin(), arr.end());\n    int ans = -1;\n    \n    for (int i = 0; i < arr.size(); i++) {\n        int l = i + 1;\n        int r = arr.size() - 1;\n        \n        while (l < r) {\n            int sum = arr[i] + arr[l] + arr[r];\n            if (sum == target) {\n                cout << sum << endl;\n                return 0;\n            } else if (sum < target) {\n                ans = max(ans, sum);\n                l++;\n            } else {\n                r--;\n            }\n        }\n    }\n    \n    cout << ans << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint cmp(const void* a, const void* b) {\n    return *(int*)a - *(int*)b;\n}\n\nint main() {\n    char line[1000];\n    fgets(line, sizeof(line), stdin);\n    \n    int arr[100];\n    int n = 0;\n    char* token = strtok(line, \",\\n\");\n    while (token) {\n        arr[n++] = atoi(token);\n        token = strtok(NULL, \",\\n\");\n    }\n    \n    int target;\n    scanf(\"%d\", &target);\n    \n    if (n < 3) {\n        printf(\"-1\\n\");\n        return 0;\n    }\n    \n    qsort(arr, n, sizeof(int), cmp);\n    int ans = -1;\n    \n    for (int i = 0; i < n; i++) {\n        int l = i + 1;\n        int r = n - 1;\n        \n        while (l < r) {\n            int sum = arr[i] + arr[l] + arr[r];\n            if (sum == target) {\n                printf(\"%d\\n\", sum);\n                return 0;\n            } else if (sum < target) {\n                if (sum > ans) ans = sum;\n                l++;\n            } else {\n                r--;\n            }\n        }\n    }\n    \n    printf(\"%d\\n\", ans);\n    return 0;\n}"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "158",
+  "title": "目录删除",
+  "examType": "A",
+  "score": 200,
+  "description": "某文件系统中有 N 个目录，每个目录都有一个独一无二的 ID。\n每个目录只有一个父目录，但每个父目录下可以有零个或者多个子目录，目录结构呈树状结构。\n假设，根目录的 ID 为 0，且根目录没有父目录，其他所有目录的 ID 用唯一的正整数表示，并统一编号。\n现给定目录 ID 和其父目录 ID 的对应父子关系表[子目录 ID，父目录 ID]，以及一个待删除的目录 ID，请计算并返回一个 ID 序列，表示因为删除指定目录后剩下的所有目录，返回的ID序列以递增序输出。\n注意\n1、被删除的目录或文件编号一定在输入的 ID 序列中；\n2、当一个目录删除时，它所有的子目录都会被删除。\n",
+  "inputDesc": "输入的第一行为父子关系表的长度 m；\n接下来的 m 行为 m 个父子关系对；\n最后一行为待删除的 ID。\n序列中的元素以空格分割，参见样例。\n",
+  "outputDesc": "输出一个序列，表示因为删除指定目录后，剩余的目录 ID。\n\n\n本题咋看上去是让模拟N叉树结构，然后做节点删除操作，最后遍历N叉树。\n但是这样的话思考的话，就太复杂了。\n本题其实并不需要删除节点，也不需要遍历N叉树，我们可以在模拟N叉树的过程中，就统计节点，并排除要删除的节点的插入。\n我首先，统计了所有父节点下的子节点，比如\n8 6 10 8 6 0 20 8 2 6\n可以统计为：\n然后从根节点0开始遍历N叉树\n",
+  "examples": [
+    {
+      "input": "5\n8 6\n10 8\n6 0\n20 8\n2 6\n8",
+      "output": "2 6 10 20",
+      "explanation": "删除目录8后，其子目录10、20也被删除，剩余2、6"
+    },
+    {
+      "input": "3\n1 0\n2 1\n3 1\n1",
+      "output": "",
+      "explanation": "删除目录1后，子目录2、3也被删除，根目录0不输出"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**树遍历**问题。\n\n**核心思路：**\n- 构建父子关系的树结构\n- DFS遍历时跳过要删除的节点及其子树\n\n**算法步骤：**\n1. 构建父节点->子节点的映射\n2. 从根节点0开始DFS遍历\n3. 遇到要删除的节点则跳过（不递归其子树）\n4. 收集未被删除的节点并排序输出\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.Scanner;\nimport java.util.StringJoiner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int m = sc.nextInt();\n\n    int[][] relations = new int[m][2];\n    for (int i = 0; i < m; i++) {\n      relations[i][0] = sc.nextInt();\n      relations[i][1] = sc.nextInt();\n    }\n\n    int del = sc.nextInt();\n\n    System.out.println(getResult(m, relations, del));\n  }\n\n  public static String getResult(int m, int[][] relations, int del) {\n    HashMap<Integer, ArrayList<Integer>> tree = new HashMap<>();\n\n    for (int[] relation : relations) {\n      int child = relation[0];\n      int father = relation[1];\n      tree.putIfAbsent(father, new ArrayList<>());\n      tree.get(father).add(child);\n    }\n\n    if (del == 0) {\n      return \"\";\n    }\n\n    ArrayList<Integer> res = new ArrayList<>();\n    dfs(tree, 0, del, res);\n\n    res.sort((a, b) -> a - b);\n    StringJoiner sj = new StringJoiner(\" \");\n    for (Integer v : res) {\n      sj.add(v + \"\");\n    }\n    return sj.toString();\n  }\n\n  public static void dfs(\n      HashMap<Integer, ArrayList<Integer>> tree, int node, int del, ArrayList<Integer> res) {\n    if (tree.containsKey(node)) {\n      ArrayList<Integer> children = tree.get(node);\n      for (Integer child : children) {\n        if (child != del) {\n          res.add(child);\n          dfs(tree, child, del, res);\n        }\n      }\n    }\n  }\n}",
+    "python": "# 输入获取\nm = int(input())\nrelations = [list(map(int, input().split())) for _ in range(m)]\nremove = int(input())\n\n\ndef dfs(tree, node, remove, res):\n    if tree.get(node) is not None:\n        children = tree[node]\n        for child in children:\n            if child != remove:\n                res.append(child)\n                dfs(tree, child, remove, res)\n\n\n# 算法入口\ndef getResult():\n    tree = {}\n\n    for child, father in relations:\n        if tree.get(father) is None:\n            tree[father] = []\n        tree[father].append(child)\n\n    if remove == 0:\n        return \"\"\n\n    res = []\n    dfs(tree, 0, remove, res)\n\n    res.sort()\n    return \" \".join(map(str, res))\n\n\n# 调用算法\nprint(getResult())",
+    "javascript": "",
+    "cpp": "",
+    "c": ""
+  }
+}

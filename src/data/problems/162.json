@@ -1,0 +1,29 @@
+{
+  "id": "162",
+  "title": "编码能力提升计划",
+  "examType": "A",
+  "score": 200,
+  "description": "为了提升软件编码能力，小王制定了刷题计划，他选了题库中的n道题，编号从0到n-1，并计划在m天内按照题目编号顺序刷完所有的题目（注意，小王不能用多天完成同一题）。\n在小王刷题计划中，小王需要用tme[i]的时间完成编号 i 的题目。\n此外，小王还可以查看答案，可以省去该题的做题时间。为了真正达到刷题效果，小王每天最多直接看一次答案。\n我们定义m天中做题时间最多的一天耗时为T（直接看答案的题目不计入做题总时间)。\n请你帮小王求出最小的T是多少。\n",
+  "inputDesc": "第一行输入为time，time[i]的时间完成编号 i 的题目\n第二行输入为m，m表示几天内完成所有题目，1 ≤ m ≤ 180\n",
+  "outputDesc": "最小耗时整数T\n\n第一天完成前3题，第3题看答案;\n第二天完成第4题和第5题，第5题看答案；\n第三天完成第6和第7题，第7提看答案;\n第四天完成第8题，直接看答案:\n第五天完成第9题，直接看答案\n\n本题要求的 T 即为每天最多要花费的做题时间，比如T=5，即表示每天最多有5个小时做题。另外，在每天花费T时间做题的情况下，要在m天中做完所有题目。\n现在这种可能解T有多个，我们要找到这些可能解中最小的T。\n这是一个典型的最大最小问题，我们可以用二分法解题。\n\n二分法用于求解可能解T，首先需要确定T的两个边界范围（初始的二分范围）。\n因此，T的取值范围是 [0, sum(time) - max(time)]\n我们通过二分法，取中间值作为可能解 t，然后进行验证，该 t 是否可以保证在 m 天内完成 所有题目：\n这样最终我们就能求得最小的T。\n\n但是本题的难点不在于二分法，而在于如何验证 t 是否能在 m 天内完成所有题目？\n我们以用例2为例来讲解：\n首先 T 的初始取值范围是 [0, 30]，我们二分求得中间值 t = 15\n下面即开始验证，每天只有15个时间单位做题目，是否可以再 m = 5 天内完成所有题目。\n\n注意：此时我们有一次看答案机会，但是我们应该用这次机会看哪一题答案呢？\n很简单，我们应该将这次宝贵的机会用在看耗时最长的题目上，而这些题目中耗时最长的是time[4]，因此我们看time[4]题目的答案，总耗时17 - 5 = 12。\n\n这里，可能有人会有疑问，我们如果看time[5]答案，那么总耗时17 - 4 = 13，也可以不超时呀。我们可以假设，如果下一题time[6]耗时是3，那么会产生什么影响？\n因此，看time[4]答案是更优策略。\n第1天做到了time[6]，那么第2天从time[7]开始做。\n因此，当t = 15时，只需要2天（< m）就能做完所有题目。所以 t = 15 是一个可能解，但不一定时最优解，我们应该尝试更小的 t。\n\n接下来 T 的范围缩小为 [0, 14]，我们二分求得中间值 t = 7。\n按照上面思路，继续验证 t 是否能满足 m 天内完成所有题目。\n",
+  "examples": [
+    {
+      "input": "5,4,5,3,4,5,3,4,5,3\n5",
+      "output": "9",
+      "explanation": "5天完成10题，每天可看一次答案，最大单日耗时最小化为9"
+    },
+    {
+      "input": "1,2,3\n2",
+      "output": "3",
+      "explanation": "2天完成，第一天1+2=3(或看答案)，第二天3"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**二分答案**问题。\n\n**核心思路：**\n- 二分查找最小的每日最大耗时T\n- 每天可看一次答案(跳过最耗时的题)\n- 验证能否在m天内完成\n\n**算法步骤：**\n1. 二分范围[0, sum-max]\n2. 验证：模拟每天做题，超时则用看答案机会\n3. 看答案跳过当天最耗时的题\n4. 统计需要的天数是否≤m\n\n**时间复杂度**：O(NlogS)，S为总耗时",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n  static int[] times;\n  static int m;\n\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    times = Arrays.stream(sc.nextLine().split(\",\")).mapToInt(Integer::parseInt).toArray();\n    m = Integer.parseInt(sc.nextLine());\n\n    System.out.println(getResult());\n  }\n\n  public static int getResult() {\n    int sum = 0;\n    int max = 0;\n    for (int time : times) {\n      sum += time;\n      max = Math.max(time, max);\n    }\n\n    // T的初始取值范围\n    int low = 0;\n    int high = sum - max;\n\n    // 二分\n    while (low <= high) {\n      // 取中间值尝试\n      int mid = (low + high) >> 1;\n\n      if (check(mid)) {\n        high = mid - 1;\n      } else {\n        low = mid + 1;\n      }\n    }\n\n    return low;\n  }\n\n  public static boolean check(int t) {\n    // 今天总耗时\n    int sum_cost = 0;\n    // 今天耗时最多的题目的耗时\n    int max_cost = 0;\n    // 今天是否可以申请帮助\n    boolean canHelp = true;\n\n    // 第几天\n    int day = 1;\n\n    int i = 0;\n    while (i < times.length) {\n      sum_cost += times[i];\n      max_cost = Math.max(max_cost, times[i]);\n\n      if (sum_cost > t) {\n        // 如果做完times[i]，总耗时超过了t\n        if (canHelp) {\n          // 如果可以申请帮助，那么就看耗时最长的题目的答案\n          sum_cost -= max_cost;\n          // 今天申请帮助的机会用完了\n          canHelp = false;\n          // 下面继续做下一题\n          i++;\n        } else {\n          // 如果不能申请帮助，则今天做不了times[i]题目，只能放到明天做\n          // 进入明天\n          day++;\n          // 重置总耗时，最大耗时题目，以及申请帮助机会\n          sum_cost = 0;\n          max_cost = 0;\n          canHelp = true;\n        }\n      } else {\n        // 如果做完times[i]，总耗时没有超过t，则继续做下面的题目\n        i++;\n      }\n    }\n\n    return day <= m;\n  }\n}",
+    "python": "# 输入获取\ntimes = list(map(int, input().split(\",\")))\nm = int(input())\n\n\ndef check(t):\n    # 今天总耗时\n    sum_cost = 0\n    # 今天耗时最多的题目的耗时\n    max_cost = 0\n    # 今天是否可以申请帮助\n    canHelp = True\n\n    # 第几天\n    day = 1\n\n    i = 0\n    while i < len(times):\n        sum_cost += times[i]\n        max_cost = max(max_cost, times[i])\n\n        if sum_cost > t:\n            # 如果做完times[i]，总耗时超过了t\n            if canHelp:\n                # 如果可以申请帮助，那么就看耗时最长的题目的答案\n                sum_cost -= max_cost\n                # 今天申请帮助的机会用完了\n                canHelp = False\n                # 下面继续做下一题\n                i += 1\n            else:\n                # 如果不能申请帮助，则今天做不了times[i]题目，只能放到明天做\n                # 进入明天\n                day += 1\n                # 重置总耗时，最大耗时题目，以及申请帮助机会\n                sum_cost = 0\n                max_cost = 0\n                canHelp = True\n        else:\n            # 如果做完times[i]，总耗时没有超过t，则继续做下面的题目\n            i += 1\n\n    return day <= m\n\n\n# 算法入口\ndef getResult():\n    # T的初始取值范围\n    low = 0\n    high = sum(times) - max(times)\n\n    # 二分\n    while low <= high:\n        # 取中间值尝试\n        mid = (low + high) >> 1\n\n        if check(mid):\n            high = mid - 1\n        else:\n            low = mid + 1\n\n    return low\n\n\n# 算法调用\nprint(getResult())",
+    "javascript": "",
+    "cpp": "",
+    "c": ""
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "id": "89",
+  "title": "静态扫描",
+  "examType": "A",
+  "score": 100,
+  "description": "静态扫描可以快速识别源代码的缺陷，静态扫描的结果以扫描报告作为输出：\n1、文件扫描的成本和文件大小相关，如果文件大小为N，则扫描成本为N个金币\n2、扫描报告的缓存成本和文件大小无关，每缓存一个报告需要M个金币\n3、扫描报告缓存后，后继再碰到该文件则不需要扫描成本，直接获取缓存结果\n给出源代码文件标识序列和文件大小序列，求解采用合理的缓存策略，最少需要的金币数。\n",
+  "inputDesc": "第一行为缓存一个报告金币数M，L<= M <= 100\n第二行为文件标识序列：F1,F2,F3,....,Fn。\n第三行为文件大小序列：S1,S2,S3,....,Sn。\n\n备注：\n1 <= N <= 100001 <= Fi <= 10001 <= Si <= 10\n",
+  "outputDesc": "采用合理的缓存策略，需要的最少金币数。",
+  "examples": [
+    {
+      "input": "5\n1 2 1 2 1\n1 2 1 2 1",
+      "output": "7",
+      "explanation": "文件1出现3次大小1，扫描成本3*1=3，缓存成本1+5=6，选3。文件2出现2次大小2，扫描成本2*2=4，缓存成本2+5=7，选4。共7。"
+    },
+    {
+      "input": "1\n1 1 1\n3 3 3",
+      "output": "4",
+      "explanation": "文件1出现3次大小3，扫描成本3*3=9，缓存成本3+1=4。选缓存4。"
+    },
+    {
+      "input": "10\n1 2 3\n1 2 3",
+      "output": "6",
+      "explanation": "每个文件只出现1次，缓存不划算。直接扫描成本1+2+3=6。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**贪心**问题。\n\n**核心思路：**\n对每个文件独立决策，比较两种策略的成本：\n- 策略1：每次都重新扫描，成本 = 出现次数 × 文件大小\n- 策略2：扫描一次+缓存，成本 = 文件大小 + 缓存费M\n\n**算法步骤：**\n1. 统计每个文件的出现次数和大小\n2. 对每个文件选择成本更低的策略\n3. 累加所有文件的最小成本\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.HashMap;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int m = Integer.parseInt(sc.nextLine());\n    Integer[] f =\n        Arrays.stream(sc.nextLine().split(\" \")).map(Integer::parseInt).toArray(Integer[]::new);\n    Integer[] s =\n        Arrays.stream(sc.nextLine().split(\" \")).map(Integer::parseInt).toArray(Integer[]::new);\n\n    System.out.println(getResult(m, f, s));\n  }\n\n  public static int getResult(int m, Integer[] f, Integer[] s) {\n    // count用于保存每个文件出现的次数\n    HashMap<Integer, Integer> count = new HashMap<>();\n    // size用于保存文件的大小，即扫描成本\n    HashMap<Integer, Integer> size = new HashMap<>();\n\n    for (int i = 0; i < f.length; i++) {\n      // k是文件标识\n      Integer k = f[i];\n      count.put(k, count.getOrDefault(k, 0) + 1);\n      size.putIfAbsent(k, s[i]);\n    }\n\n    int ans = 0;\n    for (Integer k : count.keySet()) {\n      // 选择每次都重新扫描的成本  和  扫描一次+缓存的成本  中最小的\n      ans += Math.min(count.get(k) * size.get(k), size.get(k) + m);\n    }\n\n    return ans;\n  }\n}",
+    "python": "# 输入获取\nm = int(input())\nf = list(map(int, input().split()))\ns = list(map(int, input().split()))\n\n\n# 算法入口\ndef getResult(m, f, s):\n    # count用于保存每个文件出现的次数\n    count = {}\n    # size用于保存文件的大小，即扫描成本\n    size = {}\n\n    for i in range(len(f)):\n        # k是文件标识\n        k = f[i]\n        if count.get(k) is None:\n            count[k] = 1\n        else:\n            count[k] += 1\n\n        if size.get(k) is None:\n            size[k] = s[i]\n\n    ans = 0\n    for k in count.keys():\n        # 选择每次都重新扫描的成本  和  扫描一次+缓存的成本  中最小的\n        ans += min(count[k] * size[k], size[k] + m)\n    return ans\n\n\nprint(getResult(m, f, s))",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nconst lines = [];\nlet m, f, s;\nrl.on(\"line\", (line) => {\n  lines.push(line);\n\n  if (lines.length === 3) {\n    m = lines[0] - 0;\n    f = lines[1].split(\" \").map(Number);\n    s = lines[2].split(\" \").map(Number);\n\n    console.log(getResult(m, f, s));\n\n    lines.length = 0;\n  }\n});\n\nfunction getResult(m, f, s) {\n  // count用于保存每个文件出现的次数\n  const count = {};\n  // size用于保存文件的大小，即扫描成本\n  const size = {};\n  for (let i = 0; i < f.length; i++) {\n    // k是文件标识\n    const k = f[i];\n    count[k] ? count[k]++ : (count[k] = 1);\n    if (!size[k]) {\n      size[k] = s[i];\n    }\n  }\n\n  let ans = 0;\n  for (let k in count) {\n    // 选择每次都重新扫描的成本  和  扫描一次+缓存的成本  中最小的\n    ans += Math.min(count[k] * size[k], size[k] + m);\n  }\n\n  return ans;\n}",
+    "cpp": "#include <iostream>\n#include <sstream>\n#include <map>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    int m;\n    cin >> m;\n    cin.ignore();\n    \n    string line1, line2;\n    getline(cin, line1);\n    getline(cin, line2);\n    \n    map<int, int> count, size;\n    \n    stringstream ss1(line1), ss2(line2);\n    int fi, si;\n    while (ss1 >> fi && ss2 >> si) {\n        count[fi]++;\n        if (size.find(fi) == size.end()) {\n            size[fi] = si;\n        }\n    }\n    \n    int ans = 0;\n    for (auto& p : count) {\n        int k = p.first;\n        ans += min(count[k] * size[k], size[k] + m);\n    }\n    \n    cout << ans << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <string.h>\n\nint main() {\n    int m;\n    scanf(\"%d\", &m);\n    \n    int f[10001], s[10001];\n    int n = 0;\n    \n    while (scanf(\"%d\", &f[n]) == 1) n++;\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &s[i]);\n    }\n    \n    int count[1001] = {0};\n    int size[1001] = {0};\n    int seen[1001] = {0};\n    \n    for (int i = 0; i < n; i++) {\n        count[f[i]]++;\n        if (!seen[f[i]]) {\n            size[f[i]] = s[i];\n            seen[f[i]] = 1;\n        }\n    }\n    \n    int ans = 0;\n    for (int k = 1; k <= 1000; k++) {\n        if (count[k] > 0) {\n            int scan = count[k] * size[k];\n            int cache = size[k] + m;\n            ans += scan < cache ? scan : cache;\n        }\n    }\n    \n    printf(\"%d\\n\", ans);\n    return 0;\n}"
+  }
+}

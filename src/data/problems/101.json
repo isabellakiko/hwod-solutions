@@ -1,0 +1,29 @@
+{
+  "id": "101",
+  "title": "最大利润贪心的商人",
+  "examType": "A",
+  "score": 100,
+  "description": "商人经营一家店铺，有number种商品，由于仓库限制每件商品的最大持有数量是item[index]，每种商品的价格是item-price[item_index][day]\n通过对商品的买进和卖出获取利润，请给出商人在days天内能获取的最大的利润 注：同一件商品可以反复买进和卖出",
+  "inputDesc": "第一行输入商品的数量number，比如3 第二行输入商品售货天数 days，比如3 第三行输入仓库限制每件商品的最大持有数量是item[index]，比如4 5 6 后面继续输入number行days列，含义如下： 第一件商品每天的价格，比如1 2 3 第二件商品每天的价格，比如4 3 2 第三件商品每天的价格，比如1 5 3\n第一行输入商品的数量number，比如3\n第二行输入商品售货天数 days，比如3\n第三行输入仓库限制每件商品的最大持有数量是item[index]，比如4 5 6\n后面继续输入number行days列，含义如下：\n第一件商品每天的价格，比如1 2 3\n第二件商品每天的价格，比如4 3 2\n第三件商品每天的价格，比如1 5 3",
+  "outputDesc": "输出商人在这段时间内的最大利润。",
+  "examples": [
+    {
+      "input": "3\n3\n4 5 6\n1 2 3\n4 3 2\n1 5 3",
+      "output": "32",
+      "explanation": "商品1：价格上涨(1→2→3)，利润=(1+1)×4=8。商品2：价格下跌，利润=0。商品3：(1→5)利润=4×6=24。总利润=32。"
+    },
+    {
+      "input": "2\n2\n3 4\n1 2\n3 1",
+      "output": "3",
+      "explanation": "商品1价格上涨1元，利润=1×3=3。商品2价格下跌，利润=0。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**贪心**问题（类似股票买卖）。\n\n**核心思路：**\n- 找到价格上升区间，低买高卖\n- 每个上升段利润 = 价差 × 最大持有量\n- 下跌段不交易\n\n**算法步骤：**\n1. 遍历每种商品的每日价格\n2. 若今日价格>昨日价格，计算利润\n3. 利润 = (今日-昨日) × 最大持有量\n4. 累加所有利润\n\n**时间复杂度**：O(N×D)",
+  "codes": {
+    "java": "import java.util.Scanner;\nimport java.util.ArrayList;\nimport java.util.List;\n\nclass Main {\n    public static void main(String[] args) {\n        // 处理输入\n        Scanner in = new Scanner(System.in);\n        int itemNumber = in.nextInt(); // 商品数量\n        int days = in.nextInt(); // 售货天数\n        int[] maxItems = new int[itemNumber]; // 每件商品最大持有数量\n        for (int i = 0; i < itemNumber; i++) {\n            maxItems[i] = in.nextInt();\n        }\n        int[][] prices = new int[itemNumber][days]; // 商品价格列表\n        for (int i = 0; i < itemNumber; i++) {\n            for (int j = 0; j < days; j++) {\n                prices[i][j] = in.nextInt();\n            }\n        }\n\n        // 贪心算法\n        int maxProfit = 0;\n        for (int i = 0; i < itemNumber; i++) { // 遍历每件商品\n            for (int j = 1; j < days; j++) { // 遍历商品价格列表，求出每天的利润\n                int profit = Math.max(0, prices[i][j] - prices[i][j - 1]);\n                // 当前价格减去前一天价格，如果为负数则代表亏本，不计入利润\n                maxProfit += profit * maxItems[i]; // 求出当前商品能够获取的最大利润\n            }\n        }\n\n        System.out.println(maxProfit); // 输出最大利润\n    }\n}",
+    "python": "# 处理输入\nitemNumber = int(input())  # 商品数量\ndays = int(input())  # 售货天数\n\nmaxItems = list(map(int, input().split()))  # 每件商品最大持有数量\n\nprices = [list(map(int, input().split())) for _ in range(itemNumber)]  # 商品价格列表\n\n# 贪心算法\nmaxProfit = 0\nfor i in range(itemNumber):  # 遍历每件商品\n    for j in range(1, days):  # 遍历商品价格列表，求出每天的利润\n        profit = max(0, prices[i][j] - prices[i][j - 1])\n        # 当前价格减去前一天价格，如果为负数则代表亏本，不计入利润\n        maxProfit += profit * maxItems[i]  # 求出当前商品能够获取的最大利润\n\nprint(maxProfit)  # 输出最大利润",
+    "javascript": "const readline = require('readline').createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\n// 处理输入\nlet input = [];\nreadline.on('line', (line) => {\n  input.push(line);\n});\n\nreadline.on('close', () => {\n  const itemNumber = parseInt(input[0])\n  const days = parseInt(input[1]); // 商品数量和售货天数\n\n  const maxItems = input[2].split(' ').map(Number); // 每件商品最大持有数量\n\n  const prices = input.slice(3).map((line) => line.split(' ').map(Number)); // 商品价格列表\n \n  let maxProfit = 0;\n  for (let i = 0; i < itemNumber; i++) { // 遍历每件商品\n    for (let j = 1; j < days; j++) { // 遍历商品价格列表，求出每天的利润\n      const profit = Math.max(0, prices[i][j] - prices[i][j - 1]);\n      // 当前价格减去前一天价格，如果为负数则代表亏本，不计入利润\n      maxProfit += profit * maxItems[i]; // 求出当前商品能够获取的最大利润\n    }\n  }\n\n  console.log(maxProfit); // 输出最大利润\n});",
+    "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    // 处理输入\n    int itemNumber, days;\n    cin >> itemNumber >> days;\n\n    vector<int> maxItems(itemNumber); // 每件商品最大持有数量\n    for (int i = 0; i < itemNumber; i++) {\n        cin >> maxItems[i];\n    }\n\n    vector<vector<int>> prices(itemNumber, vector<int>(days)); // 商品价格列表\n    for (int i = 0; i < itemNumber; i++) {\n        for (int j = 0; j < days; j++) {\n            cin >> prices[i][j];\n        }\n    }\n\n    // 贪心算法\n    int maxProfit = 0;\n    for (int i = 0; i < itemNumber; i++) { // 遍历每件商品\n        for (int j = 1; j < days; j++) { // 遍历商品价格列表，求出每天的利润\n            int profit = max(0, prices[i][j] - prices[i][j - 1]);\n            // 当前价格减去前一天价格，如果为负数则代表亏本，不计入利润\n            maxProfit += profit * maxItems[i]; // 求出当前商品能够获取的最大利润\n        }\n    }\n\n    cout << maxProfit << endl; // 输出最大利润\n    return 0;\n}",
+    "c": "#include <stdio.h>\n\nint max(int a, int b) {\n    return (a > b) ? a : b; // 返回两个整数中的较大值\n}\n\nint main() {\n    // 处理输入\n    int itemNumber; // 商品数量\n    int days; // 售货天数\n\n    // 从标准输入读取商品数量和售货天数\n    scanf(\"%d %d\", &itemNumber, &days);\n\n    int maxItems[itemNumber]; // 每件商品的最大持有数量\n    for (int i = 0; i < itemNumber; i++) {\n        scanf(\"%d\", &maxItems[i]); // 读取每件商品的最大持有数量\n    }\n\n    int prices[itemNumber][days]; // 商品价格列表，二维数组存储\n    for (int i = 0; i < itemNumber; i++) {\n        for (int j = 0; j < days; j++) {\n            scanf(\"%d\", &prices[i][j]); // 读取每件商品在每一天的价格\n        }\n    }\n\n    // 贪心算法计算最大利润\n    int maxProfit = 0; // 初始化最大利润为0\n    for (int i = 0; i < itemNumber; i++) { // 遍历每件商品\n        for (int j = 1; j < days; j++) { // 遍历每一天的价格\n            // 当前价格减去前一天的价格，计算利润\n            int profit = max(0, prices[i][j] - prices[i][j - 1]);\n            // 如果利润为正，则将其乘以该商品的最大持有量，加到总利润中\n            maxProfit += profit * maxItems[i];\n        }\n    }\n\n    // 输出最大利润\n    printf(\"%d\\n\", maxProfit);\n\n    return 0;\n}"
+  }
+}

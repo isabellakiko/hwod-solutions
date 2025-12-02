@@ -1,0 +1,29 @@
+{
+  "id": "7",
+  "title": "光伏场地建设规划",
+  "examType": "A",
+  "score": 100,
+  "description": "祖国西北部有一片大片荒地，其中零星的分布着一些湖泊、保护区、矿区；整体上常年光照良好，但是也有一些地区光照不太好。\n\n某电力公司希望在这里建设多个光伏电站，生产清洁能源。对每平方公里的土地进行了发电评估，其中不能建设的区域发电量为 0kw，可以发电的区域根据光照、地形等给出了每平方公里年发电量 x 千瓦。\n\n我们希望能够找到其中集中的**正方形区域**建设电站，能够获得良好的收益。",
+  "inputDesc": "第一行输入四个整数：调研区域的行数 r、列数 c、电站边长 s（正方形）、最低发电量要求 min\n之后 r 行为调研区域每平方公里的发电量",
+  "outputDesc": "输出满足条件的正方形区域有多少个（即边长为 s 的正方形，其区域内发电量总和 >= min）",
+  "examples": [
+    {
+      "input": "2 5 2 6\n1 3 4 5 8\n2 3 6 7 1",
+      "output": "4",
+      "explanation": "调研区域为 2×5 的矩形，要建设边长为 2 的正方形电站，最低发电量要求为 6。\n\n矩阵为：\n1 3 4 5 8\n2 3 6 7 1\n\n所有 2×2 的正方形区域及其发电量：\n- [1,3,2,3]=9 ✓\n- [3,4,3,6]=16 ✓\n- [4,5,6,7]=22 ✓\n- [5,8,7,1]=21 ✓\n\n全部 4 个区域都满足 >=6，所以输出 4。"
+    },
+    {
+      "input": "2 5 1 6\n1 3 4 5 8\n2 3 6 7 1",
+      "output": "3",
+      "explanation": "电站边长为 1，相当于找单个格子发电量 >= 6 的数量。\n矩阵中 >= 6 的格子有：8, 6, 7，共 3 个。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**二维前缀和**或**滑动窗口**问题。\n\n**方法一：暴力枚举（适合小数据）**\n1. 枚举所有可能的正方形左上角位置\n2. 对每个位置，计算边长为 s 的正方形内所有元素之和\n3. 如果和 >= min，计数器 +1\n\n**方法二：二维前缀和（适合大数据）**\n1. 预处理前缀和数组 `prefix[i][j]` 表示从 (0,0) 到 (i,j) 的矩形和\n2. 任意子矩形的和可以 O(1) 计算：\n   `sum = prefix[i2][j2] - prefix[i1-1][j2] - prefix[i2][j1-1] + prefix[i1-1][j1-1]`\n\n**关键点：**\n- 注意边界处理\n- 正方形边长 s 可能大于矩阵某一维度，此时结果为 0",
+  "codes": {
+    "java": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int r = sc.nextInt();  // 行数\n        int c = sc.nextInt();  // 列数\n        int s = sc.nextInt();  // 正方形边长\n        int min = sc.nextInt(); // 最低发电量\n\n        int[][] matrix = new int[r][c];\n        for (int i = 0; i < r; i++) {\n            for (int j = 0; j < c; j++) {\n                matrix[i][j] = sc.nextInt();\n            }\n        }\n\n        int count = 0;\n        // 枚举所有边长为s的正方形\n        for (int i = 0; i <= r - s; i++) {\n            for (int j = 0; j <= c - s; j++) {\n                int sum = 0;\n                for (int x = i; x < i + s; x++) {\n                    for (int y = j; y < j + s; y++) {\n                        sum += matrix[x][y];\n                    }\n                }\n                if (sum >= min) count++;\n            }\n        }\n\n        System.out.println(count);\n    }\n}",
+    "python": "r, c, s, min_power = map(int, input().split())\nmatrix = [list(map(int, input().split())) for _ in range(r)]\n\ncount = 0\n# 枚举所有边长为s的正方形\nfor i in range(r - s + 1):\n    for j in range(c - s + 1):\n        total = sum(matrix[x][y] for x in range(i, i + s) for y in range(j, j + s))\n        if total >= min_power:\n            count += 1\n\nprint(count)",
+    "javascript": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nlet lines = [];\nrl.on('line', (line) => {\n  lines.push(line);\n}).on('close', () => {\n  const [r, c, s, min] = lines[0].split(' ').map(Number);\n  const matrix = lines.slice(1, r + 1).map(line => line.split(' ').map(Number));\n\n  let count = 0;\n  for (let i = 0; i <= r - s; i++) {\n    for (let j = 0; j <= c - s; j++) {\n      let sum = 0;\n      for (let x = i; x < i + s; x++) {\n        for (let y = j; y < j + s; y++) {\n          sum += matrix[x][y];\n        }\n      }\n      if (sum >= min) count++;\n    }\n  }\n\n  console.log(count);\n});",
+    "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int r, c, s, minPower;\n    cin >> r >> c >> s >> minPower;\n\n    vector<vector<int>> matrix(r, vector<int>(c));\n    for (int i = 0; i < r; i++) {\n        for (int j = 0; j < c; j++) {\n            cin >> matrix[i][j];\n        }\n    }\n\n    int count = 0;\n    for (int i = 0; i <= r - s; i++) {\n        for (int j = 0; j <= c - s; j++) {\n            int sum = 0;\n            for (int x = i; x < i + s; x++) {\n                for (int y = j; y < j + s; y++) {\n                    sum += matrix[x][y];\n                }\n            }\n            if (sum >= minPower) count++;\n        }\n    }\n\n    cout << count << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n\nint main() {\n    int r, c, s, minPower;\n    scanf(\"%d %d %d %d\", &r, &c, &s, &minPower);\n\n    int matrix[r][c];\n    for (int i = 0; i < r; i++) {\n        for (int j = 0; j < c; j++) {\n            scanf(\"%d\", &matrix[i][j]);\n        }\n    }\n\n    int count = 0;\n    for (int i = 0; i <= r - s; i++) {\n        for (int j = 0; j <= c - s; j++) {\n            int sum = 0;\n            for (int x = i; x < i + s; x++) {\n                for (int y = j; y < j + s; y++) {\n                    sum += matrix[x][y];\n                }\n            }\n            if (sum >= minPower) count++;\n        }\n    }\n\n    printf(\"%d\\n\", count);\n    return 0;\n}"
+  }
+}

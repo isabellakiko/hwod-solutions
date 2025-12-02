@@ -1,0 +1,29 @@
+{
+  "id": "111",
+  "title": "绘图机器",
+  "examType": "A",
+  "score": 100,
+  "description": "绘图机器的绘图笔初始位置在原点(0,0)机器启动后按照以下规则来进行绘制直线。\n1. 尝试沿着横线坐标正向绘制直线直到给定的终点E\n2. 期间可以通过指令在纵坐标轴方向进行偏移，offsetY为正数表示正向偏移,为负数表示负向偏移\n给定的横坐标终点值E 以及若干条绘制指令，\n请计算绘制的直线和横坐标轴以及x=E的直线组成的图形面积。",
+  "inputDesc": "首行为两个整数 N 和 E表示有N条指令,机器运行的横坐标终点值E接下来N行 每行两个整数表示一条绘制指令x offsetY用例保证横坐标x以递增排序的方式出现且不会出现相同横坐标x\n取值范围\n0<N<=100000<=x<=E<=20000-10000<=offsetY<=10000",
+  "outputDesc": "一个整数表示计算得到的面积 用例保证结果范围在0到4294967295之内。",
+  "examples": [
+    {
+      "input": "4 10\n1 1\n2 1\n3 1\n4 -2",
+      "output": "12",
+      "explanation": "4条指令，终点10。y轴偏移累计后计算与x轴围成的面积"
+    },
+    {
+      "input": "2 4\n0 1\n2 -2",
+      "output": "4",
+      "explanation": "2条指令，终点4。计算各段与x轴围成的面积绝对值之和"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**前缀和+模拟**问题。\n\n**核心思路：**\n- 记录每个x坐标的y偏移量\n- 计算累计y值（前缀和）\n- 面积 = 各段|y|值之和\n\n**算法步骤：**\n1. 读取指令，记录每个x位置的offsetY\n2. 计算前缀和得到每个位置的实际y值\n3. 累加所有y值的绝对值作为面积\n\n**时间复杂度**：O(E)",
+  "codes": {
+    "java": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n\n        int n = scanner.nextInt(); // 输入指令的数量\n        int e = scanner.nextInt(); // 终点横坐标\n\n        if (e == 0) { // 如果终点横坐标为0\n            System.out.println(0); // 输出面积为0\n            return;\n        }\n\n        int[] offsets = new int[e]; // 创建一个长度为终点横坐标的整数数组，用于存储纵坐标偏移量\n\n        for (int i = 0; i < n; i++) {\n            int cur_x = scanner.nextInt(); // 当前点的横坐标\n            int offset_y = scanner.nextInt(); // 当前点纵坐标相较于上一个点纵坐标的偏移量\n            offsets[cur_x] = offset_y; // 将偏移量存储在对应横坐标位置上\n        }\n\n        int[] dp = new int[e]; // 创建一个长度为终点横坐标的整数数组，用于存储每个横坐标位置的纵坐标偏移量之和\n        dp[0] = offsets[0]; // 第一个位置的纵坐标偏移量为指令中的纵坐标偏移量\n        for (int i = 1; i < e; i++) { // 从第二个位置开始遍历\n            dp[i] = offsets[i] + dp[i - 1]; // 当前位置的纵坐标偏移量为指令中的纵坐标偏移量加上前一个位置的纵坐标偏移量之和\n        }\n\n        int ans = 0; // 初始化面积为0\n        for (int num : dp) { // 遍历每个横坐标位置的纵坐标偏移量之和\n            ans += Math.abs(num); // 将绝对值加到面积中\n        }\n        System.out.println(ans); // 输出面积\n\n        scanner.close(); // 关闭输入流\n    }\n}",
+    "python": "n , e = map(int, input().split())\n\n\nif e == 0: # 如果终点横坐标为0\n    print(0) # 输出面积为0\n    exit()\n\noffsets = [0] * e # 创建一个长度为终点横坐标的整数数组，用于存储纵坐标偏移量\n\nfor _ in range(n):\n    cur_x , offset_y = map(int, input().split())\n    offsets[cur_x] = offset_y # 将偏移量存储在对应横坐标位置上\n\ndp = [0] * e # 创建一个长度为终点横坐标的整数数组，用于存储每个横坐标位置的纵坐标偏移量之和\ndp[0] = offsets[0] # 第一个位置的纵坐标偏移量为指令中的纵坐标偏移量\nfor i in range(1, e): # 从第二个位置开始遍历\n    dp[i] = offsets[i] + dp[i - 1] # 当前位置的纵坐标偏移量为指令中的纵坐标偏移量加上前一个位置的纵坐标偏移量之和\n\nans = 0 # 初始化面积为0\nfor num in dp: # 遍历每个横坐标位置的纵坐标偏移量之和\n    ans += abs(num) # 将绝对值加到面积中\nprint(ans) # 输出面积",
+    "javascript": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nlet lines = [];\nlet n = 0, e = 0;\n\nrl.on('line', (line) => {\n  lines.push(line);\n\n  if (lines.length === 1) {\n    [n, e] = line.split(' ').map(Number);\n    if (e === 0) {\n      console.log(0);\n      lines = [];\n    }\n  }\n  if (e !== 0 && n !== 0 && lines.length === n + 1) {\n    lines.shift();\n\n    // 求出每个横轴单位上的offsetY偏移值，如果输入未给定offsetY，则相当于offsetY=0\n    const offsets = new Array(e).fill(0);\n    for (const line of lines) {\n      const [x, offsetY] = line.split(' ').map(Number);\n      offsets[x] = offsetY;\n    }\n\n    const dp = new Array(e).fill(0);\n    dp[0] = offsets[0];\n    for (let i = 1; i < e; i++) {\n      dp[i] = offsets[i] + dp[i - 1];\n    }\n\n    let ans = 0;\n    for (const num of dp) {\n      ans += Math.abs(num);\n    }\n    console.log(ans);\n\n    lines = [];\n  }\n});",
+    "cpp": "#include <iostream>\n#include <vector>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    int n, e;\n    cin >> n >> e;\n    \n    if (e == 0) {\n        cout << 0 << endl;\n        return 0;\n    }\n    \n    vector<int> offsets(e);\n    \n    for (int i = 0; i < n; i++) {\n        int cur_x, offset_y;\n        cin >> cur_x >> offset_y;\n        offsets[cur_x] = offset_y;\n    }\n    \n    vector<int> dp(e);\n    dp[0] = offsets[0];\n    for (int i = 1; i < e; i++) {\n        dp[i] = offsets[i] + dp[i - 1];\n    }\n    \n    int ans = 0;\n    for (int num : dp) {\n        ans += abs(num);\n    }\n    cout << ans << endl;\n    \n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <stdlib.h>\n\n// 定义绘图指令的结构体\ntypedef struct {\n    int x;       // 横坐标\n    int offsetY; // 纵坐标偏移\n} Command;\n\nint main() {\n    int N, E;\n    scanf(\"%d %d\", &N, &E); // 读取指令数量和终点横坐标E\n\n    Command commands[N + 1]; // 存储绘图指令，多一个位置用于终点\n\n    for (int i = 0; i < N; i++) {\n        scanf(\"%d %d\", &commands[i].x, &commands[i].offsetY); // 读取每条指令\n    }\n\n    // 添加终点作为最后一条指令\n    commands[N].x = E;\n    commands[N].offsetY = 0;\n\n    unsigned long area = 0; // 总面积\n    int currentY = 0;       // 当前纵坐标偏移\n\n    for (int i = 0; i < N; i++) {\n        int base = commands[i + 1].x - commands[i].x;      // 底边长度\n        int height = currentY + commands[i].offsetY;       // 高度\n        area += base * abs(height);                        // 计算梯形面积\n\n        currentY += commands[i].offsetY; // 更新当前纵坐标偏移\n    }\n\n    printf(\"%lu\\n\", area); // 输出总面积\n    return 0;\n}"
+  }
+}

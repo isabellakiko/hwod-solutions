@@ -1,0 +1,34 @@
+{
+  "id": "58",
+  "title": "预订酒店",
+  "examType": "A",
+  "score": 100,
+  "description": "放暑假了，小明决定到某旅游景点游玩，他在网上搜索到了各种价位的酒店（长度为n的数组A），他的心理价位是x元，请帮他筛选出k个最接近x元的酒店（n>=k>0）,并由低到高打印酒店的价格。",
+  "inputDesc": "第一行：n, k, x 第二行：A[0] A[1] A[2]…A[n-1]",
+  "outputDesc": "从低到高打印筛选出的酒店价格",
+  "examples": [
+    {
+      "input": "10 5 6\n1 2 3 4 5 6 7 8 9 10",
+      "output": "4 5 6 7 8",
+      "explanation": "心理价位6，各价格与6的差距：5,4,3,2,1,0,1,2,3,4\n最接近的5个：4,5,6,7,8（差距分别为2,1,0,1,2）"
+    },
+    {
+      "input": "6 3 1000\n30 30 200 500 70 300",
+      "output": "200 300 500",
+      "explanation": "心理价位1000，各价格与1000的差距：970,970,800,500,930,700\n最接近的3个：500(差500)、300(差700)、200(差800)"
+    },
+    {
+      "input": "5 2 200\n100 150 200 250 300",
+      "output": "150 200",
+      "explanation": "心理价位200，差距分别为100,50,0,50,100\n最接近的2个：200和150（差距相同时选价格低的）"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**排序+筛选**问题。\n\n**算法步骤：**\n\n1. 计算每个酒店价格与心理价位x的差距\n2. 先按价格排序（保证差距相同时价格低的优先）\n3. 再按差距排序，取前k个\n4. 将选出的k个价格升序排列输出\n\n**注意事项：**\n- 差距相同时优先选价格低的\n- 酒店价格可能重复\n\n**时间复杂度**：O(N log N)",
+  "codes": {
+    "java": "import java.util.Scanner;\nimport java.util.Arrays;\nimport java.util.Comparator;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.stream.Collectors;\n\nclass Main {\n    \n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        // 输入酒店数量、需要选择的酒店数量、心理价位\n        int n = scanner.nextInt(); // 酒店的数量\n        int k = scanner.nextInt(); // 需要选择的最接近心理价位的酒店数量\n        int x = scanner.nextInt(); // 心理价位\n        \n        // 输入酒店价格并存入数组\n        int[] A = new int[n]; // 酒店价格数组\n        for (int i = 0; i < n; i++) {\n            A[i] = scanner.nextInt(); // 读取每一个酒店价格\n        }\n        \n        // 将酒店价格数组从小到大排序\n        Arrays.sort(A);\n \n        // 创建一个二维数组，存储每个酒店价格以及它与心理价位的差距\n        int[][] priceDiff = new int[n][2]; // 二维数组，第一列是酒店价格，第二列是与心理价位的差值\n        for (int i = 0; i < n; i++) {\n            int price = A[i]; // 获取当前酒店的价格\n            priceDiff[i][0] = price; // 存储酒店价格\n            priceDiff[i][1] = Math.abs(price - x); // 计算并存储酒店价格与心理价位的绝对差值\n        }\n \n        // 使用 Java 流进行排序，根据差值从小到大排序\n        List<int[]> sortedPrices = Arrays.stream(priceDiff)\n            .sorted(Comparator.comparingInt(h -> h[1])) // 按与心理价位的差值进行排序\n            .collect(Collectors.toList()); // 将排序结果转化为 List\n \n        // 创建一个列表，存储前 k 个最接近心理价位的酒店价格\n        List<Integer> selectedPrices = new ArrayList<>();\n        for (int i = 0; i < k; i++) {\n            selectedPrices.add(sortedPrices.get(i)[0]); // 选取排序后的前 k 个酒店价格\n        }\n \n        // 将挑选出的酒店价格从小到大排序\n        selectedPrices.sort(Integer::compareTo); // 按照酒店价格从小到大排序\n \n        // 按顺序打印 k 个酒店价格，并用空格分隔\n        for (int i = 0; i < selectedPrices.size(); i++) {\n            System.out.print(selectedPrices.get(i)); // 打印酒店价格\n            if (i != selectedPrices.size() - 1) { // 如果不是最后一个元素，则打印空格\n                System.out.print(\" \");\n            }\n        }\n    }\n}",
+    "python": "n, k, x = map(int, input().split())\nprices = list(map(int, input().split()))\n\nsorted_prices = sorted(prices)\nprice_rating = sorted([(price, abs(price - x)) for price in sorted_prices], key=lambda item: item[1])\npicked_price = sorted(item[0] for item in price_rating[:k])\n\nprint(' '.join(map(str, picked_price)))",
+    "javascript": "const readline = require('readline');\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nrl.on('line', (input) => {\n  const [n, k, x] = input.split(' ').map(Number);\n  let prices = [];\n  rl.on('line', (input) => {\n    prices = input.split(' ').map(Number);\n    const sortedPrices = prices.sort((a, b) => a - b);\n    const priceRating = sortedPrices.map(price => [price, Math.abs(price - x)]).sort((a, b) => a[1] - b[1]);\n    const pickedPrice = priceRating.slice(0, k).map(item => item[0]).sort((a, b) => a - b);\n    console.log(pickedPrice.join(' '));\n  });\n});",
+    "cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\n/* 自定义排序函数，按照酒店价格与目标价位的差值从小到大排序 */\nbool cmp(pair<int, int> x, pair<int, int> y)\n{\n    return x.second < y.second;\n}\n\nint main()\n{\n    int n, k, x;\n    cin >> n >> k >> x; // 输入酒店数量n、需要选择的酒店数量k和目标价位x\n    vector<int> prices(n);\n    for (int i = 0; i < n; i++)\n    {\n        cin >> prices[i]; // 输入每个酒店的价格\n    }\n    sort(prices.begin(), prices.end()); // 将酒店价格从小到大排序\n    vector<pair<int, int>> price_rating;\n    for (int i = 0; i < prices.size(); i++)\n    {\n        price_rating.push_back(make_pair(prices[i], abs(prices[i] - x))); // 计算每个酒店价格与目标价位的差值，并存入pair中\n    }\n    sort(price_rating.begin(), price_rating.end(), cmp); // 按照差值从小到大排序\n\n    vector<int> picked_price;\n    for (int i = 0; i < k; i++)\n    {\n        picked_price.push_back(price_rating[i].first); // 取出差值最小的k个酒店的价格\n    }\n    sort(picked_price.begin(), picked_price.end()); // 将选出的酒店价格从小到大排序\n\n    for (int i = 0; i < picked_price.size(); i++)\n    {\n        cout << picked_price[i]; // 输出选出的酒店价格\n        if (i != picked_price.size() - 1)\n        {\n            cout << \" \"; // 输出空格，除了最后一个酒店价格\n        }\n    }\n\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <stdlib.h>\n\n#define MAX_N 1000 // 假设酒店数量的最大值为1000\n\n// 定义结构体来存储酒店价格与目标价位差值\ntypedef struct {\n    int price;   // 酒店价格\n    int diff;    // 酒店价格与目标价位的差值\n} Hotel;\n\n// 自定义排序函数，按照酒店价格与目标价位的差值从小到大排序\nint cmp(const void* a, const void* b) {\n    Hotel* hotelA = (Hotel*)a;\n    Hotel* hotelB = (Hotel*)b;\n    return hotelA->diff - hotelB->diff;\n}\n\n// 比较函数，用于排序酒店价格从小到大\nint cmp_price(const void* a, const void* b) {\n    return (*(int*)a) - (*(int*)b);\n}\n\nint main() {\n    int n, k, x;\n    scanf(\"%d %d %d\", &n, &k, &x); // 输入酒店数量n、需要选择的酒店数量k和目标价位x\n\n    int prices[MAX_N]; // 酒店价格数组\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &prices[i]); // 输入每个酒店的价格\n    }\n\n    // 对酒店价格从小到大排序\n    qsort(prices, n, sizeof(int), cmp_price);\n\n    Hotel price_rating[MAX_N]; // 存储酒店价格和与目标价位的差值的数组\n    for (int i = 0; i < n; i++) {\n        price_rating[i].price = prices[i]; // 存储酒店价格\n        price_rating[i].diff = abs(prices[i] - x); // 计算酒店价格与目标价位的差值\n    }\n\n    // 根据差值对酒店价格进行排序\n    qsort(price_rating, n, sizeof(Hotel), cmp);\n\n    int picked_price[MAX_N]; // 选出的k个酒店价格\n    for (int i = 0; i < k; i++) {\n        picked_price[i] = price_rating[i].price; // 取出差值最小的k个酒店的价格\n    }\n\n    // 将选出的k个酒店价格从小到大排序\n    qsort(picked_price, k, sizeof(int), cmp_price);\n\n    // 输出选出的酒店价格\n    for (int i = 0; i < k; i++) {\n        printf(\"%d\", picked_price[i]);\n        if (i != k - 1) {\n            printf(\" \"); // 输出空格，除了最后一个酒店价格\n        }\n    }\n\n    return 0;\n}"
+  }
+}

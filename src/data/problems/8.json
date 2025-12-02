@@ -1,0 +1,34 @@
+{
+  "id": "8",
+  "title": "免单统计",
+  "examType": "A",
+  "score": 100,
+  "description": "华为商城举办了一个促销活动，如果某顾客是某一秒内最早时刻下单的顾客（可能是多个人），则可以获取免单。\n\n请你编程计算有多少顾客可以获取免单。",
+  "inputDesc": "- 第一行：顾客数量 n（0 < n < 50000）\n- 接下来 n 行：每行表示一位顾客的下单时间\n\n时间格式：`yyyy-MM-dd HH:mm:ss.fff`（年-月-日 时:分:秒.毫秒）\n\n约束条件：\n- 2000 < yyyy < 2020\n- 0 < MM <= 12\n- 0 < dd <= 28\n- 0 <= HH <= 23\n- 0 <= mm <= 59\n- 0 <= ss <= 59\n- 0 <= fff <= 999",
+  "outputDesc": "输出一个整数，表示有多少顾客可以获取免单",
+  "examples": [
+    {
+      "input": "3\n2019-01-01 00:00:00.001\n2019-01-01 00:00:00.002\n2019-01-01 00:00:00.003",
+      "output": "1",
+      "explanation": "三个订单都是同一秒（00:00:00）内下单，只有第一个订单（001毫秒）最早下单，可以免单。"
+    },
+    {
+      "input": "3\n2019-01-01 08:59:00.123\n2019-01-01 08:59:00.123\n2018-12-28 10:08:00.999",
+      "output": "3",
+      "explanation": "前两个订单是同一秒内同一时刻（123毫秒，都是最早）下单，都可免单。第三个订单是其所在秒内唯一的订单（也是最早），也可免单。共3人免单。"
+    },
+    {
+      "input": "5\n2019-01-01 00:00:00.004\n2019-01-01 00:00:00.004\n2019-01-01 00:00:01.006\n2019-01-01 00:00:01.006\n2019-01-01 00:00:01.005",
+      "output": "3",
+      "explanation": "前两个订单是00:00:00秒内同一时刻（004毫秒）下单，都可免单。第三、四个订单在00:00:01秒内下单，但006毫秒不是最早的。第五个订单是005毫秒，是00:00:01秒内最早的，可免单。共3人免单。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**分组统计**问题。\n\n**核心思路：**\n- 按秒分组（忽略毫秒），每一秒内只有毫秒最小的订单可以免单\n- 同一秒内有多个相同毫秒的最早订单，都可以免单\n\n**算法步骤：**\n1. 使用TreeMap按时间排序\n2. 提取秒级时间（前19个字符）进行分组\n3. 每秒内只统计最早时间的订单数\n\n**时间复杂度**：O(N log N)",
+  "codes": {
+    "java": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = Integer.parseInt(sc.nextLine());\n        \n        // TreeMap 自动按键排序\n        TreeMap<String, Integer> orders = new TreeMap<>();\n        for (int i = 0; i < n; i++) {\n            String time = sc.nextLine();\n            orders.put(time, orders.getOrDefault(time, 0) + 1);\n        }\n        \n        int count = 0;\n        String prevSecond = \"\";\n        \n        for (String time : orders.keySet()) {\n            String second = time.substring(0, 19);  // 提取秒级时间\n            if (!second.equals(prevSecond)) {\n                count += orders.get(time);  // 新的秒，当前是该秒最早的\n                prevSecond = second;\n            }\n        }\n        \n        System.out.println(count);\n    }\n}",
+    "python": "from collections import defaultdict\n\nn = int(input())\norders = defaultdict(int)\n\nfor _ in range(n):\n    time = input().strip()\n    orders[time] += 1\n\n# 按时间排序\nsorted_times = sorted(orders.keys())\n\ncount = 0\nprev_second = \"\"\n\nfor time in sorted_times:\n    second = time[:19]  # 提取秒级时间\n    if second != prev_second:\n        count += orders[time]  # 新的秒，当前是该秒最早的\n        prev_second = second\n\nprint(count)",
+    "javascript": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nlet lines = [];\nrl.on('line', (line) => {\n  lines.push(line);\n}).on('close', () => {\n  const n = parseInt(lines[0]);\n  const orders = new Map();\n  \n  for (let i = 1; i <= n; i++) {\n    const time = lines[i];\n    orders.set(time, (orders.get(time) || 0) + 1);\n  }\n  \n  // 按时间排序\n  const sortedTimes = [...orders.keys()].sort();\n  \n  let count = 0;\n  let prevSecond = '';\n  \n  for (const time of sortedTimes) {\n    const second = time.substring(0, 19);\n    if (second !== prevSecond) {\n      count += orders.get(time);\n      prevSecond = second;\n    }\n  }\n  \n  console.log(count);\n});",
+    "cpp": "#include <iostream>\n#include <map>\n#include <string>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    cin.ignore();\n    \n    map<string, int> orders;  // map 自动按键排序\n    \n    for (int i = 0; i < n; i++) {\n        string time;\n        getline(cin, time);\n        orders[time]++;\n    }\n    \n    int count = 0;\n    string prevSecond = \"\";\n    \n    for (auto& p : orders) {\n        string second = p.first.substr(0, 19);\n        if (second != prevSecond) {\n            count += p.second;\n            prevSecond = second;\n        }\n    }\n    \n    cout << count << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\ntypedef struct {\n    char time[30];\n    int count;\n} Order;\n\nint compare(const void* a, const void* b) {\n    return strcmp(((Order*)a)->time, ((Order*)b)->time);\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    getchar();\n    \n    Order orders[50000];\n    int orderCount = 0;\n    \n    for (int i = 0; i < n; i++) {\n        char time[30];\n        fgets(time, sizeof(time), stdin);\n        time[strcspn(time, \"\\n\")] = 0;\n        \n        // 查找是否已存在\n        int found = -1;\n        for (int j = 0; j < orderCount; j++) {\n            if (strcmp(orders[j].time, time) == 0) {\n                found = j;\n                break;\n            }\n        }\n        \n        if (found >= 0) {\n            orders[found].count++;\n        } else {\n            strcpy(orders[orderCount].time, time);\n            orders[orderCount].count = 1;\n            orderCount++;\n        }\n    }\n    \n    // 排序\n    qsort(orders, orderCount, sizeof(Order), compare);\n    \n    int count = 0;\n    char prevSecond[20] = \"\";\n    \n    for (int i = 0; i < orderCount; i++) {\n        char second[20];\n        strncpy(second, orders[i].time, 19);\n        second[19] = '\\0';\n        \n        if (strcmp(second, prevSecond) != 0) {\n            count += orders[i].count;\n            strcpy(prevSecond, second);\n        }\n    }\n    \n    printf(\"%d\\n\", count);\n    return 0;\n}"
+  }
+}

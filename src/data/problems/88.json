@@ -1,0 +1,34 @@
+{
+  "id": "88",
+  "title": "路灯照明问题",
+  "examType": "A",
+  "score": 100,
+  "description": "在一条笔直的公路上安装了N个路灯，从位置0开始安装，路灯之间间距固定为100米。 每个路灯都有自己的照明半径，请计算第一个路灯和最后一个路灯之间，无法照明的区间的长度和。\n",
+  "inputDesc": "第一行为一个数N，表示路灯个数，1<=N<=100000 第二行为N个空格分隔的数，表示路灯的照明半径，1<=照明半径<=100000*100\n",
+  "outputDesc": "第一个路灯和最后一个路灯之间，无法照明的区间的长度和。",
+  "examples": [
+    {
+      "input": "2\n50 50",
+      "output": "0",
+      "explanation": "路灯0在位置0，照明[-50,50]；路灯1在位置100，照明[50,150]。两区间刚好相接，无间隙。"
+    },
+    {
+      "input": "3\n20 20 20",
+      "output": "120",
+      "explanation": "路灯0照明[-20,20]，路灯1照明[80,120]，路灯2照明[180,220]。间隙：80-20=60，180-120=60，共120。"
+    },
+    {
+      "input": "2\n150 150",
+      "output": "0",
+      "explanation": "路灯0照明[-150,150]，路灯1照明[-50,250]。两区间完全重叠，无间隙。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**区间合并**问题。\n\n**算法步骤：**\n1. 将每个路灯的照明范围转化为区间[center-r, center+r]\n2. 按起始位置升序排序区间\n3. 遍历区间，判断与前一区间是否有交集\n4. 有交集则合并，无交集则累加间隙\n5. 返回间隙总和\n\n**时间复杂度**：O(N log N)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int n = sc.nextInt();\n\n    int[][] ranges = new int[n][2];\n    for (int i = 0; i < n; i++) {\n      int center = i * 100;\n      int r = sc.nextInt();\n      ranges[i][0] = center - r;\n      ranges[i][1] = center + r;\n    }\n\n    System.out.println(getResult(n, ranges));\n  }\n\n  public static int getResult(int n, int[][] ranges) {\n    int ans = 0;\n\n    // 按起始位置升序，起始位置相同，则继续按结束位置降序\n    Arrays.sort(ranges, (a, b) -> a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]);\n\n    int t = ranges[0][1]; // 上一个区间的结束位置\n\n    for (int i = 1; i < n; i++) {\n      // 当前区间的【开始位置，结束位置】\n      int s = ranges[i][0];\n      int e = ranges[i][1];\n\n      // 有交集\n      if (t >= s) {\n        // 合并后的新区间将变为下一轮的上一个区间，t为新区间的结束位置\n        t = Math.max(e, t);\n      } else {\n        // 没有交集，则统计区间间隙 s - t\n        ans += s - t;\n        // 当前区间变为下一轮的上一个区间，更新t\n        t = e;\n      }\n    }\n\n    return ans;\n  }\n}",
+    "python": "# 输入获取\nn = int(input())\narr = list(map(int, input().split()))\n\n\n# 算法入口\ndef getResult():\n    rans = []\n\n    for i in range(n):\n        center = i * 100\n        rans.append([center - arr[i], center + arr[i]])\n\n    # 按起始位置升序，起始位置相同，则继续按结束位置降序\n    rans.sort(key=lambda ran: (ran[0], -ran[1]))\n\n    ans = 0\n\n    t = rans[0][1]  # 上一个区间的结束位置\n    for i in range(1, n):\n        s, e = rans[i]  # 当前区间的【开始位置，结束位置】\n\n        # 有交集\n        if t >= s:\n            # 合并后的新区间将变为下一轮的上一个区间，t为新区间的结束位置\n            t = max(e, t)\n        else:\n            # 没有交集，则统计区间间隙 s - t\n            ans += s - t\n            #  当前区间变为下一轮的上一个区间，更新t\n            t = e\n\n    return ans\n\n\n# 算法调用\nprint(getResult())",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nconst lines = [];\nrl.on(\"line\", (line) => {\n  lines.push(line);\n\n  if (lines.length === 2) {\n    const n = lines[0] - 0;\n    const arr = lines[1].split(\" \").map(Number);\n\n    console.log(getResult(n, arr));\n\n    lines.length = 0;\n  }\n});\n\nfunction getResult(n, arr) {\n  const ranges = [];\n\n  for (let i = 0; i < n; i++) {\n    const center = i * 100;\n    ranges.push([center - arr[i], center + arr[i]]);\n  }\n\n  // 按起始位置升序，起始位置相同，则继续按结束位置降序\n  ranges.sort((a, b) => (a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]));\n\n  let ans = 0;\n\n  let t = ranges[0][1]; // 上一个区间的结束位置\n  for (let i = 1; i < n; i++) {\n    const [s, e] = ranges[i]; // 当前区间的【开始位置，结束位置】\n\n    // 有交集\n    if (t >= s) {\n      // 合并后的新区间将变为下一轮的上一个区间，t为新区间的结束位置\n      t = Math.max(e, t);\n    } else {\n      // 没有交集，则统计区间间隙 s - t\n      ans += s - t;\n      // 当前区间变为下一轮的上一个区间，更新t\n      t = e;\n    }\n  }\n\n  return ans;\n}",
+    "cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    \n    vector<pair<long long, long long>> ranges(n);\n    for (int i = 0; i < n; i++) {\n        long long center = i * 100;\n        long long r;\n        cin >> r;\n        ranges[i] = {center - r, center + r};\n    }\n    \n    sort(ranges.begin(), ranges.end(), [](auto& a, auto& b) {\n        return a.first != b.first ? a.first < b.first : a.second > b.second;\n    });\n    \n    long long ans = 0;\n    long long t = ranges[0].second;\n    \n    for (int i = 1; i < n; i++) {\n        long long s = ranges[i].first;\n        long long e = ranges[i].second;\n        \n        if (t >= s) {\n            t = max(e, t);\n        } else {\n            ans += s - t;\n            t = e;\n        }\n    }\n    \n    cout << ans << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <stdlib.h>\n\ntypedef struct {\n    long long start;\n    long long end;\n} Range;\n\nint cmp(const void* a, const void* b) {\n    Range* ra = (Range*)a;\n    Range* rb = (Range*)b;\n    if (ra->start != rb->start) return ra->start < rb->start ? -1 : 1;\n    return rb->end < ra->end ? -1 : 1;\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    \n    Range ranges[n];\n    for (int i = 0; i < n; i++) {\n        long long center = i * 100;\n        long long r;\n        scanf(\"%lld\", &r);\n        ranges[i].start = center - r;\n        ranges[i].end = center + r;\n    }\n    \n    qsort(ranges, n, sizeof(Range), cmp);\n    \n    long long ans = 0;\n    long long t = ranges[0].end;\n    \n    for (int i = 1; i < n; i++) {\n        long long s = ranges[i].start;\n        long long e = ranges[i].end;\n        \n        if (t >= s) {\n            t = e > t ? e : t;\n        } else {\n            ans += s - t;\n            t = e;\n        }\n    }\n    \n    printf(\"%lld\\n\", ans);\n    return 0;\n}"
+  }
+}

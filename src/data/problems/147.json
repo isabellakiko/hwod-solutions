@@ -1,0 +1,29 @@
+{
+  "id": "147",
+  "title": "书籍叠放",
+  "examType": "A",
+  "score": 200,
+  "description": "书籍的长、宽都是整数对应 (l,w)。如果书A的长宽度都比B长宽大时，则允许将B排列放在A上面。现在有一组规格的书籍，书籍叠放时要求书籍不能做旋转，请计算最多能有多少个规格书籍能叠放在一起。\n",
+  "inputDesc": "输入：books = [[20,16],[15,11],[10,10],[9,10]]\n说明：总共4本书籍，第一本长度为20宽度为16；第二本书长度为15宽度为11，依次类推，最后一本书长度为9宽度为10.\n",
+  "outputDesc": "输出：3\n说明: 最多3个规格的书籍可以叠放到一起, 从下到上依次为: [20,16],[15,11],[10,10]\n\n\n本题就是LeetCode - 354 俄罗斯套娃信封问题_伏城之外的博客-CSDN博客\n可以采用耐心排序+二分查找，实现O(nlgn)时间复杂度的算法。\n具体解题思路请看上面博客。\n",
+  "examples": [
+    {
+      "input": "[[20,16],[15,11],[10,10],[9,10]]",
+      "output": "3",
+      "explanation": "最多3本书叠放：[20,16]底部，[15,11]中间，[10,10]顶部"
+    },
+    {
+      "input": "[[5,4],[6,4],[6,7],[2,3]]",
+      "output": "3",
+      "explanation": "[6,7]底部，[5,4]或[6,4]中间，[2,3]顶部"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**排序+最长递增子序列(LIS)**问题，类似俄罗斯套娃信封。\n\n**核心思路：**\n- 按长度升序排列，长度相同则按宽度降序\n- 对宽度数组求LIS即为答案\n\n**算法步骤：**\n1. 按(长度升序,宽度降序)排序\n2. 提取宽度数组\n3. 用二分+耐心排序求宽度的LIS\n4. 返回LIS长度\n\n**时间复杂度**：O(NlogN)",
+  "codes": {
+    "java": "import java.util.*;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    String input = sc.nextLine();\n\n    // (?<=]),(?=\\[) 正则表达式含义是：找这样一个逗号，前面跟着]，后面跟着[\n    // 其中(?<=) 表示前面跟着\n    // 其中(?=) 表示后面跟着\n    Integer[][] books =\n        Arrays.stream(input.substring(1, input.length() - 1).split(\"(?<=]),(?=\\\\[)\"))\n            .map(\n                s ->\n                    Arrays.stream(s.substring(1, s.length() - 1).split(\",\"))\n                        .map(Integer::parseInt)\n                        .toArray(Integer[]::new))\n            .toArray(Integer[][]::new);\n\n    System.out.println(getResult(books));\n  }\n\n  public static int getResult(Integer[][] books) {\n    // 长度升序，若长度相同，则宽度降序\n    Arrays.sort(books, (a, b) -> Objects.equals(a[0], b[0]) ? b[1] - a[1] : a[0] - b[0]);\n    Integer[] widths = Arrays.stream(books).map(book -> book[1]).toArray(Integer[]::new);\n    return getMaxLIS(widths);\n  }\n\n  // 最长递增子序列\n  public static int getMaxLIS(Integer[] nums) {\n    //  dp数组元素dp[i]含义是：长度为i+1的最优子序列的尾数\n    ArrayList<Integer> dp = new ArrayList<>();\n    dp.add(nums[0]);\n\n    for (int i = 1; i < nums.length; i++) {\n      if (nums[i] > dp.get(dp.size() - 1)) {\n        dp.add(nums[i]);\n        continue;\n      }\n\n      if (nums[i] < dp.get(0)) {\n        dp.set(0, nums[i]);\n        continue;\n      }\n\n      int idx = Collections.binarySearch(dp, nums[i]);\n      if (idx < 0) dp.set(-idx - 1, nums[i]);\n    }\n\n    return dp.size();\n  }\n}",
+    "python": "# 输入获取\nbooks = eval(input())\n\n\n# 二分查找\ndef binarySearch(arr, key):\n    low = 0\n    high = len(arr) - 1\n\n    while low <= high:\n        mid = (low + high) >> 1\n        midVal = arr[mid]\n\n        if key > midVal:\n            low = mid + 1\n        elif key < midVal:\n            high = mid - 1\n        else:\n            return mid\n\n    return -(low + 1)\n\n\n# 最长递增子序列\ndef getMaxLIS(nums):\n    # dp数组元素dp[i]含义是：长度为i+1的最优子序列的尾数\n    dp = [nums[0]]\n\n    for i in range(1, len(nums)):\n        if nums[i] > dp[-1]:\n            dp.append(nums[i])\n            continue\n\n        if nums[i] < dp[0]:\n            dp[0] = nums[i]\n            continue\n\n        idx = binarySearch(dp, nums[i])\n        if idx < 0:\n            dp[-idx - 1] = nums[i]\n\n    return len(dp)\n\n\n# 算法入口\ndef getResult(books):\n    # 长度升序，若长度相同，则宽度降序\n    books.sort(key=lambda x: (x[0], -x[1]))\n    widths = list(map(lambda x: x[1], books))\n    return getMaxLIS(widths)\n\n\n# 算法调用\nprint(getResult(books))",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nrl.on(\"line\", (line) => {\n  const books = JSON.parse(line);\n  console.log(getMaxStackCount(books));\n});\n\nfunction getMaxStackCount(books) {\n  // 长度升序，若长度相同，则宽度降序\n  const widths = books\n    .sort((a, b) => (a[0] === b[0] ? b[1] - a[1] : a[0] - b[0]))\n    .map((book) => book[1]);\n\n  return getMaxLIS(widths);\n}\n\n// 最长递增子序列\nfunction getMaxLIS(nums) {\n  // dp数组元素dp[i]含义是：长度为i+1的最优子序列的尾数\n  const dp = [nums[0]];\n\n  for (let i = 1; i < nums.length; i++) {\n    if (nums[i] > dp[dp.length - 1]) {\n      dp.push(nums[i]);\n      continue;\n    }\n\n    if (nums[i] < dp[0]) {\n      dp[0] = nums[i];\n      continue;\n    }\n\n    const idx = binarySearch(dp, nums[i]);\n    if (idx < 0) dp[-idx - 1] = nums[i];\n  }\n\n  return dp.length;\n}\n\n// 二分查找\nfunction binarySearch(arr, key) {\n  let low = 0;\n  let high = arr.length - 1;\n\n  while (low <= high) {\n    let mid = (low + high) >>> 1;\n    let midVal = arr[mid];\n\n    if (key > midVal) {\n      low = mid + 1;\n    } else if (key < midVal) {\n      high = mid - 1;\n    } else {\n      return mid;\n    }\n  }\n  return -(low + 1);\n}",
+    "cpp": "",
+    "c": ""
+  }
+}

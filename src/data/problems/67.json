@@ -1,0 +1,34 @@
+{
+  "id": "67",
+  "title": "堆栈中的剩余数字",
+  "examType": "A",
+  "score": 100,
+  "description": "向一个空栈中依次存入正整数，假设入栈元素 n(1<=n<=2^31-1)按顺序依次为 nx…n4、 n3、n2、 n1, 每当元素入栈时，如果 n1=n2+…+ny(y 的范围[2,x]， 1<=x<=1000)，则 n1~ny 全部元素出栈，重新入栈新元素 m(m=2*n1)。\n如：依次向栈存入 6、 1、 2、 3, 当存入 6、 1、 2 时，栈底至栈顶依次为[6、 1、 2]；当存入 3时， 3=2+1， 3、 2、 1 全部出栈，重新入栈元素 6(6=2*3)，此时栈中有元素 6；\n因为 6=6，所以两个 6 全部出栈，存入 12，最终栈中只剩一个元素 12。\n",
+  "inputDesc": "使用单个空格隔开的正整数的字符串，如”5 6 7 8″， 左边的数字先入栈，输入的正整数个数为 x， 1<=x<=1000。\n",
+  "outputDesc": "最终栈中存留的元素值，元素值使用空格隔开，栈顶数字在左边。",
+  "examples": [
+    {
+      "input": "6 1 2 3",
+      "output": "12",
+      "explanation": "入栈6,1,2后栈为[6,1,2]；入栈3时3=2+1，弹出3,2,1入栈6；此时栈顶6=栈底6，弹出入栈12。"
+    },
+    {
+      "input": "1 2 3 4",
+      "output": "4 3 2 1",
+      "explanation": "没有满足条件的情况，所有元素都留在栈中，栈顶4在左边。"
+    },
+    {
+      "input": "5 10 20 15",
+      "output": "30 20",
+      "explanation": "入栈5,10,20后；入栈15时15=10+5，弹出入栈30。最终栈为[20,30]，输出30 20。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**栈模拟**问题。\n\n**算法步骤：**\n1. 每次入栈前，检查新元素是否等于栈中若干连续栈顶元素之和\n2. 若相等，弹出这些元素，入栈新元素的2倍\n3. 入栈2倍元素时需递归检查\n4. 最后输出栈中元素（栈顶在左）\n\n**时间复杂度**：O(N²)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.LinkedList;\nimport java.util.Scanner;\nimport java.util.StringJoiner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n    int[] nums = Arrays.stream(sc.nextLine().split(\" \")).mapToInt(Integer::parseInt).toArray();\n    System.out.println(getResult(nums));\n  }\n\n  public static String getResult(int[] nums) {\n    LinkedList<Integer> stack = new LinkedList<>();\n    stack.add(nums[0]);\n\n    for (int i = 1; i < nums.length; i++) {\n      push(nums[i], stack);\n    }\n\n    StringJoiner sj = new StringJoiner(\" \");\n    while (stack.size() > 0) {\n      sj.add(stack.removeLast() + \"\");\n    }\n    return sj.toString();\n  }\n\n  public static void push(int num, LinkedList<Integer> stack) {\n    int sum = num;\n\n    for (int i = stack.size() - 1; i >= 0; i--) {\n      sum -= stack.get(i);\n\n      if (sum == 0) {\n        stack.subList(i, stack.size()).clear();\n        push(num * 2, stack);\n        return;\n      } else if (sum < 0) {\n        break;\n      }\n    }\n\n    stack.add(num);\n  }\n}",
+    "python": "# 输入获取\nnums = list(map(int, input().split()))\n\n\ndef push(num, stack):\n    total = num\n\n    for i in range(len(stack)-1, -1, -1):\n        total -= stack[i]\n\n        if total == 0:\n            del stack[i:]\n            push(num * 2, stack)\n            return\n        elif total < 0:\n            break\n\n    stack.append(num)\n\n\n# 算法入口\ndef getResult():\n    stack = [nums[0]]\n\n    for i in range(1, len(nums)):\n        push(nums[i], stack)\n\n    stack.reverse()\n\n    return \" \".join(map(str, stack))\n\n\n# 算法调用\nprint(getResult())",
+    "javascript": "const readline = require('readline');\n\nconst rl = readline.createInterface({\n    input: process.stdin,\n    output: process.stdout\n});\n\nrl.on('line', (line) => {\n    const nums = line.split(' ').map(Number);\n    const stack = [nums[0]];\n    \n    function push(num) {\n        let sum = num;\n        for (let i = stack.length - 1; i >= 0; i--) {\n            sum -= stack[i];\n            if (sum === 0) {\n                stack.splice(i);\n                push(num * 2);\n                return;\n            } else if (sum < 0) {\n                break;\n            }\n        }\n        stack.push(num);\n    }\n    \n    for (let i = 1; i < nums.length; i++) {\n        push(nums[i]);\n    }\n    \n    console.log(stack.reverse().join(' '));\n    rl.close();\n});",
+    "cpp": "#include <iostream>\n#include <vector>\n#include <sstream>\nusing namespace std;\n\nvector<int> stack_v;\n\nvoid push(int num) {\n    int sum = num;\n    for (int i = stack_v.size() - 1; i >= 0; i--) {\n        sum -= stack_v[i];\n        if (sum == 0) {\n            stack_v.erase(stack_v.begin() + i, stack_v.end());\n            push(num * 2);\n            return;\n        } else if (sum < 0) {\n            break;\n        }\n    }\n    stack_v.push_back(num);\n}\n\nint main() {\n    string line;\n    getline(cin, line);\n    stringstream ss(line);\n    int num;\n    vector<int> nums;\n    while (ss >> num) {\n        nums.push_back(num);\n    }\n    \n    stack_v.push_back(nums[0]);\n    for (int i = 1; i < nums.size(); i++) {\n        push(nums[i]);\n    }\n    \n    for (int i = stack_v.size() - 1; i >= 0; i--) {\n        cout << stack_v[i];\n        if (i > 0) cout << \" \";\n    }\n    cout << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint stack[1001];\nint top = 0;\n\nvoid push(int num) {\n    int sum = num;\n    for (int i = top - 1; i >= 0; i--) {\n        sum -= stack[i];\n        if (sum == 0) {\n            top = i;\n            push(num * 2);\n            return;\n        } else if (sum < 0) {\n            break;\n        }\n    }\n    stack[top++] = num;\n}\n\nint main() {\n    char line[10000];\n    fgets(line, sizeof(line), stdin);\n    \n    int nums[1001];\n    int n = 0;\n    char* token = strtok(line, \" \\n\");\n    while (token) {\n        nums[n++] = atoi(token);\n        token = strtok(NULL, \" \\n\");\n    }\n    \n    stack[top++] = nums[0];\n    for (int i = 1; i < n; i++) {\n        push(nums[i]);\n    }\n    \n    for (int i = top - 1; i >= 0; i--) {\n        printf(\"%d\", stack[i]);\n        if (i > 0) printf(\" \");\n    }\n    printf(\"\\n\");\n    return 0;\n}"
+  }
+}

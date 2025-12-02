@@ -1,0 +1,34 @@
+{
+  "id": "92",
+  "title": "分糖果",
+  "examType": "A",
+  "score": 100,
+  "description": "小明从糖果盒中随意抓一把糖果，每次小明会取出一半的糖果分给同学们。\n当糖果不能平均分配时，小明可以选择从糖果盒中（假设盒中糖果足够）取出一个糖果或放回一个糖果。\n小明最少需要多少次（取出、放回和平均分配均记一次），能将手中糖果分至只剩一颗。",
+  "inputDesc": "抓取的糖果数（<10000000000）：15",
+  "outputDesc": "最少分至一颗糖果的次数：5",
+  "examples": [
+    {
+      "input": "15",
+      "output": "5",
+      "explanation": "15→16(+1)→8(÷2)→4(÷2)→2(÷2)→1(÷2)，共5次。"
+    },
+    {
+      "input": "3",
+      "output": "2",
+      "explanation": "3→2(-1)→1(÷2)，共2次。"
+    },
+    {
+      "input": "8",
+      "output": "3",
+      "explanation": "8→4(÷2)→2(÷2)→1(÷2)，共3次。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**贪心**问题。\n\n**核心思路：**\n- 偶数：直接除以2\n- 奇数：选择+1或-1使其变为偶数\n- 贪心策略：选择使(n±1)/2为偶数的操作\n- 特殊情况：n=3时直接减1\n\n**算法步骤：**\n1. 若n是偶数，除以2\n2. 若n是奇数且n=3，减1\n3. 若n是奇数，判断(n+1)/2是否为偶数决定加减\n4. 每次操作计数+1\n\n**时间复杂度**：O(log N)",
+  "codes": {
+    "java": "import java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner scanner = new Scanner(System.in);\n    long x = scanner.nextLong();\n    \n    int count = 0;\n\n    // 循环直到只剩一颗糖果\n    for (long i = x; i != 1; i /= 2, count++) {\n      // 当剩余糖果数量为3时，需要特殊处理\n      if (i == 3) {\n        count += 2; // 取出一个糖果，分给同学们，再放回一个糖果\n        break;\n      }\n      // 当剩余糖果数量为奇数时，需要进行调整\n      if (i % 2 != 0) {\n        // 如果将剩余糖果数量加1再除以2后是偶数，则取出一个糖果\n        if ((i + 1) / 2 % 2 == 0) {\n          i++;\n        } else { // 否则放回一个糖果\n          i--;\n        }\n        count++;\n      }\n    }\n\n    System.out.print(count);\n  }\n}",
+    "python": "import math\n\n# 从标准输入读取糖果的初始数量\nx = int(input())\n# 初始化操作计数器\ncount = 0\n\n# 当糖果数量不为1时，继续操作\nwhile x != 1:\n    # 特殊情况，当糖果数为3时，直接通过两步操作减至1\n    if x == 3:\n        count += 2  # 直接加2到计数器（3-1=2，然后2/2=1）\n        break\n    # 如果当前糖果数是奇数，需要调整糖果数使其成为偶数\n    if x % 2 != 0:\n        # 选择加1还是减1：如果当前数加1后的一半是偶数，则加1\n        if (x + 1) // 2 % 2 == 0:\n            x += 1\n        else:\n            x -= 1  # 否则减1\n        count += 1  # 调整操作也算一次操作\n    # 糖果数除以2，模拟小明分糖果的过程\n    x //= 2\n    count += 1  # 分糖果的操作\n\n# 打印总的操作次数\nprint(count)",
+    "javascript": "const readline = require('readline');\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nrl.on('line', (x) => {\n  let count = 0;\n\n  // 循环直到只剩一颗糖果\n  for (let i = x; i !== 1; i /= 2, count++) {\n     // 当剩余糖果数量为3时，需要特殊处理\n    if (i === 3) {\n      count += 2; // 取出一个糖果，分给同学们，再放回一个糖果\n      break;\n    }\n    // 当剩余糖果数量为奇数时，需要进行调整\n    if (i % 2 !== 0) {\n      // 如果将剩余糖果数量加1再除以2后是偶数，则取出一个糖果\n \n      let T = ((Number(i) + 1) / 2) % 2;\n\n \n      if (T === 0) {\n        i++;\n      } else { // 否则放回一个糖果\n        i--;\n      }\n      count++;\n    }\n  }\n\n  console.log(count);\n\n  rl.close();\n});",
+    "cpp": "#include <iostream>\n\nint main() {\n  long long x;\n  std::cin >> x;\n  \n  int count = 0;\n\n  // 循环直到只剩一颗糖果\n  for (long long i = x; i != 1; i /= 2, count++) {\n    // 当剩余糖果数量为3时，需要特殊处理\n    if (i == 3) {\n      count += 2; // 取出一个糖果，分给同学们，再放回一个糖果\n      break;\n    }\n    // 当剩余糖果数量为奇数时，需要进行调整\n    if (i % 2 != 0) {\n      // 如果将剩余糖果数量加1再除以2后是偶数，则取出一个糖果\n      if ((i + 1) / 2 % 2 == 0) {\n        i++;\n      } else { // 否则放回一个糖果\n        i--;\n      }\n      count++;\n    }\n  }\n\n  std::cout << count;\n\n  return 0;\n}",
+    "c": "#include <stdio.h>\n\nint main() {\n    long long x;\n    scanf(\"%lld\", &x); // 从标准输入读取糖果的初始数量\n\n    int count = 0;\n\n    // 循环直到只剩一颗糖果\n    for (long long i = x; i != 1; i /= 2, count++) {\n        // 当剩余糖果数量为3时，需要特殊处理\n        if (i == 3) {\n            count += 2; // 直接进行两次操作，将3减到1\n            break;\n        }\n        // 当剩余糖果数量为奇数时，需要进行调整\n        if (i % 2 != 0) {\n            // 判断增加1后的数除以2是否为偶数，决定是加1还是减1\n            if ((i + 1) / 2 % 2 == 0) {\n                i++;  // 如果加1后的数可以被2整除，则增加1\n            } else {\n                i--;  // 否则减1\n            }\n            count++; // 对糖果数的调整也算作一次操作\n        }\n    }\n\n    printf(\"%d\", count); // 打印出执行的最小操作次数\n\n    return 0;\n}"
+  }
+}

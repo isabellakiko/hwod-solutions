@@ -1,0 +1,29 @@
+{
+  "id": "186",
+  "title": "字符串序列判定",
+  "examType": "B",
+  "score": 100,
+  "description": "输入两个字符串 S 和 L ，都只包含英文小写字母。S长度 ≤ 100，L长度 ≤ 500,000。判定S是否是L的有效子串。\n判定规则：S 中的每个字符在 L 中都能找到（可以不连续），且 S 在Ｌ中字符的前后顺序与 S 中顺序要保持一致。（例如，S = ”ace” 是 L= ”abcde” 的一个子序列且有效字符是a、c、e，而”aec”不是有效子序列，且有效字符只有a、e）\n",
+  "inputDesc": "输入两个字符串 S 和 L，都只包含英文小写字母。S长度 ≤ 100，L长度 ≤ 500,000。\n先输入S，再输入L，每个字符串占一行。\n",
+  "outputDesc": "S 串最后一个有效字符在 L 中的位置。（首位从0开始计算，无有效字符返回-1）\n\nace abcde\nfgh abcde\n\n本题可以利用双指针来解决。\n定义两个指针 i , j，分别指向S，L 字符串的索引0位置，\n当 i ≥ S.length || J ≥ l.length 时结束\n\n如果最后，i == S.length，则说明，在 L 字符串中找到了所有的 S 字符串字符。且 S 字符串最后一个字符在 L 中的位置就是 j - 1。否则，就返回-1。\n\n用例1图示如下：\n\n\n",
+  "examples": [
+    {
+      "input": "ace\nabcde",
+      "output": "4",
+      "explanation": "a在位置0，c在位置2，e在位置4，最后有效字符e的位置是4"
+    },
+    {
+      "input": "fgh\nabcde",
+      "output": "-1",
+      "explanation": "f、g、h在L中都找不到，无有效字符"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**双指针**问题（子序列判定）。\n\n**核心思路：**\n- 双指针分别指向S和L\n- 按顺序在L中查找S的每个字符\n\n**算法步骤：**\n1. 初始化指针i指向S，j指向L\n2. 若S[i]==L[j]，则i++\n3. j++继续遍历L\n4. 若i==S.length返回j-1，否则返回-1\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    String s = sc.nextLine();\n    String l = sc.nextLine();\n\n    System.out.println(getResult(s, l));\n  }\n\n  public static int getResult(String s, String l) {\n    int i = 0;\n    int j = 0;\n\n    while (i < s.length() && j < l.length()) {\n      if (s.charAt(i) == l.charAt(j)) {\n        i++;\n      }\n      j++;\n    }\n\n    if (i == s.length()) return j - 1;\n    else return -1;\n  }\n}",
+    "python": "# 输入获取\ns = input()\nl = input()\n\n\n# 算法入口\ndef getResult():\n    i = 0\n    j = 0\n\n    while i < len(s) and j < len(l):\n        if s[i] == l[j]:\n            i += 1\n        j += 1\n\n    if i == len(s):\n        return j - 1\n    else:\n        return -1\n\n\n# 算法调用\nprint(getResult())",
+    "javascript": "",
+    "cpp": "",
+    "c": ""
+  }
+}

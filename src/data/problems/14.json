@@ -1,0 +1,34 @@
+{
+  "id": "14",
+  "title": "单向链表中间节点",
+  "examType": "A",
+  "score": 100,
+  "description": "给定一个单链表 L，请编写程序输出 L 中间结点保存的数据。\n如果有两个中间结点，则输出第二个中间结点保存的数据。\n例如：\n给定 L 为 1→7→5，则输出应该为 7；给定 L 为 1→2→3→4，则输出应该为 3。",
+  "inputDesc": "每个输入包含 1 个测试用例。每个测试用例:\n第 1 行给出链表首结点的地址、结点总个数正整数 N (≤10^5)。\n结点的地址是 5 位非负整数，NULL 地址用 -1 表示。\n接下来有 N 行，每行格式为：Address Data Next\n其中 Address 是结点地址，Data 是该结点保存的整数数据(0 ≤ Data ≤ 10^8)，Next 是下一结点的地址。",
+  "outputDesc": "对每个测试用例，在一行中输出 L 中间结点保存的数据。\n如果有两个中间结点，则输出第二个中间结点保存的数据。\n（如果奇数个节点取中间，偶数个取偏右边的那个值）",
+  "examples": [
+    {
+      "input": "00000 4\n00000 5 11451\n11451 7 12309\n12309 6 33218\n33218 3 -1",
+      "output": "6",
+      "explanation": "链表为：5 -> 7 -> 6 -> 3，长度为 4（偶数）。\n中间两个节点是 7 和 6，输出第二个中间结点的值：6。"
+    },
+    {
+      "input": "76892 3\n76892 1 11451\n11451 7 12309\n12309 5 -1",
+      "output": "7",
+      "explanation": "链表为：1 -> 7 -> 5，长度为 3（奇数）。\n中间结点是 7，输出 7。"
+    },
+    {
+      "input": "00000 4\n00000 1 12309\n12309 2 33218\n33218 3 44444\n44444 4 -1",
+      "output": "3",
+      "explanation": "链表为：1 -> 2 -> 3 -> 4，长度为 4（偶数）。\n中间两个节点是 2 和 3，输出第二个中间结点的值：3。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**链表 + 快慢指针**问题。\n\n**算法步骤：**\n\n1. **建立链表**：使用 HashMap 存储节点信息，key 为地址，value 为 (data, next)\n2. **快慢指针**：\n   - 慢指针 slow 每次走 1 步\n   - 快指针 fast 每次走 2 步\n   - 当 fast 到达末尾时，slow 正好在中间\n3. **输出结果**：输出 slow 指向节点的 data\n\n**关键点：**\n- 对于偶数长度链表，快慢指针法自动返回偏右的中间节点\n- 注意处理节点地址为 -1（NULL）的情况\n- 输入的节点顺序不一定是链表顺序，需要通过地址链接\n\n**时间复杂度**：O(n)，只需一次遍历",
+  "codes": {
+    "java": "import java.util.HashMap;\nimport java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        // 输入链表头节点地址和节点数\n        String[] firstLine = sc.nextLine().split(\" \");\n        String headAddress = firstLine[0];\n        int n = Integer.parseInt(firstLine[1]);\n\n        // 创建 HashMap 存储每个节点的值和下一个节点的地址\n        HashMap<String, String[]> nodeMap = new HashMap<>();\n        for (int i = 0; i < n; i++) {\n            String[] nodeData = sc.nextLine().split(\" \");\n            String address = nodeData[0];\n            String value = nodeData[1];\n            String nextAddress = nodeData[2];\n            nodeMap.put(address, new String[]{value, nextAddress});\n        }\n\n        // 初始化慢指针和快指针，均指向头节点\n        String slow = headAddress;\n        String fast = headAddress;\n\n        // 快指针每次走两步，慢指针每次走一步，直到快指针到达链表末尾\n        while (fast != null && nodeMap.containsKey(fast)) {\n            fast = nodeMap.get(fast)[1]; // 快指针走一步\n            if (fast == null || !nodeMap.containsKey(fast)) {\n                break; // 如果快指针到达链表末尾，结束\n            }\n            fast = nodeMap.get(fast)[1]; // 快指针再走一步\n            slow = nodeMap.get(slow)[1]; // 慢指针走一步\n        }\n\n        // 输出慢指针指向的节点的值\n        System.out.println(nodeMap.get(slow)[0]);\n    }\n}",
+    "python": "# 使用字典模拟链表\nnode_map = {}\n\n# 读取输入\nhead_address, n = input().split()\nn = int(n)\n\n# 读取每个节点的信息并存储在字典中\nfor _ in range(n):\n    address, value, next_address = input().split()\n    node_map[address] = (value, next_address)\n\n\n# 初始化慢指针和快指针，均指向头节点\nslow = head_address\nfast = head_address\n\n# 快指针每次走两步，慢指针每次走一步，直到快指针到达链表末尾\nwhile fast != '-1' and fast in node_map:\n    fast = node_map[fast][1]  # 快指针走一步\n    if fast == '-1' or fast not in node_map:\n        break  # 快指针到达链表末尾，结束循环\n    fast = node_map[fast][1]  # 快指针再走一步\n    slow = node_map[slow][1]  # 慢指针走一步\n\n# 输出慢指针指向的节点的值\nprint(node_map[slow][0])",
+    "javascript": "const readline = require('readline');\n\n// 创建接口读取输入\nconst rl = readline.createInterface({\n    input: process.stdin,\n    output: process.stdout\n});\n\n// 保存链表数据的Map\nlet nodeMap = new Map();\nlet headAddress = '';\nlet n = 0;\nlet lineCount = 0;\n\n// 读取输入的每一行\nrl.on('line', (line) => {\n    lineCount++;\n    let data = line.split(' ');\n    \n    if (lineCount === 1) {\n        // 读取头节点地址和节点数\n        headAddress = data[0];\n        n = parseInt(data[1]);\n    } else {\n        // 存储节点信息\n        nodeMap.set(data[0], [data[1], data[2]]);\n        if (lineCount - 1 === n) {\n            rl.close(); // 读取完毕后关闭输入\n        }\n    }\n});\n\n// 处理逻辑\nrl.on('close', () => {\n\n    let slow = headAddress;\n    let fast = headAddress;\n\n    // 快指针每次走两步，慢指针每次走一步\n    while (fast !== '-1' && nodeMap.has(fast)) {\n        fast = nodeMap.get(fast)[1];\n        if (fast === '-1' || !nodeMap.has(fast)) break;\n        fast = nodeMap.get(fast)[1];\n        slow = nodeMap.get(slow)[1];\n    }\n\n    // 输出慢指针指向的节点的值\n    console.log(nodeMap.get(slow)[0]);\n});",
+    "cpp": "#include <iostream>\n#include <unordered_map>\n#include <string>\nusing namespace std;\n\nint main() {\n    int n;\n    string headAddress;\n    cin >> headAddress >> n;\n\n    // 使用unordered_map存储每个节点的值和下一个节点的地址\n    unordered_map<string, pair<string, string>> nodeMap;\n    for (int i = 0; i < n; i++) {\n        string address, value, nextAddress;\n        cin >> address >> value >> nextAddress;\n        nodeMap[address] = {value, nextAddress}; // 将数据存入哈希表\n    }\n\n    // 如果头节点不存在，直接退出\n    if (nodeMap.find(headAddress) == nodeMap.end()) {\n        return 0;\n    }\n\n    // 初始化慢指针和快指针，均指向头节点\n    string slow = headAddress, fast = headAddress;\n\n    // 快指针每次走两步，慢指针每次走一步，直到快指针到达链表末尾\n    while (fast != \"-1\" && nodeMap.find(fast) != nodeMap.end()) {\n        fast = nodeMap[fast].second; // 快指针走一步\n        if (fast == \"-1\" || nodeMap.find(fast) == nodeMap.end()) {\n            break; // 快指针到达链表末尾，退出循环\n        }\n        fast = nodeMap[fast].second; // 快指针再走一步\n        slow = nodeMap[slow].second; // 慢指针走一步\n    }\n\n    // 输出慢指针指向的节点的值\n    cout << nodeMap[slow].first << endl;\n\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <string.h>\n\ntypedef struct {\n    char addr[6];\n    char data[12];\n    char next[6];\n} Node;\n\nNode nodes[100001];\nint n;\n\nint findNode(char *addr) {\n    for (int i = 0; i < n; i++) {\n        if (strcmp(nodes[i].addr, addr) == 0) return i;\n    }\n    return -1;\n}\n\nint main() {\n    char head[6];\n    scanf(\"%s %d\", head, &n);\n    \n    for (int i = 0; i < n; i++) {\n        scanf(\"%s %s %s\", nodes[i].addr, nodes[i].data, nodes[i].next);\n    }\n    \n    char slow[6], fast[6];\n    strcpy(slow, head);\n    strcpy(fast, head);\n    \n    while (strcmp(fast, \"-1\") != 0) {\n        int fi = findNode(fast);\n        if (fi == -1) break;\n        strcpy(fast, nodes[fi].next);\n        if (strcmp(fast, \"-1\") == 0) break;\n        \n        fi = findNode(fast);\n        if (fi == -1) break;\n        strcpy(fast, nodes[fi].next);\n        \n        int si = findNode(slow);\n        strcpy(slow, nodes[si].next);\n    }\n    \n    int si = findNode(slow);\n    printf(\"%s\\n\", nodes[si].data);\n    return 0;\n}"
+  }
+}

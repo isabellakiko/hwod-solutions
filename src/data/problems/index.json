@@ -1,0 +1,3182 @@
+[
+  {
+    "id": "1",
+    "title": "IPv4地址转换成整数",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "2",
+    "title": "TLV解码",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "3",
+    "title": "VLAN资源池",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "4",
+    "title": "We Are A Team",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "5",
+    "title": "不等式是否满足约束并输出最大差",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": false
+    }
+  },
+  {
+    "id": "6",
+    "title": "优秀学员统计",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "7",
+    "title": "光伏场地建设规划",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "8",
+    "title": "免单统计",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "9",
+    "title": "关联子串",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "10",
+    "title": "内存资源分配",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "11",
+    "title": "分割数组的最大差值",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "12",
+    "title": "分披萨",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "13",
+    "title": "分班问题幼儿园分班",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "14",
+    "title": "单向链表中间节点",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "15",
+    "title": "单词接龙",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "16",
+    "title": "喊7的次数重排",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "17",
+    "title": "字符串分割转换",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "18",
+    "title": "字符统计及重排",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "19",
+    "title": "开心消消乐",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "20",
+    "title": "恢复数字序列",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "21",
+    "title": "悄悄话",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "22",
+    "title": "手机App防沉迷系统",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "23",
+    "title": "找数字找等值元素",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "24",
+    "title": "找最小数",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": false,
+      "python": false,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "25",
+    "title": "找终点",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "26",
+    "title": "报数游戏",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "27",
+    "title": "数字排列",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": false
+    }
+  },
+  {
+    "id": "28",
+    "title": "数字涂色",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "29",
+    "title": "数组拼接",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "30",
+    "title": "整数对最小和",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "31",
+    "title": "新工号中数字的最短长度",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "32",
+    "title": "智能成绩表",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "33",
+    "title": "最大值",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "34",
+    "title": "最小的调整次数特异性双端队列",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "35",
+    "title": "最少交换次数",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "36",
+    "title": "服务器广播需要广播的服务器数量",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "37",
+    "title": "构成正方形的数量",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "38",
+    "title": "查找接口成功率最优时间段",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "39",
+    "title": "水仙花数 Ⅰ",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "40",
+    "title": "游戏分组王者荣耀",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "41",
+    "title": "热点网站统计",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "42",
+    "title": "环中最长子串字符成环找偶数O",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "43",
+    "title": "生成哈夫曼树",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "44",
+    "title": "矩形相交的面积",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "45",
+    "title": "磁盘容量排序",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "46",
+    "title": "第k个排列",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "47",
+    "title": "简单的自动曝光平均像素值",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "48",
+    "title": "简易压缩算法一种字符串压缩表示的解压",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "49",
+    "title": "素数之积RSA加密算法",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "50",
+    "title": "考勤信息",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "51",
+    "title": "英文输入法",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "52",
+    "title": "螺旋数字矩阵",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "53",
+    "title": "补种未成活胡杨",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "54",
+    "title": "计算三叉搜索树的高度",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "55",
+    "title": "转盘寿司",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "56",
+    "title": "运维日志排序",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "57",
+    "title": "选修课",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "58",
+    "title": "预订酒店",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "59",
+    "title": "高矮个子排队",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "60",
+    "title": "虚拟理财游戏",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "61",
+    "title": "货币单位换算",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "62",
+    "title": "AI面板识别",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "63",
+    "title": "Linux发行版的数量",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "64",
+    "title": "MVP争夺战",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "65",
+    "title": "判断一组不等式是否满足约束并输出最大差",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "66",
+    "title": "勾股数元组",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "67",
+    "title": "堆栈中的剩余数字",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "68",
+    "title": "字符串摘要",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "69",
+    "title": "字符串重新排列、字符串重新排序",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "70",
+    "title": "完美走位",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "71",
+    "title": "工号不够用了怎么办？",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "72",
+    "title": "数组二叉树",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "73",
+    "title": "数组连续和",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "74",
+    "title": "整数编码",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "75",
+    "title": "最大矩阵和",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "76",
+    "title": "最大花费金额",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "77",
+    "title": "最短木板长度",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "78",
+    "title": "最长的指定瑕疵度的元音子串",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "79",
+    "title": "机房布局",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "80",
+    "title": "比赛的冠亚季军",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "81",
+    "title": "求字符串中所有整数的最小和",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "82",
+    "title": "玩牌高手",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "83",
+    "title": "用户调度问题",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "84",
+    "title": "矩阵扩散",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "85",
+    "title": "租车骑绿岛",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "86",
+    "title": "箱子之字形摆放",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": false,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "87",
+    "title": "计算最接近的数",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "88",
+    "title": "路灯照明问题",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "89",
+    "title": "静态扫描",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "90",
+    "title": "boss的收入",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "91",
+    "title": "出租车计费靠谱的车",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "92",
+    "title": "分糖果",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "93",
+    "title": "分苹果",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "94",
+    "title": "增强的strstr",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "95",
+    "title": "字符串变换最小字符串",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "96",
+    "title": "报文响应时间",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "97",
+    "title": "敏感字段加密",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "98",
+    "title": "数大雁",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "99",
+    "title": "斗地主之顺子",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "100",
+    "title": "日志采集系统",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "101",
+    "title": "最大利润贪心的商人",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "102",
+    "title": "最大报酬",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "103",
+    "title": "最左侧冗余覆盖子串",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "104",
+    "title": "最长连续子序列",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "105",
+    "title": "机器人活动区域",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "106",
+    "title": "查找充电设备组合",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "107",
+    "title": "流浪地球",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "108",
+    "title": "爱吃蟠桃的孙悟空",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "109",
+    "title": "猜字谜",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "110",
+    "title": "猜数字",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "111",
+    "title": "绘图机器",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "112",
+    "title": "连续字母长度",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "113",
+    "title": "原A卷老题)- 处理器问题",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "114",
+    "title": "MELON的难题",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "115",
+    "title": "中文分词模拟器",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "116",
+    "title": "九宫格按键输入",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "117",
+    "title": "二叉树计算",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "118",
+    "title": "云短信平台优惠活动",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "119",
+    "title": "可以处理的最大任务数",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "120",
+    "title": "字符串拼接",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "121",
+    "title": "宜居星球改造计划",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "122",
+    "title": "寻找符合要求的最长子串",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "123",
+    "title": "战场索敌",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "124",
+    "title": "打印任务排序",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "125",
+    "title": "推荐多样性",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "126",
+    "title": "数字游戏",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "127",
+    "title": "智能驾驶",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "128",
+    "title": "最佳对手实力差距最小总和",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "129",
+    "title": "最大相连男生数学生方阵",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "130",
+    "title": "最长子字符串的长度",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "131",
+    "title": "树状结构查询",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "132",
+    "title": "模拟目录管理功能",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "133",
+    "title": "特殊的加密算法",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "134",
+    "title": "电脑病毒感染",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "135",
+    "title": "矩阵匹配",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "136",
+    "title": "荒岛求生",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "137",
+    "title": "观看文艺汇演问题",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "138",
+    "title": "解压报文压缩报文还原",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "139",
+    "title": "计算网络信号信号强度",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "140",
+    "title": "跳房子I",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "141",
+    "title": "跳格子3",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "142",
+    "title": "转骰子",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "143",
+    "title": "周末爬山",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "144",
+    "title": "文本统计分析",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "145",
+    "title": "项目排期",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "146",
+    "title": "不含101的数",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "147",
+    "title": "书籍叠放",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "148",
+    "title": "任务最优调度",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "149",
+    "title": "仿LISP运算",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "150",
+    "title": "会议接待",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "151",
+    "title": "分奖金",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "152",
+    "title": "学生方阵",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "153",
+    "title": "寻找最优的路测线路",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "154",
+    "title": "数字序列比大小",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "155",
+    "title": "最优资源分配",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "156",
+    "title": "最佳植树距离",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "157",
+    "title": "最佳的出牌方法",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "158",
+    "title": "目录删除",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "159",
+    "title": "符号运算",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "160",
+    "title": "简易内存池",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "161",
+    "title": "篮球游戏",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "162",
+    "title": "编码能力提升计划",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "163",
+    "title": "羊、狼、农夫过河",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "164",
+    "title": "运输时间",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "165",
+    "title": "字母组合过滤组合字符串",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "166",
+    "title": "字符串化繁为简",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "167",
+    "title": "导师请吃火锅",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "168",
+    "title": "找单词",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "169",
+    "title": "最大社交距离",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "170",
+    "title": "最长方连续方波信号",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "171",
+    "title": "模拟目录管理",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "173",
+    "title": "空栈压数",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "174",
+    "title": "计算疫情扩散时间",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": false
+    }
+  },
+  {
+    "id": "175",
+    "title": "跳马",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": true,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "176",
+    "title": "通过软盘拷贝文件",
+    "examType": "A",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "177",
+    "title": "组装最大可靠性设备",
+    "examType": "",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "178",
+    "title": "万能字符单词拼写",
+    "examType": "A",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "179",
+    "title": "返回矩阵中非1的元素个数",
+    "examType": "",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "182",
+    "title": "传递悄悄话",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": true,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": true,
+      "c": true
+    }
+  },
+  {
+    "id": "186",
+    "title": "字符串序列判定",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "187",
+    "title": "打印机队列",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "188",
+    "title": "拼接URL",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "189",
+    "title": "提取字符串中的最长合法简单数学表达式",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "190",
+    "title": "数组组成的最小数字",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "191",
+    "title": "整理扑克牌",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "192",
+    "title": "最大数字",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "193",
+    "title": "最小调整顺序次数、特异性双端队列",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "194",
+    "title": "查找单入口空闲区域",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "195",
+    "title": "流水线",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "196",
+    "title": "游戏分组",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "197",
+    "title": "精准核酸检测",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "198",
+    "title": "统计射击比赛成绩",
+    "examType": "B",
+    "score": 100,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "203",
+    "title": "G网络建设",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "204",
+    "title": "Excel单元格数值统计",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "205",
+    "title": "二维伞的雨滴效应",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "206",
+    "title": "几何平均值最大子数组",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "207",
+    "title": "区间交集",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "208",
+    "title": "基站维护工程师",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "209",
+    "title": "士兵过河",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "210",
+    "title": "天然蓄水库",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "211",
+    "title": "寻找最大价值的矿堆",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "212",
+    "title": "抢7游戏",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "213",
+    "title": "无向图染色",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "214",
+    "title": "最小循环子数组",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "215",
+    "title": "最长的顺子",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "216",
+    "title": "服务中心选址",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "217",
+    "title": "欢乐的周末",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": true,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "218",
+    "title": "猜密码",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "219",
+    "title": "竖直四子棋",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "220",
+    "title": "计算误码率",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "221",
+    "title": "贪吃的猴子",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  },
+  {
+    "id": "222",
+    "title": "贪心歌手",
+    "examType": "B",
+    "score": 200,
+    "hasExamples": false,
+    "hasSolution": false,
+    "hasCodes": {
+      "java": true,
+      "python": true,
+      "javascript": false,
+      "cpp": false,
+      "c": false
+    }
+  }
+]

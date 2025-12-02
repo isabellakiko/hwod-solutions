@@ -1,0 +1,29 @@
+{
+  "id": "95",
+  "title": "字符串变换最小字符串",
+  "examType": "A",
+  "score": 100,
+  "description": "给定一个字符串s，最多只能进行一次变换，返回变换后能得到的最小字符串（按照字典序进行比较）。\n变换规则：交换字符串中任意两个不同位置的字符。",
+  "inputDesc": "一串小写字母组成的字符串s\ns是都是小写字符组成\n1<=s.length<=1000",
+  "outputDesc": "一串小写字母组成的字符串s",
+  "examples": [
+    {
+      "input": "abcdef",
+      "output": "abcdef",
+      "explanation": "abcdef已经是最小字符串，不需要交换。"
+    },
+    {
+      "input": "bcdefa",
+      "output": "acdefb",
+      "explanation": "a和b进行位置交换，可以得到最小字符串。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**贪心**问题。\n\n**核心思路：**\n- 将原字符串排序得到最小字典序\n- 从左到右找第一个与排序后不同的位置\n- 将该位置的字符与后面最靠右的目标字符交换\n\n**算法步骤：**\n1. 对字符串排序得到目标串\n2. 若已相等，直接输出原串\n3. 找第一个不匹配位置i\n4. 在i之后找最靠右的sortedArr[i]字符进行交换\n\n**时间复杂度**：O(N log N)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n    String s = sc.nextLine();\n    \n    // 对字符串进行排序\n    char[] sortedArr = s.toCharArray();\n    Arrays.sort(sortedArr);\n\n    // 如果排序后的字符串与原字符串相同，则说明已经是最小字符串，直接输出\n    if (new String(sortedArr).equals(s)) {\n        System.out.println(s);\n        return;\n    }\n\n    // 遍历原字符串\n    StringBuilder sb = new StringBuilder(s);\n    for (int i = 0; i < s.length(); i++) {\n      // 如果当前字符与排序后的字符不相同，则进行交换\n      if (s.charAt(i) != sortedArr[i]) {\n        char tmp = sb.charAt(i);\n        int swapIndex = -1;\n        // 找到排序后的字符在原字符串中的位置\n        for (int j = i + 1; j < s.length(); j++) {\n          if (sb.charAt(j) == sortedArr[i]) {\n            swapIndex = j;\n          }\n        }\n        // 将原字符与排序后的字符交换\n        sb.setCharAt(i, sortedArr[i]);\n        sb.setCharAt(swapIndex, tmp);\n        break;\n      }\n    }\n\n    // 输出最小字符串\n    System.out.println(sb.toString());\n  }\n}",
+    "python": "s = input()\n\n# 对字符串进行排序\nsortedArr = sorted(s)\n\n# 如果排序后的字符串与原字符串相同，则说明已经是最小字符串，直接输出\nif ''.join(sortedArr) == s:\n    print(s)\n    exit()\n\n# 遍历原字符串\nsb = list(s)\nfor i in range(len(s)):\n    # 如果当前字符与排序后的字符不相同，则进行交换\n    if s[i] != sortedArr[i]:\n        tmp = sb[i]\n        swapIndex = -1\n        # 找到排序后的字符在原字符串中的位置\n        for j in range(i + 1, len(s)):\n            if sb[j] == sortedArr[i]:\n                swapIndex = j\n        # 将原字符与排序后的字符交换\n        sb[i] = sortedArr[i]\n        sb[swapIndex] = tmp\n        break\n\n# 输出最小字符串\nprint(''.join(sb))",
+    "javascript": "const readline = require('readline');\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nrl.on('line', (s) => {\n  // 对字符串进行排序\n  const sortedArr = s.split('').sort();\n\n  // 如果排序后的字符串与原字符串相同，则说明已经是最小字符串，直接输出\n  if (sortedArr.join('') === s) {\n    console.log(s);\n    rl.close();\n    return;\n  }\n\n  // 遍历原字符串\n  let sb = s.split('');\n  for (let i = 0; i < s.length; i++) {\n    // 如果当前字符与排序后的字符不相同，则进行交换\n    if (s.charAt(i) !== sortedArr[i]) {\n      const tmp = sb[i];\n      let swapIndex = -1;\n      // 找到排序后的字符在原字符串中的位置\n      for (let j = i + 1; j < s.length; j++) {\n        if (sb[j] === sortedArr[i]) {\n          swapIndex = j;\n        }\n      }\n      // 将原字符与排序后的字符交换\n      sb[i] = sortedArr[i];\n      sb[swapIndex] = tmp;\n      break;\n    }\n  }\n\n  // 输出最小字符串\n  console.log(sb.join(''));\n  rl.close();\n});",
+    "cpp": "#include <iostream>\n#include <algorithm>\n#include <string>\n\nint main() {\n    std::string s;\n    std::cin >> s;\n\n    // 对字符串进行排序\n    std::string sortedArr = s;\n    std::sort(sortedArr.begin(), sortedArr.end());\n\n    // 如果排序后的字符串与原字符串相同，则说明已经是最小字符串，直接输出\n    if (sortedArr == s) {\n        std::cout << s << std::endl;\n        return 0;\n    }\n\n    // 遍历原字符串\n    std::string sb = s;\n    for (int i = 0; i < s.length(); i++) {\n        // 如果当前字符与排序后的字符不相同，则进行交换\n        if (s[i] != sortedArr[i]) {\n            char tmp = sb[i];\n            int swapIndex = -1;\n            // 找到排序后的字符在原字符串中的位置\n            for (int j = i + 1; j < s.length(); j++) {\n                if (sb[j] == sortedArr[i]) {\n                    swapIndex = j;\n                }\n            }\n            // 将原字符与排序后的字符交换\n            sb[i] = sortedArr[i];\n            sb[swapIndex] = tmp;\n            break;\n        }\n    }\n\n    // 输出最小字符串\n    std::cout << sb << std::endl;\n\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\n\n#define MAX_STR_LEN 1000\n\n// 定义比较函数，用于 qsort 函数\nint cmp(const void *a, const void *b) {\n    return *(char *)a - *(char *)b;\n}\n\nint main() {\n    char s[MAX_STR_LEN], sortedArr[MAX_STR_LEN];\n    scanf(\"%s\", s);\n\n    // 对字符串进行排序\n    strcpy(sortedArr, s);\n    qsort(sortedArr, strlen(sortedArr), sizeof(char), cmp);\n\n    // 如果排序后的字符串与原字符串相同，则说明已经是最小字符串，直接输出\n    if (strcmp(sortedArr, s) == 0) {\n        printf(\"%s\\n\", s);\n        return 0;\n    }\n\n    // 遍历原字符串\n    for (int i = 0; i < strlen(s); i++) {\n        // 如果当前字符与排序后的字符不相同，则进行交换\n        if (s[i] != sortedArr[i]) {\n            char tmp = s[i];\n            int swapIndex = -1;\n            // 找到排序后的字符在原字符串中的位置\n            for (int j = i + 1; j < strlen(s); j++) {\n                if (s[j] == sortedArr[i]) {\n                    swapIndex = j;\n                }\n            }\n            // 将原字符与排序后的字符交换\n            s[i] = sortedArr[i];\n            s[swapIndex] = tmp;\n            break;\n        }\n    }\n\n    // 输出最小字符串\n    printf(\"%s\\n\", s);\n\n    return 0;\n}"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "id": "81",
+  "title": "求字符串中所有整数的最小和",
+  "examType": "A",
+  "score": 100,
+  "description": "输入字符串s，输出s中包含所有整数的最小和。\n说明：\n字符串s，只包含 a-z A-Z ± ； 合法的整数包括\n1） 正整数 一个或者多个0-9组成，如 0 2 3 002 102 2）负整数 负号 – 开头，数字部分由一个或者多个0-9组成，如 -0 -012 -23 -00023\n",
+  "inputDesc": "包含数字的字符串\n",
+  "outputDesc": "输出所有整数的最小和。",
+  "examples": [
+    {
+      "input": "bb1234aa",
+      "output": "10",
+      "explanation": "正整数单个数字相加：1+2+3+4=10。"
+    },
+    {
+      "input": "bb12-34aa",
+      "output": "-31",
+      "explanation": "正数1+2=3，负数-34，总和3-34=-31。"
+    },
+    {
+      "input": "-12a-34",
+      "output": "-46",
+      "explanation": "两个负数-12和-34，总和-12+(-34)=-46。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**字符串处理**问题。\n\n**核心思路：**\n- 正整数：拆成单个数字相加（使和最小）\n- 负整数：保持完整（负数越大绝对值，和越小）\n\n**算法步骤：**\n1. 遇到负号，标记进入负数模式\n2. 负数模式下，数字拼接成完整负数\n3. 非负数模式下，数字单独相加\n4. 遇到非数字字符，结算当前负数\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.math.BigInteger;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n    System.out.println(getResult(sc.nextLine()));\n  }\n\n  public static String getResult(String s) {\n    boolean isNegative = false;\n    StringBuilder negative = new StringBuilder();\n\n    //    int ans = 0;\n    BigInteger ans = new BigInteger(\"0\");\n\n    for (int i = 0; i < s.length(); i++) {\n      char c = s.charAt(i);\n\n      if (c >= '0' && c <= '9') {\n        if (isNegative) {\n          negative.append(c);\n        } else {\n          //          ans += Integer.parseInt(c + \"\");\n          ans = ans.add(new BigInteger(c + \"\"));\n        }\n      } else {\n        if (isNegative && negative.length() > 0) {\n          //          ans -= Integer.parseInt(negative.toString());\n          ans = ans.subtract(new BigInteger(negative.toString()));\n          negative = new StringBuilder();\n        }\n\n        isNegative = c == '-';\n      }\n    }\n\n    if (negative.length() > 0) {\n      //      ans -= Integer.parseInt(negative.toString());\n      ans = ans.subtract(new BigInteger(negative.toString()));\n    }\n\n    return ans.toString();\n  }\n}",
+    "python": "# 输入获取\ns = input()\n\n\n# 算法入口\ndef getResult():\n    isNegative = False\n    negative = []\n\n    ans = 0\n    for c in s:\n        if '0' <= c <= '9':\n            if isNegative:\n                negative.append(c)\n            else:\n                ans += int(c)\n        else:\n            if isNegative and len(negative) > 0:\n                ans -= int(\"\".join(negative))\n                negative.clear()\n            isNegative = c == '-'\n\n    if len(negative) > 0:\n        ans -= int(\"\".join(negative))\n\n    return ans\n\n\n# 算法调用\nprint(getResult())",
+    "javascript": "const readline = require('readline');\n\nconst rl = readline.createInterface({\n    input: process.stdin,\n    output: process.stdout\n});\n\nrl.on('line', (line) => {\n    let isNegative = false;\n    let negative = '';\n    let ans = BigInt(0);\n    \n    for (let c of line) {\n        if (c >= '0' && c <= '9') {\n            if (isNegative) {\n                negative += c;\n            } else {\n                ans += BigInt(c);\n            }\n        } else {\n            if (isNegative && negative.length > 0) {\n                ans -= BigInt(negative);\n                negative = '';\n            }\n            isNegative = c === '-';\n        }\n    }\n    \n    if (negative.length > 0) {\n        ans -= BigInt(negative);\n    }\n    \n    console.log(ans.toString());\n    rl.close();\n});",
+    "cpp": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    string s;\n    getline(cin, s);\n    \n    bool isNegative = false;\n    string negative;\n    long long ans = 0;\n    \n    for (char c : s) {\n        if (c >= '0' && c <= '9') {\n            if (isNegative) {\n                negative += c;\n            } else {\n                ans += c - '0';\n            }\n        } else {\n            if (isNegative && !negative.empty()) {\n                ans -= stoll(negative);\n                negative.clear();\n            }\n            isNegative = c == '-';\n        }\n    }\n    \n    if (!negative.empty()) {\n        ans -= stoll(negative);\n    }\n    \n    cout << ans << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\n\nint main() {\n    char s[10001];\n    fgets(s, sizeof(s), stdin);\n    \n    int isNegative = 0;\n    char negative[100];\n    int negLen = 0;\n    long long ans = 0;\n    \n    for (int i = 0; s[i]; i++) {\n        char c = s[i];\n        if (c >= '0' && c <= '9') {\n            if (isNegative) {\n                negative[negLen++] = c;\n            } else {\n                ans += c - '0';\n            }\n        } else {\n            if (isNegative && negLen > 0) {\n                negative[negLen] = '\\0';\n                ans -= atoll(negative);\n                negLen = 0;\n            }\n            isNegative = c == '-';\n        }\n    }\n    \n    if (negLen > 0) {\n        negative[negLen] = '\\0';\n        ans -= atoll(negative);\n    }\n    \n    printf(\"%lld\\n\", ans);\n    return 0;\n}"
+  }
+}

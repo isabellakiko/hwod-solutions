@@ -1,0 +1,29 @@
+{
+  "id": "176",
+  "title": "通过软盘拷贝文件",
+  "examType": "A",
+  "score": 200,
+  "description": "有一名科学家想要从一台古董电脑中拷贝文件到自己的电脑中加以研究。\n但此电脑除了有一个3.5寸软盘驱动器以外，没有任何手段可以将文件持贝出来，而且只有一张软盘可以使用。\n因此这一张软盘是唯一可以用来拷贝文件的载体。\n科学家想要尽可能多地将计算机中的信息拷贝到软盘中，做到软盘中文件内容总大小最大。\n已知该软盘容量为1474560字节。文件占用的软盘空间都是按块分配的，每个块大小为512个字节。一个块只能被一个文件使用。拷贝到软盘中的文件必须是完整的，且不能采取任何压缩技术。",
+  "inputDesc": "第1行为一个整数N，表示计算机中的文件数量。1 ≤ N ≤ 1000. 接下来的第2行到第N+1行(共N行)，每行为一个整数，表示每个文件的大小Si，单位为字节。\n0 ≤ i < N,0 ≤ Si\n为了充分利用软盘空间，将每个文件在软盘上占用的块记录到本子上。即真正占用软盘空间的只有文件内容本身。",
+  "outputDesc": "科学家最多能拷贝的文件总大小",
+  "examples": [
+    {
+      "input": "3\n737280\n737280\n737280",
+      "output": "1474560",
+      "explanation": "软盘容量1474560字节，每个文件737280字节占用1440块，选择2个文件刚好填满软盘"
+    },
+    {
+      "input": "5\n400000\n200000\n300000\n500000\n100000",
+      "output": "1400000",
+      "explanation": "选择500000+400000+300000+200000=1400000字节的文件组合"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**01背包**问题。\n\n**核心思路：**\n- 软盘按块分配，每块512字节，总共2880块\n- 文件占用块数需向上取整\n- 求最大文件内容总大小\n\n**算法步骤：**\n1. 计算软盘可用块数(1474560/512=2880块)\n2. 每个文件的重量为ceil(size/512)块，价值为实际字节数\n3. 使用01背包DP，dp[j]表示j块空间能存储的最大字节数\n4. 返回dp[2880]\n\n**时间复杂度**：O(N*2880)\n\n该题可以采用背包问题的思想进行求解。\n首先，根据输入的文件数量和每个文件的大小，将文件大小存储在一个数组中。\n然后，计算软盘可以存放的块数，即将软盘总容量除以每个块的大小。\n接下来，创建一个动态规划数组dp，其中dp[i]表示容量为i的背包可以存储的最大文件大小。\n对于每个文件，将文件大小转换成块数，并将文件大小作为价值存储在worth中。\n然后，从背包容量为blockCount开始向前遍历，对于每个背包容量，计算选择当前文件和不选择当前文件两种情况下的最大值。\n最后，输出dp[blockCount]，即可得到科学家最多能拷贝的文件总大小。",
+  "codes": {
+    "java": "import java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner scanner = new Scanner(System.in);\n\n    int n = scanner.nextInt();\n\n    int[] fileSizeArray = new int[n];\n    for (int i = 0; i < n; i++) {\n        fileSizeArray[i] = scanner.nextInt();\n    }\n\n    // 计算软盘可以存放的块数\n    int blockCount = 1474560 / 512; \n\n    // 动态规划数组，dp[i] 表示容量为 i 的背包可以存储的最大文件大小\n    int[] dp = new int[blockCount + 1];\n\n    for (int fileSize : fileSizeArray) {\n        // 把文件大小转换成块数\n        int weight = (int) Math.ceil(fileSize / 512.0);  \n        int worth = fileSize; \n        for (int j = blockCount; j >= weight; j--) {\n            dp[j] = Math.max(dp[j], dp[j - weight] + worth);\n        }\n    }\n\n    System.out.println(dp[blockCount]);\n  }\n}",
+    "python": "import math\n\nn = int(input())\n\nfileSizeArray = []\nfor i in range(n):\n    fileSizeArray.append(int(input()))\n\nblockCount = 1474560 // 512\n\ndp = [0] * (blockCount + 1)\n\nfor fileSize in fileSizeArray:\n    weight = math.ceil(fileSize / 512)\n    worth = fileSize\n    for j in range(blockCount, weight - 1, -1):\n        dp[j] = max(dp[j], dp[j - weight] + worth)\n\nprint(dp[blockCount])",
+    "javascript": "const readline = require('readline');\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nlet n;\nlet fileSizeArray = [];\n\nrl.on('line', (input) => {\n  if (!n) {\n    n = parseInt(input);\n  } else {\n    fileSizeArray.push(parseInt(input));\n    if (fileSizeArray.length === n) {\n      rl.close();\n      const blockCount = 1474560 / 512;\n      const dp = new Array(blockCount + 1).fill(0);\n      fileSizeArray.forEach((fileSize) => {\n        const weight = Math.ceil(fileSize / 512);\n        const worth = fileSize;\n        for (let j = blockCount; j >= weight; j--) {\n          dp[j] = Math.max(dp[j], dp[j - weight] + worth);\n        }\n      });\n      console.log(dp[blockCount]);\n    }\n  }\n});",
+    "cpp": "#include <iostream>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n\n    int fileSizeArray[n];\n    for (int i = 0; i < n; i++) {\n        cin >> fileSizeArray[i];\n    }\n\n    // 计算软盘可以存放的块数\n    int blockCount = 1474560 / 512; \n\n    // 动态规划数组，dp[i] 表示容量为 i 的背包可以存储的最大文件大小\n    int dp[blockCount + 1] = {0};\n\n    for (int i = 0; i < n; i++) {\n        // 把文件大小转换成块数\n        int weight = ceil(fileSizeArray[i] / 512.0);  \n        int worth = fileSizeArray[i]; \n        for (int j = blockCount; j >= weight; j--) {\n            dp[j] = max(dp[j], dp[j - weight] + worth);\n        }\n    }\n\n    cout << dp[blockCount] << endl;\n\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <math.h>\n#include <stdlib.h>\n\n// 定义一个返回较大值的函数\nint max(int a, int b) {\n    return (a > b) ? a : b;\n}\n\nint main() {\n    int n;\n    \n    // 输入文件数量\n    scanf(\"%d\", &n);\n\n    // 动态分配存储文件大小的数组\n    int *fileSizeArray = (int *)malloc(n * sizeof(int));\n    // 输入每个文件的大小\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d\", &fileSizeArray[i]);\n    }\n\n    // 计算软盘可以存放的块数\n    int blockCount = 1474560 / 512;\n\n    // 动态规划数组，dp[i] 表示容量为 i 的背包可以存储的最大文件大小\n    int *dp = (int *)malloc((blockCount + 1) * sizeof(int));\n    // 初始化 dp 数组，将其所有元素置为0\n    for (int i = 0; i <= blockCount; i++) {\n        dp[i] = 0;\n    }\n\n    // 处理每个文件，计算在给定块数内能够存储的最大文件大小\n    for (int i = 0; i < n; i++) {\n        // 把文件大小转换成块数\n        int weight = (int)ceil(fileSizeArray[i] / 512.0);  \n        int worth = fileSizeArray[i];\n        \n        // 从后向前遍历，更新动态规划数组\n        for (int j = blockCount; j >= weight; j--) {\n            dp[j] = max(dp[j], dp[j - weight] + worth);\n        }\n    }\n\n    // 输出最大可以存储的文件大小\n    printf(\"%d\\n\", dp[blockCount]);\n\n    return 0;\n}"
+  }
+}

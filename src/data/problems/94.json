@@ -1,0 +1,34 @@
+{
+  "id": "94",
+  "title": "增强的strstr",
+  "examType": "A",
+  "score": 100,
+  "description": "C 语言有一个库函数： char *strstr(const char *haystack, const char *needle) ，实现在字符串 haystack 中查找第一次出现字符串 needle 的位置，如果未找到则返回 null。\n现要求实现一个strstr的增强函数，可以使用带可选段的字符串来模糊查询，与strstr一样返回首次查找到的字符串位置。\n可选段使用“[]”标识，表示该位置是可选段中任意一个字符即可满足匹配条件。比如“a[bc]”表示可以匹配“ab”或“ac”。\n注意目标字符串中可选段可能出现多次。",
+  "inputDesc": "与strstr函数一样，输入参数是两个字符串指针，分别是源字符串和目标字符串。",
+  "outputDesc": "与strstr函数不同，返回的是源字符串中，匹配子字符串相对于源字符串地址的偏移（从0开始算），如果没有匹配返回-1。\n补充说明：源字符串中必定不包含‘[]’；目标字符串中‘[]’必定成对出现，且不会出现嵌套。\n输入的字符串长度在[1,100]之间。",
+  "examples": [
+    {
+      "input": "abcd\nb[cd]",
+      "output": "1",
+      "explanation": "查找bc或bd，在abcd中bc位于偏移1处。"
+    },
+    {
+      "input": "hello world\nw[oa]r",
+      "output": "6",
+      "explanation": "查找wor或war，在hello world中wor位于偏移6处。"
+    },
+    {
+      "input": "abc\nxyz",
+      "output": "-1",
+      "explanation": "xyz不在abc中，返回-1。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**正则表达式匹配**问题。\n\n**核心思路：**\n- 目标字符串中的[abc]表示匹配a或b或c中的任一字符\n- 这正是正则表达式的字符类语法\n- 直接使用正则表达式匹配即可\n\n**算法步骤：**\n1. 将目标字符串作为正则表达式模式\n2. 在源字符串中执行正则搜索\n3. 返回首次匹配的起始位置，未找到返回-1\n\n**时间复杂度**：O(N×M)",
+  "codes": {
+    "java": "import java.util.Scanner;\nimport java.util.regex.Matcher;\nimport java.util.regex.Pattern;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        // 读取源字符串和目标字符串\n        String source = scanner.nextLine();\n        String target = scanner.nextLine();\n\n        // 将目标字符串中的可选段标记转换为正则表达式的可选字符\n        target = target.replaceAll(\"\\\\[(.*?)\\\\]\", \"[$1]\");\n\n        // 编译目标字符串为正则表达式模式\n        Pattern pattern = Pattern.compile(target);\n        // 创建匹配器，用于在源字符串中查找匹配的子字符串\n        Matcher matcher = pattern.matcher(source);\n\n        // 如果找到匹配的子字符串，则输出匹配的子字符串在源字符串中的起始位置\n        if (matcher.find()) {\n            System.out.println(matcher.start());\n        } else {\n            // 如果没有找到匹配的子字符串，则输出-1\n            System.out.println(-1);\n        }\n    }\n}",
+    "python": "import re\n\nsource = input()\ntarget = input()\n\ntarget = re.sub(r'\\[(.*?)\\]', r'[\\1]', target)\n\npattern = re.compile(target)\nmatcher = pattern.search(source)\n\nif matcher:\n    print(matcher.start())\nelse:\n    print(-1)",
+    "javascript": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nrl.on('line', (source) => {\n  rl.on('line', (target) => {\n    target = target.replace(/\\[(.*?)\\]/g, '[$1]');\n\n    const pattern = new RegExp(target);\n    const matcher = pattern.exec(source);\n\n    if (matcher) {\n      console.log(matcher.index);\n    } else {\n      console.log(-1);\n    }\n\n    rl.close();\n  });\n});",
+    "cpp": "#include <iostream>\n#include <regex>\nusing namespace std;\n\nint main() {\n    string source, target;\n    getline(cin, source);\n    getline(cin, target);\n\n    // 将目标字符串中的可选段标记转换为正则表达式的可选字符\n    regex reg(\"\\\\[(.*?)\\\\]\");\n    target = regex_replace(target, reg, \"[$1]\");\n\n    // 编译目标字符串为正则表达式模式\n    regex pattern(target);\n    // 创建匹配器，用于在源字符串中查找匹配的子字符串\n    smatch matcher;\n    regex_search(source, matcher, pattern);\n\n    // 如果找到匹配的子字符串，则输出匹配的子字符串在源字符串中的起始位置\n    if (matcher.size() > 0) {\n        cout << matcher.position() << endl;\n    } else {\n        // 如果没有找到匹配的子字符串，则输出-1\n        cout << -1 << endl;\n    }\n\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <string.h>\n\n#define MAX_LEVELS 100\n#define MAX_CHARS  100\n\nint main() {\n    char src[1000], tar[1000];\n    char levels[MAX_LEVELS][MAX_CHARS]; // 用于存储多层结构\n    int levelsSize = 0; // 当前层的数量\n    char buffer[MAX_CHARS]; // 临时存储当前层的字符集\n    int bufferIndex = 0;\n    int isOpen = 0;   // 标记是否在[]内\n\n    // 输入src和tar字符串\n    fgets(src, sizeof(src), stdin);\n    fgets(tar, sizeof(tar), stdin);\n\n    // 去掉换行符\n    src[strcspn(src, \"\\n\")] = '\\0';\n    tar[strcspn(tar, \"\\n\")] = '\\0';\n\n    // 将tar字符串转化为多层结构levels\n    for (int i = 0; i < strlen(tar); i++) {\n        char c = tar[i];\n        if (c == '[') {\n            isOpen = 1; // 进入[]内\n            bufferIndex = 0; // 重置缓冲区索引\n        } else if (c == ']') {\n            isOpen = 0; // 退出[]内\n            buffer[bufferIndex] = '\\0';\n            strcpy(levels[levelsSize++], buffer); // 将当前层加入levels\n        } else {\n            if (isOpen) {\n                buffer[bufferIndex++] = c; // 在[]内，添加字符到当前层\n            } else {\n                buffer[0] = c;\n                buffer[1] = '\\0';\n                strcpy(levels[levelsSize++], buffer); // 在[]外，字符单独作为一层\n            }\n        }\n    }\n\n    // 滑动窗口匹配\n    int srcLen = strlen(src);\n    int result = -1; // 初始化结果为-1（未找到）\n    for (int i = 0; i <= srcLen - levelsSize; i++) {\n        int isFind = 1; // 标记是否找到匹配\n\n        // 匹配levels中的每一层\n        for (int j = 0; j < levelsSize; j++) {\n            if (strchr(levels[j], src[i + j]) == NULL) {\n                isFind = 0; // 如果不匹配，标记为未找到\n                break;\n            }\n        }\n\n        if (isFind) {\n            result = i; // 找到匹配，记录起始索引\n            break;\n        }\n    }\n\n    // 输出结果\n    printf(\"%d\\n\", result);\n\n    return 0;\n}"
+  }
+}

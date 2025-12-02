@@ -1,0 +1,29 @@
+{
+  "id": "104",
+  "title": "最长连续子序列",
+  "examType": "A",
+  "score": 100,
+  "description": "有N个正整数组成的一个序列。给定整数sum，求长度最长的连续子序列，使他们的和等于sum，返回此子序列的长度，\n如果没有满足要求的序列，返回-1。",
+  "inputDesc": "第一行输入是：N个正整数组成的一个序列\n第二行输入是：给定整数sum",
+  "outputDesc": "最长的连续子序列的长度",
+  "examples": [
+    {
+      "input": "1,2,3,4,2\n6",
+      "output": "3",
+      "explanation": "1+2+3=6和4+2=6均满足，最长序列为1,2,3，长度为3"
+    },
+    {
+      "input": "1,2,3,4,2\n100",
+      "output": "-1",
+      "explanation": "没有和为100的连续子序列，返回-1"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**滑动窗口**问题。\n\n**核心思路：**\n- 双指针维护窗口，记录窗口内元素和\n- 和大于target时收缩左边界\n- 和等于target时更新最大长度\n\n**算法步骤：**\n1. 初始化左右指针和窗口和\n2. 右指针扩展，累加元素\n3. 窗口和>target时，左指针收缩\n4. 窗口和=target时，更新最大长度\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        int[] nums = Arrays.stream(sc.nextLine().split(\",\")).mapToInt(Integer::parseInt).toArray();\n        int target = Integer.parseInt(sc.nextLine());\n\n        int n = nums.length;\n        int left = 0, right = 0, sum = 0, maxLen = -1;\n\n        while (right < n) {\n            // 不断扩大窗口，增加右边界\n            sum += nums[right];\n            right++;\n\n            // 如果当前窗口内的和大于目标值，收缩左边界\n            while (sum > target && left < right) {\n                sum -= nums[left];\n                left++;\n            }\n\n            // 检查是否等于目标值，并更新最大长度\n            if (sum == target) {\n                maxLen = Math.max(maxLen, right - left);\n            }\n        }\n\n        System.out.println(maxLen);\n    }\n}",
+    "python": "nums = list(map(int, input().split(',')))\ntarget = int(input())\n\nn = len(nums)\nleft, right, sum_, max_len = 0, 0, 0, -1\n\nwhile right < n:\n    # 不断扩大窗口，增加右边界\n    sum_ += nums[right]\n    right += 1\n\n    # 如果当前窗口内的和大于目标值，收缩左边界\n    while sum_ > target and left < right:\n        sum_ -= nums[left]\n        left += 1\n\n    # 检查是否等于目标值，并更新最大长度\n    if sum_ == target:\n        max_len = max(max_len, right - left)\n\n# 输出结果\nprint(max_len)",
+    "javascript": "const readline = require('readline');\n\nconst rl = readline.createInterface({\n    input: process.stdin,\n    output: process.stdout\n});\n\n// 读取用户输入的序列和目标值\nrl.on('line', (line1) => {\n    rl.on('line', (line2) => {\n        \n        const nums = line1.split(',').map(Number);\n        const target = parseInt(line2);\n        rl.close();\n\n        let n = nums.length;\n        let left = 0, right = 0, sum = 0, maxLen = -1;\n\n        while (right < n) {\n            // 不断扩大窗口，增加右边界\n            sum += nums[right];\n            right++;\n\n            // 如果当前窗口内的和大于目标值，收缩左边界\n            while (sum > target && left < right) {\n                sum -= nums[left];\n                left++;\n            }\n\n            // 检查是否等于目标值，并更新最大长度\n            if (sum === target) {\n                maxLen = Math.max(maxLen, right - left);\n            }\n        }\n\n        // 输出结果\n        console.log(maxLen);\n    });\n});",
+    "cpp": "#include <iostream>\n#include <sstream>\n#include <vector>\n#include <string>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    string line1, line2;\n    getline(cin, line1);  // 读取序列输入\n    getline(cin, line2);  // 读取目标值输入\n\n    // 解析输入的序列\n    vector<int> nums;\n    stringstream ss(line1);\n    string token;\n    while (getline(ss, token, ',')) {\n        nums.push_back(stoi(token));\n    }\n\n    int target = stoi(line2);\n    int n = nums.size();\n    int left = 0, right = 0, sum = 0, maxLen = -1;\n\n    while (right < n) {\n        // 不断扩大窗口，增加右边界\n        sum += nums[right];\n        right++;\n\n        // 如果当前窗口内的和大于目标值，收缩左边界\n        while (sum > target && left < right) {\n            sum -= nums[left];\n            left++;\n        }\n\n        // 检查是否等于目标值，并更新最大长度\n        if (sum == target) {\n            maxLen = max(maxLen, right - left);\n        }\n    }\n\n    // 输出结果\n    cout << maxLen << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint main() {\n    char line1[1000], line2[10];\n    fgets(line1, 1000, stdin);  // 读取序列输入\n    fgets(line2, 10, stdin);    // 读取目标值输入\n\n    // 解析输入的序列\n    int nums[200], n = 0;\n    char *token = strtok(line1, \",\");\n    while (token != NULL) {\n        nums[n++] = atoi(token);\n        token = strtok(NULL, \",\");\n    }\n\n    int target = atoi(line2);\n    int left = 0, right = 0, sum = 0, maxLen = -1;\n\n    while (right < n) {\n        // 不断扩大窗口，增加右边界\n        sum += nums[right++];\n        \n        // 如果当前窗口内的和大于目标值，收缩左边界\n        while (sum > target && left < right) {\n            sum -= nums[left++];\n        }\n\n        // 检查是否等于目标值，并更新最大长度\n        if (sum == target) {\n            int len = right - left;\n            if (len > maxLen) {\n                maxLen = len;\n            }\n        }\n    }\n\n    // 输出结果\n    printf(\"%d\\n\", maxLen);\n    return 0;\n}"
+  }
+}

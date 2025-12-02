@@ -1,0 +1,34 @@
+{
+  "id": "72",
+  "title": "数组二叉树",
+  "examType": "A",
+  "score": 100,
+  "description": "二叉树也可以用数组来存储，给定一个数组，树的根节点的值存储在下标1，对于存储在下标N的节点，它的左子节点和右子节点分别存储在下标2*N和2*N+1，并且我们用值-1代表一个节点为空。\n给定一个数组存储的二叉树，试求从根节点到最小的叶子节点的路径，路径由节点的值组成。\n",
+  "inputDesc": "输入一行为数组的内容，数组的每个元素都是正整数，元素间用空格分隔。\n注意第一个元素即为根节点的值，即数组的第N个元素对应下标N，下标0在树的表示中没有使用，所以我们省略了。\n输入的树最多为7层。\n",
+  "outputDesc": "输出从根节点到最小叶子节点的路径上，各个节点的值，由空格分隔。",
+  "examples": [
+    {
+      "input": "3 5 7 -1 -1 2 4",
+      "output": "3 7 2",
+      "explanation": "树结构：3为根，左子5右子7；7的左子2右子4。叶子节点有5、2、4，最小为2，路径为3→7→2。"
+    },
+    {
+      "input": "5 9 8 -1 -1 7 6",
+      "output": "5 8 6",
+      "explanation": "叶子节点有9、7、6，最小为6，路径为5→8→6。"
+    },
+    {
+      "input": "1 2 3",
+      "output": "1 2",
+      "explanation": "叶子节点有2、3，最小为2，路径为1→2。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**二叉树遍历**问题。\n\n**算法步骤：**\n1. 先找到最小叶子节点（没有子节点的节点）\n2. 从最小叶子节点向上找父节点，直到根节点\n3. 父节点索引公式：f = (i-1)/2（数组从0开始）\n4. 将路径反转后输出\n\n**叶子节点判断：**\n节点i是叶子节点，当且仅当它的左右子节点都不存在或为-1\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.LinkedList;\nimport java.util.Scanner;\nimport java.util.StringJoiner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    Integer[] arr =\n        Arrays.stream(sc.nextLine().split(\" \")).map(Integer::parseInt).toArray(Integer[]::new);\n\n    System.out.println(getResult(arr));\n  }\n\n  public static String getResult(Integer[] arr) {\n    int n = arr.length - 1;\n\n    // 最小叶子节点的值\n    int min = Integer.MAX_VALUE;\n    // 最小叶子节点的索引\n    int minIdx = -1;\n\n    // 求解最小叶子节点的值和索引\n    for (int i = n; i >= 1; i--) {\n      if (arr[i] != -1) {\n        if (i * 2 + 1 <= n && arr[i * 2 + 1] != -1) continue;\n        if (i * 2 + 2 <= n && arr[i * 2 + 2] != -1) continue;\n        if (min > arr[i]) {\n          min = arr[i];\n          minIdx = i;\n        }\n      }\n    }\n\n    // path用于缓存最小叶子节点到根的路径\n    LinkedList<Integer> path = new LinkedList<>();\n    path.addFirst(min);\n\n    // 从最小叶子节点开始向上找父节点，直到树顶\n    while (minIdx != 0) {\n      int f = (minIdx - 1) / 2;\n      path.addFirst(arr[f]);\n      minIdx = f;\n    }\n\n    StringJoiner sj = new StringJoiner(\" \");\n    for (Integer val : path) sj.add(val + \"\");\n\n    return sj.toString();\n  }\n}",
+    "python": "import sys\n\n# 输入获取\narr = list(map(int, input().split()))\n\n\n# 算法入口\ndef getResult(arr):\n    # 最小叶子节点的值\n    minV = sys.maxsize\n    # 最小节点在数组中的索引位置\n    minIdx = -1\n    n = len(arr) - 1\n\n    for i in range(n, 0, -1):\n        if arr[i] != -1:\n            if i * 2 + 1 <= n and arr[i * 2 + 1] != -1:\n                continue\n            if i * 2 + 2 <= n and arr[i * 2 + 2] != -1:\n                continue\n\n            if minV > arr[i]:\n                minV = arr[i]\n                minIdx = i\n\n    # path用于缓存最小叶子节点到根的路径\n    path = []\n    path.insert(0, str(minV))\n\n    # 从最小值节点开始向上找父节点，直到树顶\n    while minIdx != 0:\n        f = (minIdx - 1) // 2\n        path.insert(0, str(arr[f]))\n        minIdx = f\n\n    return \" \".join(path)\n\n\n# 算法调用\nprint(getResult(arr))",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nrl.on(\"line\", (line) => {\n  const arr = line.split(\" \").map(Number);\n  let n = arr.length - 1;\n  // 最小叶子节点的值\n  let min = Infinity;\n  // 最小节点在数组中的索引位置\n  let minIdx = -1;\n  for (let i = n; i >= 0; i--) {\n    if (arr[i] != -1) {\n      if (i * 2 + 1 <= n && arr[i * 2 + 1] != -1) continue;\n      if (i * 2 + 2 <= n && arr[i * 2 + 2] != -1) continue;\n\n      if (min > arr[i]) {\n        min = arr[i];\n        minIdx = i;\n      }\n    }\n  }\n\n  // path用于缓存最小叶子节点到根的路径\n  const path = [];\n  path.unshift(min);\n\n  // 从最小值节点开始向上找父节点，直到树顶\n  while (minIdx !== 0) {\n    let f = Math.floor((minIdx - 1) / 2);\n    path.unshift(arr[f]);\n    minIdx = f;\n  }\n\n  console.log(path.join(\" \"));\n});",
+    "cpp": "#include <iostream>\n#include <sstream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\nint main() {\n    string line;\n    getline(cin, line);\n    stringstream ss(line);\n    \n    vector<int> arr;\n    int num;\n    while (ss >> num) {\n        arr.push_back(num);\n    }\n    \n    int n = arr.size() - 1;\n    int minVal = INT_MAX;\n    int minIdx = -1;\n    \n    for (int i = n; i >= 0; i--) {\n        if (arr[i] != -1) {\n            if (i * 2 + 1 <= n && arr[i * 2 + 1] != -1) continue;\n            if (i * 2 + 2 <= n && arr[i * 2 + 2] != -1) continue;\n            if (minVal > arr[i]) {\n                minVal = arr[i];\n                minIdx = i;\n            }\n        }\n    }\n    \n    vector<int> path;\n    path.insert(path.begin(), minVal);\n    \n    while (minIdx != 0) {\n        int f = (minIdx - 1) / 2;\n        path.insert(path.begin(), arr[f]);\n        minIdx = f;\n    }\n    \n    for (int i = 0; i < path.size(); i++) {\n        cout << path[i];\n        if (i < path.size() - 1) cout << \" \";\n    }\n    cout << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include <limits.h>\n\nint main() {\n    char line[10000];\n    fgets(line, sizeof(line), stdin);\n    \n    int arr[1000];\n    int n = 0;\n    char* token = strtok(line, \" \\n\");\n    while (token) {\n        arr[n++] = atoi(token);\n        token = strtok(NULL, \" \\n\");\n    }\n    n--;\n    \n    int minVal = INT_MAX;\n    int minIdx = -1;\n    \n    for (int i = n; i >= 0; i--) {\n        if (arr[i] != -1) {\n            if (i * 2 + 1 <= n && arr[i * 2 + 1] != -1) continue;\n            if (i * 2 + 2 <= n && arr[i * 2 + 2] != -1) continue;\n            if (minVal > arr[i]) {\n                minVal = arr[i];\n                minIdx = i;\n            }\n        }\n    }\n    \n    int path[100];\n    int pathLen = 0;\n    path[pathLen++] = minVal;\n    \n    while (minIdx != 0) {\n        int f = (minIdx - 1) / 2;\n        for (int i = pathLen; i > 0; i--) path[i] = path[i-1];\n        path[0] = arr[f];\n        pathLen++;\n        minIdx = f;\n    }\n    \n    for (int i = 0; i < pathLen; i++) {\n        printf(\"%d\", path[i]);\n        if (i < pathLen - 1) printf(\" \");\n    }\n    printf(\"\\n\");\n    return 0;\n}"
+  }
+}

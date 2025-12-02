@@ -1,0 +1,18 @@
+{
+  "id": "221",
+  "title": "贪吃的猴子",
+  "examType": "B",
+  "score": 200,
+  "description": "一只贪吃的猴子，来到一个果园，发现许多串香蕉排成一行，每串香蕉上有若干根香蕉。每串香蕉的根数由数组numbers给出。\n猴子获取香蕉，每次都只能从行的开头或者末尾获取，并且只能获取N次，求猴子最多能获取多少根香蕉。\n",
+  "inputDesc": "第一行为数组numbers的长度\n第二行为数组numbers的值每个数字通过空格分开\n第三行输入为N，表示获取的次数\n",
+  "outputDesc": "按照题目要求能获取的最大数值\n\n\n\n本题我第一个思路是通过分支递归+缓存优化求解\n但是经过测试，1 ≤ numbers.length ≤ 100000 数量级下，递归操作会StackOverflow，缓存cache数组占用的内存会超出限制。\n\n后面思考了一下，无论我们怎么选，左边选择的，以及右边选择的，必然都是连续的，且是从头尾开始的连续，即不可出现下面情况：\n\n\n因此，本题其实可以简化为，将n次分解为左边选择的个数，以及右边选择的个数。\n以用例1画图示：\n初始时，假设左边选择了0个，右边选择了n=3个，（黄色部分代表选择）：\n\n之后，左边选择1个，右边选择2个\n\n之后，左边选择2，右边选择1个\n\n最后，左边选择3个，右边选择0个\n\n\n上面图示逻辑，我们除了需要计算初始时的leftSum和rightSum外，之后的状态均可以基于前一个状态求解，如下图所示\n\n更多细节请看下面代码和注释。\n\n",
+  "examples": [],
+  "solution": "",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int len = Integer.parseInt(sc.nextLine());\n    int[] nums = Arrays.stream(sc.nextLine().split(\" \")).mapToInt(Integer::parseInt).toArray();\n    int n = Integer.parseInt(sc.nextLine());\n\n    System.out.println(getResult(len, nums, n));\n  }\n\n  public static int getResult(int len, int[] nums, int n) {\n    // 初始时，左边选择0个，因此左边选择的香蕉数为 0\n    int leftSum = 0;\n\n    // 初始时，右边选择n个，因此右边选择的香蕉数为 nums[len-n] ~ nums[len - 1] 这个n个元素之和\n    int rightSum = 0;\n    for (int i = len - n; i < len; i++) {\n      rightSum += nums[i];\n    }\n\n    // 如果选择数n == len，即全选，此时直接返回初始rightSum\n    if (len == n) {\n      return rightSum;\n    }\n\n    // 如果不是全选\n    // sum记录当前选择结果\n    int sum = leftSum + rightSum;\n    // ans记录所有选择结果中最大的\n    int ans = sum;\n\n    // l指向左边将要获得的，即左边获得一个\n    int l = 0;\n    // r指向右边将要失去的，即右边失去一个\n    int r = len - n;\n\n    while (l < n) {\n      sum += nums[l++] - nums[r++];\n      ans = Math.max(ans, sum);\n    }\n\n    return ans;\n  }\n}",
+    "python": "# 输入获取\nlength = int(input())\nnums = list(map(int, input().split()))\nn = int(input())\n\n\n# 算法入口\ndef getResult():\n    # 初始时，左边选择0个，因此左边选择的香蕉数为 0\n    leftSum = 0\n    # 初始时，右边选择n个，因此右边选择的香蕉数为 nums[len-n] ~ nums[len - 1] 这个n个元素之和\n    rightSum = sum(nums[length - n:])\n\n    # 如果选择数n == len，即全选，此时直接返回初始rightSum\n    if length == n:\n        return rightSum\n\n    # 如果不是全选\n    # sum记录当前选择结果\n    sumV = leftSum + rightSum\n    # ans记录所有选择结果中最大的\n    ans = sumV\n\n    # l指向左边将要获得的，即左边获得一个\n    l = 0\n    # r指向右边将要失去的，即右边失去一个\n    r = length - n\n\n    while l < n:\n        sumV += nums[l] - nums[r]\n        ans = max(ans, sumV)\n        l += 1\n        r += 1\n\n    return ans\n\n\n# 算法调用\nprint(getResult())",
+    "javascript": "",
+    "cpp": "",
+    "c": ""
+  }
+}

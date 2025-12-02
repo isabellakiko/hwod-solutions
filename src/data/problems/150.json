@@ -1,0 +1,29 @@
+{
+  "id": "150",
+  "title": "会议接待",
+  "examType": "A",
+  "score": 200,
+  "description": "某组织举行会议，来了多个代表团同时到达，接待处只有一辆汽车，可以同时接待多个代表团，为了提高车辆利用率，请帮接待员计算可以坐满车的接待方案，输出方案数量。\n约束:\n一个团只能上一辆车，并且代表团人数 (代表团数量小于30，每个代表团人数小于30)小于汽车容量(汽车容量小于100)需要将车辆坐满\n一个团只能上一辆车，并且代表团人数 (代表团数量小于30，每个代表团人数小于30)小于汽车容量(汽车容量小于100)\n需要将车辆坐满\n",
+  "inputDesc": "第一行 代表团人数，英文逗号隔开，代表团数量小于30，每个代表团人数小于30 第二行 汽车载客量，汽车容量小于100\n",
+  "outputDesc": "坐满汽车的方案数量 如果无解输出0",
+  "examples": [
+    {
+      "input": "5,4,2,3,2,4\n10",
+      "output": "4",
+      "explanation": "容量10，可选5+2+3、5+3+2、4+4+2、4+2+4等组合刚好坐满，共4种方案"
+    },
+    {
+      "input": "3,3,3\n6",
+      "output": "3",
+      "explanation": "容量6，可选任意两个代表团(各3人)，共C(3,2)=3种方案"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**01背包计数**问题。\n\n**核心思路：**\n- 转化为恰好装满背包的方案数问题\n- dp[i][j]表示前i个代表团恰好坐满容量j的方案数\n\n**算法步骤：**\n1. 初始化dp[0][0]=1（空背包有1种方案）\n2. 遍历每个代表团，更新dp数组\n3. 对每个容量j：不选当前团dp[i-1][j]，选当前团dp[i-1][j-num]\n4. 返回dp[n][bag]\n\n**时间复杂度**：O(N×C)，N为代表团数，C为汽车容量",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        Integer[] nums = Arrays.stream(sc.nextLine().split(\",\")).map(Integer::parseInt).toArray(Integer[]::new);\n        int bag = Integer.parseInt(sc.nextLine());\n        System.out.println(getResult(nums, bag));\n    }\n\n    private static int getResult(Integer[] nums, int bag) {\n        int n = nums.length;\n        int[][] dp = new int[n + 1][bag + 1];\n        dp[0][0] = 1;\n\n        for (int i = 1; i <= n; i++) {\n            int num = nums[i - 1];\n            for (int j = 0; j <= bag; j++) {\n                if (j < num) {\n                    dp[i][j] = dp[i - 1][j];\n                } else {\n                    dp[i][j] = dp[i - 1][j] + dp[i - 1][j - num];\n                }\n            }\n        }\n        return dp[n][bag];\n    }\n}",
+    "python": "# 输入获取\nnums = list(map(int, input().split(\",\")))\nbag = int(input())\n\n# 算法入口\ndef getResult():\n    n = len(nums)\n    dp = [[0] * (bag + 1) for _ in range(n + 1)]\n    dp[0][0] = 1\n\n    for i in range(1, n + 1):\n        num = nums[i - 1]\n        for j in range(bag + 1):\n            if j < num:\n                dp[i][j] = dp[i - 1][j]\n            else:\n                dp[i][j] = dp[i - 1][j] + dp[i - 1][j - num]\n\n    return dp[n][bag]\n\n# 算法调用\nprint(getResult())",
+    "javascript": "",
+    "cpp": "",
+    "c": ""
+  }
+}

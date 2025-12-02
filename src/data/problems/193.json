@@ -1,0 +1,29 @@
+{
+  "id": "193",
+  "title": "最小调整顺序次数、特异性双端队列",
+  "examType": "B",
+  "score": 100,
+  "description": "有一个特异性的双端队列，该队列可以从头部或尾部添加数据，但是只能从头部移出数据。\n小A依次执行2n个指令往队列中添加数据和移出数据。其中n个指令是添加数据（可能从头部添加、也可能从尾部添加），依次添加1到n；n个指令是移出数据。\n现在要求移除数据的顺序为1到n。\n为了满足最后输出的要求，小A可以在任何时候调整队列中数据的顺序。\n\n请问 小A 最少需要调整几次才能够满足移除数据的顺序正好是1到n；\n",
+  "inputDesc": "第一行一个数据n，表示数据的范围。\n接下来的2n行，其中有n行为添加数据，指令为：\n\"head add x\" 表示从头部添加数据 x，\"tail add x\" 表示从尾部添加数据x，\n另外 n 行为移出数据指令，指令为：\"remove\" 的形式，表示移出1个数据；\n1 ≤ n ≤ 3 * 10^5。\n所有的数据均合法。\n",
+  "outputDesc": "一个整数，表示 小A 要调整的最小次数。\n\n\n本题重在题目意思理解，本题最后要求：最小的调整顺序次数。而不是最小的交换次数。因此本题的难度大大降低了。\n比如用例：\n因此，只需要在第7步调整一次顺序。\n\n本题不需要模拟出一个队列，因为那样需要频繁的验证队列元素顺序，以及调整顺序，非常不划算。\n我们可以总结规律：\n如果队列为空，即size===0，此时无论head add，还是tail add，都不会破坏队列顺序性。\n如果队列不为空，即size!==0，此时tail add不会破坏顺序性，head add会破坏顺序性。\n我们定义一个变量isSorted表示队列是否有序，初始时isSorted = true，表示初始时队列有序。当有序性被破坏，即isSorted = false。\n\nhead add和tail add会导致size++，remove会导致size--。\n我们定义一个count变量来记录调整顺序的次数，初始为0。\n当remove时，如果isSorted为false，则我们需要调整顺序，即count++，并更新isSorted = true。\n当head add时，如果size为0，则不破坏顺序性，isSorted为true，如果size不为0，则会破坏顺序性，即isSorted=false。另外size++。\n当tail add时，仅size++。\n",
+  "examples": [
+    {
+      "input": "5\nhead add 1\ntail add 2\nhead add 3\ntail add 4\nremove\nremove\nremove\nremove\ntail add 5\nremove",
+      "output": "1",
+      "explanation": "head add 3破坏顺序，第一次remove时需调整1次"
+    },
+    {
+      "input": "3\ntail add 1\ntail add 2\ntail add 3\nremove\nremove\nremove",
+      "output": "0",
+      "explanation": "只有tail add不破坏顺序，无需调整"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**模拟**问题。\n\n**核心思路：**\n- head add在队列非空时破坏顺序\n- tail add不破坏顺序\n- remove时若无序则需调整\n\n**算法步骤：**\n1. 维护队列大小size和有序标记isSorted\n2. head add: size>0时设isSorted=false，size++\n3. tail add: size++\n4. remove: 若isSorted=false则count++并重置，size--\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int n = Integer.parseInt(sc.nextLine());\n    int m = n * 2;\n\n    String[] cmds = new String[m];\n    for (int i = 0; i < m; i++) {\n      cmds[i] = sc.nextLine();\n    }\n\n    System.out.println(getResult(cmds));\n  }\n\n  public static int getResult(String[] cmds) {\n    int size = 0;\n    boolean isSorted = true;\n    int count = 0;\n\n    for (int i = 0; i < cmds.length; i++) {\n      String cmd = cmds[i];\n      if (cmd.startsWith(\"head add\")) {\n        if (size > 0 && isSorted) isSorted = false;\n        size++;\n      } else if (cmd.startsWith(\"tail add\")) {\n        size++;\n      } else {\n        if (size == 0) continue;\n        if (!isSorted) {\n          count++;\n          isSorted = true;\n        }\n        size--;\n      }\n    }\n\n    return count;\n  }\n}",
+    "python": "# 输入获取\nn = int(input())\ncmds = [input() for i in range(2 * n)]\n\n\n# 算法入口\ndef getResult(cmds):\n    size = 0\n    isSorted = True\n    count = 0\n\n    for cmd in cmds:\n        if cmd.startswith(\"head add\"):\n            if size > 0 and isSorted:\n                isSorted = False\n            size += 1\n        elif cmd.startswith(\"tail add\"):\n            size += 1\n        else:\n            if size <= 0:\n                continue\n\n            if not isSorted:\n                count += 1\n                isSorted = True\n\n            size -= 1\n\n    return count\n\n\n# 算法调用\nprint(getResult(cmds))",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nconst lines = [];\nlet n;\nrl.on(\"line\", (line) => {\n  lines.push(line);\n\n  if (lines.length === 1) {\n    n = parseInt(lines[0]);\n  }\n\n  if (n && lines.length === 1 + 2 * n) {\n    lines.shift();\n    console.log(getResult(lines));\n    lines.length = 0;\n  }\n});\n\nfunction getResult(cmds) {\n  let size = 0;\n  let isSorted = true;\n  let count = 0;\n\n  for (let i = 0; i < cmds.length; i++) {\n    const cmd = cmds[i];\n    if (cmd.startsWith(\"head add\")) {\n      if (size && isSorted) isSorted = false;\n      size++;\n    } else if (cmd.startsWith(\"tail add\")) {\n      size++;\n    } else {\n      if (!size) continue;\n      if (!isSorted) {\n        count++;\n        isSorted = true;\n      }\n      size--;\n    }\n  }\n\n  return count;\n}",
+    "cpp": "",
+    "c": ""
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "id": "86",
+  "title": "箱子之字形摆放",
+  "examType": "A",
+  "score": 100,
+  "description": "有一批箱子（形式为字符串，设为str）， 要求将这批箱子按从上到下以之字形的顺序摆放在宽度为 n 的空地，请输出箱子的摆放位置。 例如：箱子ABCDEFG，空地宽度为3，摆放结果如图：\n\n则输出结果为：AFGBECD\n",
+  "inputDesc": "输入一行字符串，通过空格分隔，前面部分为字母或数字组成的字符串str，表示箱子； 后面部分为数字n，表示空地的宽度。例如：ABCDEFG 3\n",
+  "outputDesc": "箱子摆放结果，每行输出一行的箱子。",
+  "examples": [
+    {
+      "input": "ABCDEFG 3",
+      "output": "AFG\nBE\nCD",
+      "explanation": "之字形摆放：A→B→C（向下），D→E→F（向上），G（向下）。按行输出AFG、BE、CD。"
+    },
+    {
+      "input": "12345 2",
+      "output": "135\n24",
+      "explanation": "宽度为2，奇数位置在第1行，偶数位置在第2行（之字形）。"
+    },
+    {
+      "input": "ABC 1",
+      "output": "ABC",
+      "explanation": "宽度为1，所有箱子都在一行。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**模拟**问题（之字形遍历）。\n\n**算法步骤：**\n1. 创建n行的二维矩阵\n2. 用reverse标记当前方向（向下/向上）\n3. 每当i%n==0时，切换方向\n4. 向下时：行号=i%n；向上时：行号=n-1-i%n\n5. 按行输出结果\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.util.ArrayList;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    String str = sc.next();\n    int n = sc.nextInt();\n\n    getResult(str, n);\n  }\n\n  public static void getResult(String str, int n) {\n    ArrayList<ArrayList<Character>> matrix = new ArrayList<>();\n    for (int i = 0; i < n; i++) matrix.add(new ArrayList<>());\n\n    boolean reverse = true;\n    for (int i = 0; i < str.length(); i++) {\n      int k = i % n;\n      if (k == 0) reverse = !reverse;\n      if (reverse) k = n - 1 - k;\n      matrix.get(k).add(str.charAt(i));\n    }\n\n    for (ArrayList<Character> list : matrix) {\n      StringBuilder sb = new StringBuilder();\n      for (Character character : list) {\n        sb.append(character);\n      }\n      System.out.println(sb);\n    }\n  }\n}",
+    "python": "# 输入获取\nline = input().split()\nstr_val = line[0]\nn = int(line[1])\n\n# 算法入口\ndef getResult(s, n):\n    matrix = [[] for _ in range(n)]\n    \n    reverse = True\n    for i in range(len(s)):\n        k = i % n\n        if k == 0:\n            reverse = not reverse\n        if reverse:\n            k = n - 1 - k\n        matrix[k].append(s[i])\n    \n    for row in matrix:\n        print(''.join(row))\n\n# 算法调用\ngetResult(str_val, n)",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nrl.on(\"line\", (line) => {\n  const [str, n] = line.split(\" \");\n  getResult(str, n - 0);\n});\n\nfunction getResult(str, n) {\n  const len = str.length;\n\n  const matrix = new Array(n).fill(0).map(() => new Array());\n\n  let reverse = true;\n  for (let i = 0; i < len; i++) {\n    k = i % n;\n    if (k === 0) reverse = !reverse;\n    if (reverse) k = n - 1 - k;\n    matrix[k].push(str[i]);\n  }\n\n  matrix.forEach((arr) => console.log(arr.join(\"\")));\n}",
+    "cpp": "#include <iostream>\n#include <vector>\n#include <string>\nusing namespace std;\n\nint main() {\n    string str;\n    int n;\n    cin >> str >> n;\n    \n    vector<string> matrix(n);\n    bool reverse = true;\n    \n    for (int i = 0; i < str.length(); i++) {\n        int k = i % n;\n        if (k == 0) reverse = !reverse;\n        if (reverse) k = n - 1 - k;\n        matrix[k] += str[i];\n    }\n    \n    for (const string& row : matrix) {\n        cout << row << endl;\n    }\n    \n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <string.h>\n\nint main() {\n    char str[10001];\n    int n;\n    scanf(\"%s %d\", str, &n);\n    \n    char matrix[1000][10001];\n    int lens[1000] = {0};\n    \n    int reverse = 1;\n    int len = strlen(str);\n    \n    for (int i = 0; i < len; i++) {\n        int k = i % n;\n        if (k == 0) reverse = !reverse;\n        if (reverse) k = n - 1 - k;\n        matrix[k][lens[k]++] = str[i];\n    }\n    \n    for (int i = 0; i < n; i++) {\n        matrix[i][lens[i]] = '\\0';\n        printf(\"%s\\n\", matrix[i]);\n    }\n    \n    return 0;\n}"
+  }
+}

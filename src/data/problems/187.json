@@ -1,0 +1,29 @@
+{
+  "id": "187",
+  "title": "打印机队列",
+  "examType": "B",
+  "score": 100,
+  "description": "有5台打印机打印文件，每台打印机有自己的待打印队列。\n因为打印的文件内容有轻重缓急之分，所以队列中的文件有1~10不同的代先级，其中数字越大优先级越高。\n打印机会从自己的待打印队列中选择优先级最高的文件来打印。\n如果存在两个优先级一样的文件，则选择最早进入队列的那个文件。\n现在请你来模拟这5台打印机的打印过程。\n",
+  "inputDesc": "每个输入包含1个测试用例，\n每个测试用例第一行给出发生事件的数量N（0 < N < 1000）。\n接下来有 N 行，分别表示发生的事件。共有如下两种事件：\n“IN P NUM”，表示有一个拥有优先级 NUM 的文件放到了打印机 P 的待打印队列中。（0< P <= 5, 0 < NUM <= 10)；“OUT P”，表示打印机 P 进行了一次文件打印，同时该文件从待打印队列中取出。（0 < P <= 5）。\n",
+  "outputDesc": "本题可以基于优先队列实现打印机总是打印优先级最高的文件。\n优先队列，如果想简单一点的话，则可以基于有序数组实现，但是有序数组是整体有序，每次有新任务入队，都需要O(n)时间复杂度维持。\n优先队列最好是基于堆结构实现，所谓堆结构，即一颗完全二叉树。本题是优先级数值越大，优先级越高，因此我们可以使用大顶堆。\n关于基于堆结构实现优先队列，可以参考\nLeetCode - 1705 吃苹果的最大数目_伏城之外的博客-CSDN博客\n",
+  "examples": [
+    {
+      "input": "7\nIN 1 1\nIN 1 2\nIN 1 3\nOUT 1\nOUT 1\nOUT 2\nIN 2 1",
+      "output": "3\n2\nNULL",
+      "explanation": "打印机1按优先级3>2>1输出文件编号3、2；打印机2队列为空输出NULL"
+    },
+    {
+      "input": "4\nIN 1 5\nIN 1 5\nOUT 1\nOUT 1",
+      "output": "1\n2",
+      "explanation": "优先级相同，按入队顺序先输出编号1再输出编号2"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**优先队列模拟**问题。\n\n**核心思路：**\n- 每台打印机维护一个优先队列\n- 优先级高的先打印，相同优先级按入队顺序\n\n**算法步骤：**\n1. 为每台打印机创建优先队列\n2. IN操作：将任务(编号,优先级,顺序)入队\n3. OUT操作：弹出优先级最高的任务\n4. 队列为空时输出NULL\n\n**时间复杂度**：O(N*logN)",
+  "codes": {
+    "java": "import java.util.HashMap;\nimport java.util.PriorityQueue;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int n = Integer.parseInt(sc.nextLine());\n    String[][] tasks = new String[n][];\n\n    for (int i = 0; i < n; i++) {\n      String[] s = sc.nextLine().split(\" \");\n      tasks[i] = s;\n    }\n\n    getResult(tasks);\n  }\n\n  public static void getResult(String[][] tasks) {\n    // print中存放每台打印机的等待队列\n    HashMap<String, PriorityQueue<int[]>> print = new HashMap<>();\n\n    // 文件的编号定义为”IN P NUM”事件发生第 x 次，此处待打印文件的编号为x。编号从1开始。\n    int x = 1;\n    for (int i = 0; i < tasks.length; i++) {\n      String[] task = tasks[i];\n      // IN,OUT都有type和printId\n      String type = task[0];\n      String printId = task[1];\n\n      if (\"IN\".equals(type)) {\n        // IN还有priority\n        String priority = task[2];\n        // arr是打印任务\n        int[] arr = {x, Integer.parseInt(priority), i}; // i代表先来后到的顺序\n        // 为打印机printId设置打印优先级，打印任务的priority越大，优先级越高\n        print.putIfAbsent(\n            printId,\n            new PriorityQueue<>(\n                (a, b) ->\n                    a[1] != b[1] ? b[1] - a[1] : a[2] - b[2])); // 优先按priority，如果priority相同，按先来后到i\n        // 将打印任务加入对应打印机\n        print.get(printId).offer(arr);\n        x++;\n      } else {\n        // 打印机等待队列中取出优先级最高的打印任务arr\n        if (!print.containsKey(printId) || print.get(printId).isEmpty()) {\n          // 如果此时没有文件可以打印，请输出”NULL“。\n          System.out.println(\"NULL\");\n        } else {\n          int[] arr = print.get(printId).poll();\n          if (arr != null) System.out.println(arr[0]); // arr[0]是x\n          else System.out.println(\"NULL\");\n        }\n      }\n    }\n  }\n}",
+    "python": "import queue\n\n# 输入获取\nn = int(input())\n\ntasks = []\nfor i in range(n):\n    tasks.append(input().split())\n\n\nclass Task:\n    def __init__(self, taskId, priority, index):\n        \"\"\"\n        :param taskId: 任务ID\n        :param priority: 任务优先级\n        :param index: 任务到达顺序\n        \"\"\"\n        self.taskId = taskId\n        self.priority = priority\n        self.index = index\n\n    def __lt__(self, other):\n        if self.priority != other.priority:\n            return self.priority > other.priority\n        else:\n            return self.index < other.index\n\n\n# 算法入口\ndef getResult(tasks):\n    printer = {}\n\n    taskId = 1\n    for i in range(len(tasks)):\n        task = tasks[i]\n\n        type = task[0]\n        printerId = task[1]\n\n        if type == \"IN\":\n            priority = task[2]\n            if printer.get(printerId) is None:\n                printer[printerId] = queue.PriorityQueue()\n            printer[printerId].put(Task(taskId, int(priority), i))\n            taskId += 1\n        else:\n            if printer.get(printerId) is None or printer[printerId].qsize() == 0:\n                print(\"NULL\")\n            else:\n                t = printer[printerId].get()\n                print(t.taskId)\n\n\ngetResult(tasks)",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nconst lines = [];\nlet n;\nrl.on(\"line\", (line) => {\n  lines.push(line);\n\n  if (lines.length === 1) {\n    n = parseInt(lines[0]);\n  }\n\n  if (n && lines.length === n + 1) {\n    lines.shift();\n\n    const tasks = lines.map((line) => line.split(\" \"));\n\n    getResult(tasks);\n\n    lines.length = 0;\n  }\n});\n\nfunction getResult(tasks) {\n  const print = {};\n\n  let taskId = 1;\n  for (let i = 0; i < tasks.length; i++) {\n    const [type, printId, priority] = tasks[i];\n\n    if (type === \"IN\") {\n      const arr = [taskId, priority, i]; // i 是先来后到的顺序\n      if (!print[printId]) {\n        print[printId] = []; // 基于数组实现优先队列\n      }\n      print[printId].push(arr);\n      print[printId].sort((a, b) => (a[1] != b[1] ? b[1] - a[1] : a[2] - b[2])); // 维持高优先级在头部，如果优先级相同，则按先来后到\n      taskId++;\n    } else {\n      if (!print[printId] || print[printId].length == 0) {\n        console.log(\"NULL\");\n      } else {\n        const arr = print[printId].shift();\n        console.log(arr ? arr[0] : \"NULL\");\n      }\n    }\n  }\n}",
+    "cpp": "",
+    "c": ""
+  }
+}

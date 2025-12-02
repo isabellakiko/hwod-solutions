@@ -1,0 +1,29 @@
+{
+  "id": "207",
+  "title": "区间交集",
+  "examType": "B",
+  "score": 200,
+  "description": "给定一组闭区间，其中部分区间存在交集。\n任意两个给定区间的交集，称为公共区间(如:[1,2],[2,3]的公共区间为[2,2]，[3,5],[3,6]的公共区间为[3,5])。\n公共区间之间若存在交集，则需要合并(如:[1,3],[3,5]区间存在交集[3,3]，需合并为[1,5])。\n按升序排列输出合并后的区间列表。\n",
+  "inputDesc": "一组区间列表，\n区间数为 N: 0<=N<=1000;\n区间元素为 X: -10000<=X<=10000。\n",
+  "outputDesc": "升序排列的合并区间列表\n\n\n[0,3]和[1,3]的公共区间为[1,3]，\n[0,3]和[3,5]的公共区间为[3,3]，\n[0,3]和[3,6]的公共区间为[3,3]，\n[1,3]和[3,5]的公共区间为[3,3]，\n[1,3]和[3,6]的公共区间为[3,3]，\n[3,5]和[3,6]的公共区间为[3,5]，\n公共区间列表为[[1,3],[3,3],[3,5]]；\n[1,3],[3,3],[3,5]存在交集，须合并为[1,5]。\n4 0 3 1 4 4 7 5 8\n2 1 2 3 4\n\n本题主要考察：区间交集求解、以及区间合并。\n\n首先，我们要求解输入的多个区间中，任意两个区间的交集（公共区间）。\n然后，将这些公共区间进行合并后打印。\n\n两个区间的交集求解思路如下：\n将两个区间按照开始位置进行升序，假设排序后，两个区间顺序是：[[s1, e1]，[s2, e2]]\n那么必然 s1 <= s2，因此如果存在交集的话，即e1 >= s2\n则交集的左边界必然是s2，而交集的右边界取值Math.min(e1, e2)\n\n区间合并的逻辑可以参考：华为机试 - 路灯照明问题_伏城之外的博客-CSDN博客\n",
+  "examples": [
+    {
+      "input": "4\n0 3\n1 3\n3 5\n3 6",
+      "output": "1 5",
+      "explanation": "公共区间[1,3],[3,3],[3,5]合并为[1,5]"
+    },
+    {
+      "input": "2\n1 2\n3 4",
+      "output": "None",
+      "explanation": "两区间无交集，没有公共区间"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**区间交集+合并**问题。\n\n**核心思路：**\n- 求任意两区间的交集\n- 合并有交集的公共区间\n\n**算法步骤：**\n1. 按起点排序区间\n2. O(N²)枚举求所有公共区间\n3. 对公共区间排序并合并\n4. 输出合并后的区间\n\n**时间复杂度**：O(N²)",
+  "codes": {
+    "java": "import java.util.ArrayList;\nimport java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int n = sc.nextInt();\n\n    int[][] ranges = new int[n][2];\n    for (int i = 0; i < n; i++) {\n      ranges[i][0] = sc.nextInt();\n      ranges[i][1] = sc.nextInt();\n    }\n\n    getResult(n, ranges);\n  }\n\n  public static void getResult(int n, int[][] ranges) {\n    // 区间按照开始位置升序\n    Arrays.sort(ranges, (a, b) -> a[0] - b[0]);\n\n    // combine用于保存交集\n    ArrayList<int[]> combine = new ArrayList<>();\n\n    // 求任意两个区间之间的交集\n    for (int i = 0; i < n; i++) {\n      int s1 = ranges[i][0], e1 = ranges[i][1];\n      for (int j = i + 1; j < n; j++) {\n        int s2 = ranges[j][0], e2 = ranges[j][1];\n        if (s2 <= e1) {\n          combine.add(new int[] {s2, Math.min(e1, e2)});\n        } else {\n          // 由于ranges已经升序，因此如果ranges[i]和ranges[j]没有交集的话，则也不可能和ranges[j+1]区间有交集\n          break;\n        }\n      }\n    }\n\n    if (combine.size() == 0) {\n      System.out.println(\"None\");\n      return;\n    }\n\n    // 合并公共区间\n    combine.sort((a, b) -> a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]);\n\n    int[] pre = combine.get(0);\n    for (int i = 1; i < combine.size(); i++) {\n      int[] cur = combine.get(i);\n\n      if (pre[1] >= cur[0]) {\n        pre[1] = Math.max(cur[1], pre[1]);\n      } else {\n        System.out.println(pre[0] + \" \" + pre[1]);\n        pre = cur;\n      }\n    }\n\n    System.out.println(pre[0] + \" \" + pre[1]);\n  }\n}",
+    "python": "# 输入获取\nn = int(input())\nranges = [list(map(int, input().split())) for _ in range(n)]\n\n\n# 算法入口\ndef getResult():\n    # 区间按照开始位置升序\n    ranges.sort(key=lambda x: x[0])\n\n    # combine用于保存公共区间\n    combine = []\n\n    for i in range(n):\n        s1, e1 = ranges[i]\n        for j in range(i + 1, n):\n            s2, e2 = ranges[j]\n            if s2 <= e1:\n                combine.append([s2, min(e1, e2)])\n            else:\n                # 由于ranges已经升序，因此如果ranges[i]和ranges[j]没有交集的话，则也不可能和ranges[j+1]区间有交集\n                break\n\n    if len(combine) == 0:\n        print(\"None\")\n        return\n\n    # 合并公共区间\n    combine.sort(key=lambda x: (x[0], -x[1]))\n\n    pre = combine[0]\n    for i in range(1, len(combine)):\n        cur = combine[i]\n\n        if pre[1] >= cur[0]:\n            pre[1] = max(cur[1], pre[1])\n        else:\n            print(\" \".join(map(str, pre)))\n            pre = cur\n\n    print(\" \".join(map(str, pre)))\n\n\n# 算法调用\ngetResult()",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nconst lines = [];\nlet n;\nrl.on(\"line\", (line) => {\n  lines.push(line);\n\n  if (lines.length === 1) {\n    n = parseInt(lines[0]);\n\n    if (n == 0) {\n      console.log(\"None\");\n      lines.length = 0;\n    }\n  }\n\n  if (n && lines.length === n + 1) {\n    lines.shift();\n    const ranges = lines.map((line) => line.split(\" \").map(Number));\n\n    getResult(ranges);\n\n    lines.length = 0;\n  }\n});\n\nfunction getResult(ranges) {\n  // 区间按照开始位置升序\n  ranges.sort((a, b) => a[0] - b[0]);\n\n  // combine用于保存交集\n  const combine = [];\n\n  // 公共区间求解\n  for (let i = 0; i < ranges.length; i++) {\n    const [s1, e1] = ranges[i];\n    for (let j = i + 1; j < ranges.length; j++) {\n      const [s2, e2] = ranges[j];\n      if (s2 <= e1) {\n        combine.push([s2, Math.min(e1, e2)]);\n      } else {\n        // 由于ranges已经升序，因此如果ranges[i]和ranges[j]没有交集的话，则也不可能和ranges[j+1]区间有交集\n        break;\n      }\n    }\n  }\n\n  if (combine.length == 0) return console.log(\"None\");\n\n  // 合并公共区间\n  combine.sort((a, b) => (a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]));\n\n  let pre = combine[0];\n  for (let i = 1; i < combine.length; i++) {\n    const cur = combine[i];\n\n    if (pre[1] >= cur[0]) {\n      pre[1] = Math.max(cur[1], pre[1]);\n    } else {\n      console.log(pre.join(\" \"));\n      pre = cur;\n    }\n  }\n\n  console.log(pre.join(\" \"));\n}",
+    "cpp": "",
+    "c": ""
+  }
+}

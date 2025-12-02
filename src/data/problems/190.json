@@ -1,0 +1,29 @@
+{
+  "id": "190",
+  "title": "数组组成的最小数字",
+  "examType": "B",
+  "score": 100,
+  "description": "给定一个整型数组，请从该数组中选择3个元素组成最小数字并输出\n（如果数组长度小于3，则选择数组中所有元素来组成最小数字）。\n",
+  "inputDesc": "一行用半角逗号分割的字符串记录的整型数组，0 < 数组长度 <= 100，0 < 整数的取值范围 <= 10000。\n",
+  "outputDesc": "由3个元素组成的最小数字，如果数组长度小于3，则选择数组中所有元素来组成最小数字。\n\n此题可以使用暴力法，求n个数取3个全排列，也就是O(n^3)的时间复杂度，但是题目提示0 < 数组长度 <= 100，这个数据规模很容易超时，因此我们应该想一想更优化的方法。\n\n我们知道Array.prototype.sort默认排序是按照Unicode值从小到大排的，因此对于只有两个数的情况，我们直接按照sort字典序升序，比如5,21，字典序升序后就是21,5，而215就是最小组合数。\n2023.02.03 这里直接对数组进行字典序升序，拼接后得到的组合数，不一定是最小的，比如数组 [3, 32, 321]，此时按照字典序升序后，还是 [3, 32, 321]，拼接出来为332321，而这显然不是最小的组合数，最小的组合数应该是321323。\n此处，得到最小组合数的正确排序规则应该是：请看下面博客解析华为OD机试 - 组合出合法最小数_伏城之外的博客-CSDN博客\n\n对于三个数及以上的数组，我们需要从中取出3个数，这个3个数，首先需要保证总长度最短，即保证组合数的位数最少，其值才能最小，因此我们需要将数组升序，这样小数在前，大数在后，我们只要取前三位即可，比如21,30,62,5,31升序为 5,21,30,31,62，取前3个，5,21,30然后进行sort默认排序，变为21，30，5，而21305就是最小值。\n",
+  "examples": [
+    {
+      "input": "21,30,62,5,31",
+      "output": "21305",
+      "explanation": "选最小的3个数5,21,30，按字典序排列拼接得21305"
+    },
+    {
+      "input": "3,32,321",
+      "output": "321323",
+      "explanation": "全部3个数，按拼接后最小排序得321,32,3，结果321323"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**贪心排序**问题。\n\n**核心思路：**\n- 先选数值最小的3个数（保证位数最少）\n- 再按拼接后最小的顺序排序\n\n**算法步骤：**\n1. 按数值升序排序，取前3个\n2. 对这3个数按(a+b)与(b+a)的字典序排序\n3. 拼接得到最小数字\n\n**时间复杂度**：O(N*logN)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    String[] strs = sc.nextLine().split(\",\");\n    System.out.println(getResult(strs));\n  }\n\n  public static String getResult(String[] strs) {\n    Arrays.sort(strs, (a, b) -> Integer.parseInt(a) - Integer.parseInt(b));\n\n    String[] tmp = Arrays.copyOfRange(strs, 0, Math.min(3, strs.length));\n    Arrays.sort(tmp, (a, b) -> (a + b).compareTo(b + a));\n\n    StringBuilder sb = new StringBuilder();\n    for (String s : tmp) {\n      sb.append(s);\n    }\n\n    return sb.toString();\n  }\n}",
+    "python": "import functools\n\n# 输入获取\nstrs = input().split(\",\")\n\n\n# 算法入口\ndef cmp(a, b):\n    s1 = a + b\n    s2 = b + a\n    return 0 if s1 == s2 else 1 if s1 > s2 else -1\n\n\ndef getResult(strs):\n    strs.sort(key=lambda x: int(x))\n    tmp = strs[:3]\n    tmp.sort(key=functools.cmp_to_key(cmp))\n    return \"\".join(tmp)\n\n\n# 算法调用\nprint(getResult(strs))",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nrl.on(\"line\", (line) => {\n  const strs = line.split(\",\");\n  console.log(getResult(strs));\n});\n\nfunction getResult(strs) {\n  strs.sort((a, b) => a - b);\n\n  return strs\n    .slice(0, 3)\n    .sort((a, b) => {\n      const s1 = a + b;\n      const s2 = b + a;\n      return s1 == s2 ? 0 : s1 > s2 ? 1 : -1;\n    })\n    .join(\"\");\n}",
+    "cpp": "",
+    "c": ""
+  }
+}

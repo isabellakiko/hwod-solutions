@@ -1,0 +1,50 @@
+/* ============================================
+   Layout Component
+   ============================================ */
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-container {
+  flex: 1;
+  width: 100%;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: var(--space-6);
+}
+
+.layout-content {
+  display: flex;
+  gap: var(--space-6);
+  align-items: flex-start;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0; /* Prevents flex item overflow */
+  animation: fadeInUp var(--transition-slow) ease-out;
+}
+
+.main-content.full-width {
+  max-width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .layout-container {
+    padding: var(--space-4);
+  }
+
+  .layout-content {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout-container {
+    padding: var(--space-3);
+  }
+}

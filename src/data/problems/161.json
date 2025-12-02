@@ -1,0 +1,29 @@
+{
+  "id": "161",
+  "title": "篮球游戏",
+  "examType": "A",
+  "score": 200,
+  "description": "幼儿园里有一个放倒的圆桶，它是一个线性结构，允许在桶的右边将篮球放入，可以在桶的左边和右边将篮球取出。\n每个篮球有单独的编号，老师可以连续放入一个或多个篮球，小朋友可以在桶左边或右边将篮球取出，当桶只有一个篮球的情况下，必须从左边取出。\n如老师按顺序放入1、2、3、4、5 共有 5 个编号的篮球，那么小朋友可以依次取出编号为1、2、3、4、5 或者 3、1、2、4、5 编号的篮球，无法取出 5、1、3、2、4 编号的篮球。\n其中 3、1、2、4、5 的取出场景为：\n连续放入1、2、3号从右边取出3号 从左边取出1号 从左边取出2号放入4号从左边取出4号放入5号从左边取出5号\n简答起见，我们以 L 表示左，R表示右，此时取出篮球的依次取出序列为“RLLLL”。\n",
+  "inputDesc": "每次输入包含一个测试用例：\n第一行的数字作为老师依次放入的篮球编号第二行的数字作为要检查是否能够按照放入的顺序取出给定的篮球的编号，其中篮球的编号用逗号进行分隔。\n其中篮球编号用逗号进行分隔。\n",
+  "outputDesc": "对于每个篮球的取出序列，如果确实可以获取，请打印出其按照左右方向的操作取出顺序，如果无法获取则打印“NO”。\n\n\n\n本题可以使用双端队列dque来模拟圆桶。\n假设\n第一行给定放入顺序是inputs\n第二行给定取出顺序是outputs\n由于需要按照outputs顺序取出，因此我们定义一个index指向当前outputs要被取出的元素，\n初始时index = 0\n\n按照inputs顺序依次放入（篮球编号）到dque（圆桶）右边（addLast操作），每当放入一个后，则需要进行多次取出检查，即一次放入后，可以进行多次取出行为：\n假设\n圆桶左边篮球编号是left，则 left = dque.getFirst\n圆桶右边篮球编号是right，则 right = dque.getLast\n当前要取出的篮球编号是outputs[index]\n优先检查 outputs[index] 编号的篮球是不是left 的原因是：题目说当桶只有一个篮球的情况下，必须从左边取出\n\n最后，完成上面逻辑，检查圆桶中是否有剩余篮球\n\n",
+  "examples": [
+    {
+      "input": "1,2,3,4,5\n3,1,2,4,5",
+      "output": "RLLLL",
+      "explanation": "放入1,2,3后从右取3,左取1,左取2,放入4左取,放入5左取"
+    },
+    {
+      "input": "1,2,3\n1,2,3",
+      "output": "LLL",
+      "explanation": "按顺序从左边依次取出"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**双端队列模拟**问题。\n\n**核心思路：**\n- 用双端队列模拟圆桶\n- 每次放入后尝试从两端取出匹配的球\n- 只有一个球时必须从左取\n\n**算法步骤：**\n1. 按输入顺序依次放入队列右端\n2. 每次放入后循环检查能否取出\n3. 优先检查左端(单球时必须从左取)\n4. 记录取出方向序列\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.LinkedList;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int[] inputs = Arrays.stream(sc.nextLine().split(\",\")).mapToInt(Integer::parseInt).toArray();\n    int[] outputs = Arrays.stream(sc.nextLine().split(\",\")).mapToInt(Integer::parseInt).toArray();\n\n    // 利用队列结构模拟圆桶\n    LinkedList<Integer> queue = new LinkedList<>();\n\n    // outputs[index]是要被取出的篮球的编号\n    int index = 0;\n\n    // 记录题解\n    StringBuilder sb = new StringBuilder();\n\n    for (int input : inputs) {\n      // 按照放入顺序，从圆桶右边放入\n      queue.addLast(input);\n\n      // 然后开始尝试取出\n      while (queue.size() > 0) {\n        // 圆桶左边的篮球的编号\n        int left = queue.getFirst();\n        // 圆桶右边的篮球的编号\n        int right = queue.getLast();\n\n        if (left == outputs[index]) {\n          // 优先比较圆桶左边的篮球是不是当前要取出的篮球，优先左边的原因是：当桶只有一个篮球的情况下，必须从左边取出\n          sb.append(\"L\");\n          queue.removeFirst();\n          index++;\n        } else if (right == outputs[index]) {\n          // 比较圆桶右边的篮球是不是当前要取出的篮球\n          sb.append(\"R\");\n          queue.removeLast();\n          index++;\n        } else {\n          // 如果圆桶左右两边都不是要取出的球，则本轮取出流程结束\n          break;\n        }\n      }\n    }\n\n    // 最终如果圆桶空了，则说明所有球都取出了，否则按照给定要求无法取出所有球\n    if (queue.size() != 0) {\n      System.out.println(\"NO\");\n    } else {\n      System.out.println(sb);\n    }\n  }\n}",
+    "python": "# 输入获取\nipts = list(map(int, input().split(\",\")))\nopts = list(map(int, input().split(\",\")))\n\n\n# 算法入口\ndef getResult():\n    # 利用队列结构模拟圆桶\n    queue = []\n    # outputs[index]是要被取出的篮球的编号\n    index = 0\n\n    # 记录题解\n    res = []\n\n    for ipt in ipts:\n        # 按照放入顺序，从圆桶右边放入\n        queue.append(ipt)\n\n        # 然后开始尝试取出\n        while len(queue) > 0:\n            # 圆桶左边的篮球的编号\n            left = queue[0]\n            # 圆桶右边的篮球的编号\n            right = queue[-1]\n\n            if left == opts[index]:\n                # 优先比较圆桶左边的篮球是不是当前要取出的篮球，优先左边的原因是：当桶只有一个篮球的情况下，必须从左边取出\n                res.append(\"L\")\n                queue.pop(0)\n                index += 1\n            elif right == opts[index]:\n                # 比较圆桶右边的篮球是不是当前要取出的篮球\n                res.append(\"R\")\n                queue.pop()\n                index += 1\n            else:\n                # 如果圆桶左右两边都不是要取出的球，则本轮取出流程结束\n                break\n\n    # 最终如果圆桶空了，则说明所有球都取出了，否则按照给定要求无法取出所有球\n    if len(queue) != 0:\n        return \"NO\"\n    else:\n        return \"\".join(map(str, res))\n\n\n# 算法调用\nprint(getResult())",
+    "javascript": "",
+    "cpp": "",
+    "c": ""
+  }
+}

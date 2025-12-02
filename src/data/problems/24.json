@@ -1,0 +1,29 @@
+{
+  "id": "24",
+  "title": "找最小数",
+  "examType": "A",
+  "score": 100,
+  "description": "给一个正整数NUM1，计算出新正整数NUM2，NUM2为NUM1中移除N位数字后的结果，需要使得NUM2的值最小。",
+  "inputDesc": "1.输入的第一行为一个字符串，字符串由0-9字符组成，记录正整数NUM1，NUM1长度小于32。 2.输入的第二行为需要移除的数字的个数，小于NUM1长度。",
+  "outputDesc": "输出一个数字字符串，记录最小值NUM2。",
+  "examples": [
+    {
+      "input": "2615371\n4",
+      "output": "131",
+      "explanation": "从 2615371 中移除4位数字。\n使用单调栈：\n- 2 入栈 [2]\n- 6>2, 6 入栈 [2,6]\n- 1<6, 弹出6(k=3), 1<2, 弹出2(k=2), 1 入栈 [1]\n- 5>1, 5 入栈 [1,5]\n- 3<5, 弹出5(k=1), 3 入栈 [1,3]\n- 7>3, 7 入栈 [1,3,7]\n- 1<7, 弹出7(k=0), 1 入栈 [1,3,1]\n结果：131"
+    },
+    {
+      "input": "10200\n1",
+      "output": "200",
+      "explanation": "移除1位数字，移除1得到 0200，去除前导零后为 200。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**单调栈**问题，类似于 LeetCode 402.移掉K位数字。\n\n**核心思想：**\n- 为了使结果最小，应尽量让高位数字小\n- 使用单调递增栈：如果当前数字比栈顶小，就弹出栈顶（相当于移除这个大数字）\n\n**算法步骤：**\n\n1. 遍历数字的每一位\n2. 若栈非空 且 k>0 且 栈顶>当前数字，则弹出栈顶，k--\n3. 将当前数字入栈\n4. 遍历完后若 k>0，从栈顶移除剩余 k 个数字\n5. 去除前导零，若为空则返回\"0\"\n\n**时间复杂度**：O(n)，每个数字最多入栈出栈各一次",
+  "codes": {
+    "java": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String num = sc.nextLine();\n        int k = Integer.parseInt(sc.nextLine());\n        \n        StringBuilder stack = new StringBuilder();\n        \n        for (char c : num.toCharArray()) {\n            while (stack.length() > 0 && k > 0 && stack.charAt(stack.length() - 1) > c) {\n                stack.deleteCharAt(stack.length() - 1);\n                k--;\n            }\n            stack.append(c);\n        }\n        \n        // 移除剩余的k个数字\n        String result = stack.substring(0, stack.length() - k);\n        \n        // 去除前导零\n        int i = 0;\n        while (i < result.length() - 1 && result.charAt(i) == '0') {\n            i++;\n        }\n        result = result.substring(i);\n        \n        System.out.println(result.isEmpty() ? \"0\" : result);\n    }\n}",
+    "python": "num = input()\nk = int(input())\n\nstack = []\n\nfor c in num:\n    while stack and k > 0 and stack[-1] > c:\n        stack.pop()\n        k -= 1\n    stack.append(c)\n\n# 移除剩余的k个数字\nresult = ''.join(stack[:len(stack) - k] if k > 0 else stack)\n\n# 去除前导零\nresult = result.lstrip('0') or '0'\n\nprint(result)",
+    "javascript": "const readline = require('readline');\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nconst lines = [];\nrl.on('line', (line) => {\n  lines.push(line);\n  if (lines.length === 2) {\n    const num = lines[0];\n    let k = parseInt(lines[1]);\n    \n    const stack = [];\n    \n    for (const c of num) {\n      while (stack.length > 0 && k > 0 && stack[stack.length - 1] > c) {\n        stack.pop();\n        k--;\n      }\n      stack.push(c);\n    }\n    \n    // 移除剩余的k个数字\n    let result = stack.slice(0, stack.length - k).join('');\n    \n    // 去除前导零\n    result = result.replace(/^0+/, '') || '0';\n    \n    console.log(result);\n    rl.close();\n  }\n});",
+    "cpp": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    // 读取输入的正整数 NUM1 和需要移除的数字个数\n    std::string num;\n    int k;\n    std::cin >> num >> k;\n\n    // 使用一个 vector 作为栈来存储结果\n    std::vector<char> stack;\n\n    // 遍历输入的数字字符串\n    for (char i : num) {\n        // 当栈非空、k 大于 0 且栈顶元素大于当前数字时，弹出栈顶元素并减小 k\n        while (!stack.empty() && k > 0 && stack.back() > i) {\n            k--;\n            stack.pop_back();\n        }\n        // 将当前数字压入栈中\n        stack.push_back(i);\n    }\n\n    // 构建结果字符串，移除多余的 k 个数字\n    std::string result(stack.begin(), stack.end() - k);\n    // 删除结果字符串中的前导零\n    result.erase(0, result.find_first_not_of('0'));\n    // 如果结果为空，则输出 \"0\"\n    if (result.empty()) {\n        result = \"0\";\n    }\n\n    // 输出结果\n    std::cout << result << std::endl;\n\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\n\nint main() {\n    char num[32]; // 存储输入的正整数NUM1，长度小于32\n    int k;        // 需要移除的数字个数\n    scanf(\"%s %d\", num, &k); // 读取NUM1和k\n\n    char stack[32]; // 使用一个字符数组作为栈来存储结果\n    int top = -1;   // 栈顶指针，初始为-1表示空栈\n\n    // 遍历输入的数字字符串\n    for (int i = 0; i < strlen(num); i++) {\n        char current = num[i];\n        // 当栈非空、k大于0且栈顶元素大于当前数字时，弹出栈顶元素并减小k\n        while (top >= 0 && k > 0 && stack[top] > current) {\n            top--;\n            k--;\n        }\n        // 将当前数字压入栈中\n        stack[++top] = current;\n    }\n\n    // 移除多余的k个数字\n    top -= k;\n\n    // 构建结果字符串\n    char result[32];\n    for (int i = 0; i <= top; i++) {\n        result[i] = stack[i];\n    }\n    result[top + 1] = '\\0'; // 添加字符串结束符\n\n    // 删除结果字符串中的前导零\n    char *start = result;\n    while (*start == '0') {\n        start++;\n    }\n    if (*start == '\\0') { // 如果所有数字都被移除，输出\"0\"\n        printf(\"0\\n\");\n    } else {\n        printf(\"%s\\n\", start); // 输出结果\n    }\n\n    return 0;\n}"
+  }
+}

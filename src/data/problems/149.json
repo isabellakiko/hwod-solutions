@@ -1,0 +1,34 @@
+{
+  "id": "149",
+  "title": "仿LISP运算",
+  "examType": "A",
+  "score": 200,
+  "description": "LISP 语言唯一的语法就是括号要配对。\n形如 (OP P1 P2 …)，括号内元素由单个空格分割。\n其中第一个元素 OP 为操作符，后续元素均为其参数，参数个数取决于操作符类型。\n注意：\n参数 P1, P2 也有可能是另外一个嵌套的 (OP P1 P2 …) ，当前 OP 类型为 add / sub / mul / div（全小写），分别代表整数的加减乘除法，简单起见，所有 OP 参数个数均为 2 。\n举例：\n输入：(mul 3 -7)输出：-21输入：(add 1 2) 输出：3输入：(sub (mul 2 4) (div 9 3)) 输出 ：5输入：(div 1 0) 输出：error\n题目涉及数字均为整数，可能为负；\n不考虑 32 位溢出翻转，计算过程中也不会发生 32 位溢出翻转，\n除零错误时，输出 “error”，\n除法遇除不尽，向下取整，即 3/2 = 1\n",
+  "inputDesc": "输入为长度不超过512的字符串，用例保证了无语法错误\n",
+  "outputDesc": "输出计算结果或者“error”\n\n(div 12 (sub 45 45))\n\n纯逻辑题，难点在于将括号中的片段截取出来，我的处理方案是，遍历输入的每一个字符，当遇到\")\"时，则在其前面必然存在一个“(”，找到其前面第一个“(”，然后截取“(”和\")\"之间的内容（从栈中截取走），进行计算，将结果回填如栈中。\n",
+  "examples": [
+    {
+      "input": "(add 1 2)",
+      "output": "3",
+      "explanation": "add操作：1+2=3"
+    },
+    {
+      "input": "(sub (mul 2 4) (div 9 3))",
+      "output": "5",
+      "explanation": "先算内层：mul 2 4=8，div 9 3=3，再算外层：sub 8 3=5"
+    },
+    {
+      "input": "(div 1 0)",
+      "output": "error",
+      "explanation": "除数为0，输出error"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**栈模拟**问题。\n\n**核心思路：**\n- 用栈处理嵌套括号\n- 遇到)时取出对应(之间的内容计算\n- 将计算结果放回栈中\n\n**算法步骤：**\n1. 遍历字符串，遇到(记录位置并入栈\n2. 遇到)时截取最近(到当前位置的内容\n3. 解析操作符和两个参数进行计算\n4. 除法除零返回error，否则结果入栈\n5. 遍历结束后栈中内容即为答案\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.util.LinkedList;\nimport java.util.List;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n    System.out.println(getResult(sc.nextLine()));\n  }\n\n  public static String getResult(String s) {\n    LinkedList<Character> stack = new LinkedList<>();\n    LinkedList<Integer> leftIdx = new LinkedList<>();\n\n    for (int i = 0; i < s.length(); i++) {\n      char c = s.charAt(i);\n\n      if (c == ')') {\n        List<Character> fragment = stack.subList(leftIdx.removeLast(), stack.size());\n\n        StringBuilder sb = new StringBuilder();\n        for (int j = 1; j < fragment.size(); j++) sb.append(fragment.get(j));\n\n        fragment.clear();\n\n        String[] tmp = sb.toString().split(\" \");\n\n        String op = tmp[0];\n        int p1 = Integer.parseInt(tmp[1]);\n        int p2 = Integer.parseInt(tmp[2]);\n\n        String res = operate(op, p1, p2);\n        if (\"error\".equals(res)) {\n          return \"error\";\n        } else {\n          for (int k = 0; k < res.length(); k++) stack.add(res.charAt(k));\n        }\n      } else if (c == '(') {\n        leftIdx.add(stack.size());\n        stack.add(c);\n      } else {\n        stack.add(c);\n      }\n    }\n\n    StringBuilder ans = new StringBuilder();\n    for (Character c : stack) ans.append(c);\n    return ans.toString();\n  }\n\n  public static String operate(String op, int p1, int p2) {\n    switch (op) {\n      case \"add\":\n        return p1 + p2 + \"\";\n      case \"sub\":\n        return p1 - p2 + \"\";\n      case \"mul\":\n        return p1 * p2 + \"\";\n      case \"div\":\n        return p2 == 0 ? \"error\" : (int) Math.floor(p1 / (p2 + 0.0)) + \"\";\n      default:\n        return \"error\";\n    }\n  }\n}",
+    "python": "import math\n\n# 输入获取\ns = input()\n\n\ndef operate(op, p1, p2):\n    p1 = int(p1)\n    p2 = int(p2)\n    if op == \"add\":\n        return str(p1 + p2)\n    elif op == \"sub\":\n        return str(p1 - p2)\n    elif op == \"mul\":\n        return str(p1 * p2)\n    elif op == \"div\":\n        if p2 == 0:\n            return \"error\"\n        else:\n            return str(int(math.floor(p1 / p2)))\n    else:\n        return \"error\"\n\n\n# 算法入口\ndef getResult():\n    stack = []\n    leftIdx = []\n\n    for i in range(len(s)):\n        if s[i] == ')':\n            l = leftIdx.pop()\n            fragment = stack[l:]\n            del stack[l:]\n\n            op, p1, p2 = \"\".join(fragment[1:]).split(\" \")\n\n            res = operate(op, p1, p2)\n\n            if res == \"error\":\n                return \"error\"\n            else:\n                stack.extend(list(res))\n        elif s[i] == '(':\n            leftIdx.append(len(stack))\n            stack.append(s[i])\n        else:\n            stack.append(s[i])\n\n    return \"\".join(stack)\n\n\n# 调用算法\nprint(getResult())",
+    "javascript": "",
+    "cpp": "",
+    "c": ""
+  }
+}

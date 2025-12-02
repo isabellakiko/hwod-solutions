@@ -1,0 +1,29 @@
+{
+  "id": "151",
+  "title": "分奖金",
+  "examType": "A",
+  "score": 200,
+  "description": "公司老板做了一笔大生意，想要给每位员工分配一些奖金，想通过游戏的方式来决定每个人分多少钱。 按照员工的工号顺序，每个人随机抽取一个数字。 按照工号的顺序往后排列，遇到第一个数字比自己数字大的，那么，前面的员工就可以获得“距离*数字差值”的奖金。 如果遇不到比自己数字大的，就给自己分配随机数数量的奖金。 例如，按照工号顺序的随机数字是：2,10,3。 那么第2个员工的数字10比第1个员工的数字2大， 所以，第1个员工可以获得1*（10-2）=8。第2个员工后面没有比他数字更大的员工， 所以，他获得他分配的随机数数量的奖金，就是10。 第3个员工是最后一个员工，后面也没有比他更大数字的员工，所以他得到的奖金是3。\n请帮老板计算一下每位员工最终分到的奖金都是多少钱。\n",
+  "inputDesc": "第一行n表示员工数量（包含最后一个老板） 第二是每位员工分配的随机数字\n",
+  "outputDesc": "最终每位员工分到的奖金数量\n\n注：随机数字不重复，员工数量（包含老板）范围1~10000，随机数范围1~100000\n\n\n本题最简单的思路是双重for，但是时间复杂度是O(m^2)，而m取值1~10000，这个数量级非常有可能超时。\n因此我们需要考虑更优的解法：\n上面算法其实就是找每个数组元素的下一个更大值，因此可以参考\n华为机试 - 找朋友_伏城之外的博客-CSDN博客_找朋友算法\n的解题思路，利用栈结构通过O(n)时间，找出数组每一个元素的下一个更大值。\n",
+  "examples": [
+    {
+      "input": "3\n2 10 3",
+      "output": "8 10 3",
+      "explanation": "员工1：10比2大，距离1，奖金1*(10-2)=8；员工2后无更大数，奖金10；员工3是最后，奖金3"
+    },
+    {
+      "input": "5\n1 5 3 4 2",
+      "output": "4 5 1 4 2",
+      "explanation": "员工1：5比1大，1*(5-1)=4；员工2后无更大，得5；员工3：4比3大，1*(4-3)=1；员工4、5后无更大"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**单调栈/下一个更大元素**问题。\n\n**核心思路：**\n- 找每个员工后面第一个比他数字大的员工\n- 计算距离×数字差值作为奖金\n- 找不到则奖金为自己的数字\n\n**算法步骤：**\n1. 遍历每个员工的数字\n2. 向后查找第一个更大的数字\n3. 找到则计算(距离)*(差值)，否则取自身数字\n4. 可用单调栈优化到O(N)\n\n**时间复杂度**：O(N²)暴力，O(N)单调栈",
+  "codes": {
+    "java": "import java.util.ArrayList;\nimport java.util.Scanner;\nimport java.util.StringJoiner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int m = sc.nextInt();\n\n    int[] arr = new int[m];\n    for (int i = 0; i < m; i++) {\n      arr[i] = sc.nextInt();\n    }\n\n    System.out.println(getResult(arr, m));\n  }\n\n  public static String getResult(int[] arr, int m) {\n    ArrayList<Integer> ans = new ArrayList<>();\n\n    outer:\n    for (int i = 0; i < m; i++) {\n      for (int j = i + 1; j < m; j++) {\n        if (arr[j] > arr[i]) {\n          ans.add((j - i) * (arr[j] - arr[i]));\n          continue outer;\n        }\n      }\n      ans.add(arr[i]);\n    }\n\n    StringJoiner sj = new StringJoiner(\" \");\n    for (Integer an : ans) sj.add(an + \"\");\n    return sj.toString();\n  }\n}",
+    "python": "# 输入获取\nm = int(input())\narr = list(map(int, input().split()))\n\n\n# 算法入口\ndef getResult(arr, m):\n    ans = []\n    for i in range(m):\n        flag = True\n        for j in range(i+1, m):\n            if arr[j] > arr[i]:\n                flag = False\n                ans.append((j-i) * (arr[j] - arr[i]))\n                break\n\n        if flag:\n            ans.append(arr[i])\n\n    return \" \".join(map(str, ans))\n\n\n# 算法调用\nprint(getResult(arr, m))",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nconst lines = [];\nrl.on(\"line\", (line) => {\n  lines.push(line);\n\n  if (lines.length === 2) {\n    const m = lines[0] - 0;\n    const arr = lines[1].split(\" \").map(Number);\n    console.log(getResult(arr, m));\n    lines.length = 0;\n  }\n});\n\nfunction getResult(arr, m) {\n  const ans = [];\n\n  outter: for (let i = 0; i < m; i++) {\n    for (let j = i + 1; j < m; j++) {\n      if (arr[j] > arr[i]) {\n        ans.push((j-i) * (arr[j] - arr[i])); // 距离 * 数字差值\n        continue outter;\n      }\n    }\n    ans.push(arr[i]);\n  }\n\n  return ans.join(\" \");\n}",
+    "cpp": "",
+    "c": ""
+  }
+}

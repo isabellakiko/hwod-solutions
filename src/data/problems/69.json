@@ -1,0 +1,34 @@
+{
+  "id": "69",
+  "title": "字符串重新排列、字符串重新排序",
+  "examType": "A",
+  "score": 100,
+  "description": "给定一个字符串s，s包括以空格分隔的若干个单词，请对s进行如下处理后输出： 1、单词内部调整：对每个单词字母重新按字典序排序 2、单词间顺序调整： 1）统计每个单词出现的次数，并按次数降序排列 2）次数相同，按单词长度升序排列 3）次数和单词长度均相同，按字典升序排列\n请输出处理后的字符串，每个单词以一个空格分隔。\n",
+  "inputDesc": "一行字符串，每个字符取值范围：[a-zA-z0-9]以及空格，字符串长度范围：[1，1000]\n",
+  "outputDesc": "输出处理后的字符串，每个单词以一个空格分隔。",
+  "examples": [
+    {
+      "input": "This is an apple",
+      "output": "an is aelpp hiTs",
+      "explanation": "单词内部排序后：hiTs is an aelpp。按次数(都是1)、长度升序、字典序排列。"
+    },
+    {
+      "input": "the apple is on the apple tree",
+      "output": "aelpp aelpp eht eht is no eert",
+      "explanation": "apple和the各出现2次排前面，按长度和字典序排其他单词。"
+    },
+    {
+      "input": "aa bb aa bb cc",
+      "output": "aa aa bb bb cc",
+      "explanation": "aa和bb各2次，cc1次。按次数降序，同次数按长度和字典序。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**排序**问题。\n\n**算法步骤：**\n1. 对每个单词内部字母按字典序排序\n2. 统计每个单词出现次数\n3. 按多条件排序：次数降序 > 长度升序 > 字典序升序\n\n**时间复杂度**：O(N log N × M)，N为单词数，M为平均单词长度",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.HashMap;\nimport java.util.Scanner;\nimport java.util.StringJoiner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    String[] arr = sc.nextLine().split(\" \");\n    System.out.println(getResult(arr));\n  }\n\n  public static String getResult(String[] arr) {\n    arr =\n        Arrays.stream(arr)\n            .map(\n                str -> {\n                  char[] cArr = str.toCharArray();\n                  Arrays.sort(cArr);\n                  return new String(cArr);\n                })\n            .toArray(String[]::new);\n\n    HashMap<String, Integer> count = new HashMap<>();\n    for (String s : arr) {\n      count.put(s, count.getOrDefault(s, 0) + 1);\n    }\n\n    Arrays.sort(\n        arr,\n        (a, b) ->\n            !count.get(a).equals(count.get(b))\n                ? count.get(b) - count.get(a)\n                : a.length() != b.length() ? a.length() - b.length() : a.compareTo(b));\n\n    StringJoiner sj = new StringJoiner(\" \", \"\", \"\");\n    for (String s : arr) {\n      sj.add(s);\n    }\n    return sj.toString();\n  }\n}",
+    "python": "# 输入获取\narr = input().split()\n\n\n# 算法入口\ndef getResult(arr):\n    for i in range(len(arr)):\n        arr[i] = \"\".join(sorted(arr[i]))\n\n    count = {}\n    for c in arr:\n        if count.get(c) is None:\n            count[c] = 0\n        count[c] += 1\n\n    # arr.sort(key=lambda x: (-count[x], len(x), [ord(char) for char in x]))\n    arr.sort(key=lambda x: (-count[x], len(x), x))\n\n    # return \" \".join(map(str, arr))\n    return \" \".join(arr)\n\n\n# 算法调用\nprint(getResult(arr))",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nrl.on(\"line\", (line) => {\n  const arr = line.split(\" \");\n  console.log(getResult(arr));\n});\n\nfunction getResult(arr) {\n  arr = arr.map((str) => [...str].sort().join(\"\"));\n\n  const count = arr.reduce((p, c) => {\n    p[c] ? p[c]++ : (p[c] = 1);\n    return p;\n  }, {});\n\n  arr.sort((a, b) =>\n    count[a] !== count[b]\n      ? count[b] - count[a]\n      : a.length !== b.length\n      ? a.length - b.length\n      : a > b\n      ? 1\n      : -1\n  );\n\n  return arr.join(\" \");\n}",
+    "cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <sstream>\n#include <map>\nusing namespace std;\n\nint main() {\n    string line;\n    getline(cin, line);\n    \n    vector<string> arr;\n    stringstream ss(line);\n    string word;\n    while (ss >> word) {\n        sort(word.begin(), word.end());\n        arr.push_back(word);\n    }\n    \n    map<string, int> count;\n    for (const string& s : arr) {\n        count[s]++;\n    }\n    \n    sort(arr.begin(), arr.end(), [&count](const string& a, const string& b) {\n        if (count[a] != count[b]) return count[a] > count[b];\n        if (a.length() != b.length()) return a.length() < b.length();\n        return a < b;\n    });\n    \n    for (int i = 0; i < arr.size(); i++) {\n        cout << arr[i];\n        if (i < arr.size() - 1) cout << \" \";\n    }\n    cout << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nchar words[1001][1001];\nint wordCount = 0;\nint counts[1001];\n\nint charCmp(const void* a, const void* b) {\n    return *(char*)a - *(char*)b;\n}\n\nint wordCmp(const void* a, const void* b) {\n    int ia = *(int*)a;\n    int ib = *(int*)b;\n    if (counts[ia] != counts[ib]) return counts[ib] - counts[ia];\n    int la = strlen(words[ia]);\n    int lb = strlen(words[ib]);\n    if (la != lb) return la - lb;\n    return strcmp(words[ia], words[ib]);\n}\n\nint main() {\n    char line[10001];\n    fgets(line, sizeof(line), stdin);\n    \n    char* token = strtok(line, \" \\n\");\n    while (token) {\n        strcpy(words[wordCount], token);\n        qsort(words[wordCount], strlen(words[wordCount]), sizeof(char), charCmp);\n        wordCount++;\n        token = strtok(NULL, \" \\n\");\n    }\n    \n    // 统计次数\n    for (int i = 0; i < wordCount; i++) {\n        counts[i] = 0;\n        for (int j = 0; j < wordCount; j++) {\n            if (strcmp(words[i], words[j]) == 0) counts[i]++;\n        }\n    }\n    \n    int indices[1001];\n    for (int i = 0; i < wordCount; i++) indices[i] = i;\n    qsort(indices, wordCount, sizeof(int), wordCmp);\n    \n    for (int i = 0; i < wordCount; i++) {\n        printf(\"%s\", words[indices[i]]);\n        if (i < wordCount - 1) printf(\" \");\n    }\n    printf(\"\\n\");\n    return 0;\n}"
+  }
+}

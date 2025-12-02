@@ -1,0 +1,29 @@
+{
+  "id": "198",
+  "title": "统计射击比赛成绩",
+  "examType": "B",
+  "score": 100,
+  "description": "给定一个射击比赛成绩单，包含多个选手若干次射击的成绩分数，请对每个选手按其最高3个分数之和进行降序排名，输出降序排名后的选手ID序列。\n\n一个选手可以有多个射击成绩的分数，且次序不固定。如果一个选手成绩少于3个，则认为选手的所有成绩无效，排名忽略该选手。如果选手的成绩之和相等，则成绩之和相等的选手按照其ID降序排列。",
+  "inputDesc": "输入第一行，一个整数N，表示该场比赛总共进行了N次射击，产生N个成绩分数（2<=N<=100）。输入第二行，一个长度为N整数序列，表示参与每次射击的选手ID（0<=ID<=99）。输入第三行，一个长度为N整数序列，表示参与每次射击的选手对应的成绩（0<=成绩<=100）。\n",
+  "outputDesc": "符合题设条件的降序排名后的选手ID序列。\n\n13 3,3,7,4,4,4,4,7,7,3,5,5,5 53,80,68,24,39,76,66,16,100,55,53,80,55\n该场射击比赛进行了13次\n参赛的选手为3,4,5,7\n比较各个选手最高3个成绩的和，有3号=5号>7号>4号，由于3号和5号成绩相等且ID号5>3， 所以输出为：5,3,7,4\n\n简答的排序问题，按照题目要求写排序规则即可。\n",
+  "examples": [
+    {
+      "input": "13\n3,3,7,4,4,4,4,7,7,3,5,5,5\n53,80,68,24,39,76,66,16,100,55,53,80,55",
+      "output": "5,3,7,4",
+      "explanation": "3号最高3分和188，5号188，7号184，4号181，5和3成绩相同按ID降序"
+    },
+    {
+      "input": "5\n1,1,1,2,2\n90,80,70,100,50",
+      "output": "1",
+      "explanation": "1号有3个成绩，总分240；2号只有2个成绩无效"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**排序统计**问题。\n\n**核心思路：**\n- 统计每个选手的成绩\n- 取最高3个成绩求和\n- 按成绩和、ID降序排序\n\n**算法步骤：**\n1. 按选手ID分组统计成绩\n2. 过滤成绩少于3个的选手\n3. 每个选手取最高3分求和\n4. 按和降序、ID降序排序输出\n\n**时间复杂度**：O(N*logN)",
+  "codes": {
+    "java": "import java.util.*;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int n = Integer.parseInt(sc.nextLine());\n\n    Integer[] ids =\n        Arrays.stream(sc.nextLine().split(\",\")).map(Integer::parseInt).toArray(Integer[]::new);\n\n    Integer[] scores =\n        Arrays.stream(sc.nextLine().split(\",\")).map(Integer::parseInt).toArray(Integer[]::new);\n\n    System.out.println(getResult(n, ids, scores));\n  }\n\n  public static String getResult(int n, Integer[] ids, Integer[] scores) {\n    HashMap<Integer, ArrayList<Integer>> players = new HashMap<>();\n\n    for (int i = 0; i < n; i++) {\n      players.putIfAbsent(ids[i], new ArrayList<>());\n      players.get(ids[i]).add(scores[i]);\n    }\n\n    ArrayList<int[]> ans = new ArrayList<>();\n\n    for (int id : players.keySet()) {\n      ArrayList<Integer> idScores = players.get(id);\n      if (idScores.size() >= 3) {\n        int total =\n            idScores.stream().sorted((a, b) -> b - a).limit(3).reduce(Integer::sum).orElse(0);\n\n        ans.add(new int[] {id, total});\n      }\n    }\n\n    ans.sort((a, b) -> a[1] != b[1] ? b[1] - a[1] : b[0] - a[0]);\n\n    StringJoiner sj = new StringJoiner(\",\");\n    for (int[] player : ans) sj.add(player[0] + \"\");\n\n    return sj.toString();\n  }\n}",
+    "python": "# 输入获取\nn = int(input())\nids = list(map(int, input().split(\",\")))\nscores = list(map(int, input().split(\",\")))\n\n\n# 算法入口\ndef getResult():\n    players = {}\n\n    for i in range(n):\n        players.setdefault(ids[i], [])\n        players.get(ids[i]).append(scores[i])\n\n    ans = []\n\n    for pid in players:\n        if len(players[pid]) >= 3:\n            players[pid].sort(reverse=True)\n            ans.append((pid, sum(players[pid][:3])))\n\n    ans.sort(key=lambda x: (-x[1], -x[0]))\n\n    return \",\".join(map(lambda x: str(x[0]), ans))\n\n\n# 算法调用\nprint(getResult())",
+    "javascript": "",
+    "cpp": "",
+    "c": ""
+  }
+}

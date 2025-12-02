@@ -1,0 +1,34 @@
+{
+  "id": "83",
+  "title": "用户调度问题",
+  "examType": "A",
+  "score": 100,
+  "description": "在通信系统中，一个常见的问题是对用户进行不同策略的调度，会得到不同的系统消耗和性能。\n假设当前有n个待串行调度用户，每个用户可以使用A/B/C三种不同的调度策略，不同的策略会消耗不同的系统资源。请你根据如下规则进行用户调度，并返回总的消耗资源数。\n规则：\n相邻的用户不能使用相同的调度策略，例如，第1个用户使用了A策略，则第2个用户只能使用B或者C策略。对单个用户而言，不同的调度策略对系统资源的消耗可以归一化后抽象为数值。例如，某用户分别使用A/B/C策略的系统消耗分别为15/8/17。每个用户依次选择当前所能选择的对系统资源消耗最少的策略（局部最优），如果有多个满足要求的策略，选最后一个。\n",
+  "inputDesc": "第一行表示用户个数n\n接下来每一行表示一个用户分别使用三个策略的系统消耗resA resB resC\n",
+  "outputDesc": "最优策略组合下的总的系统资源消耗数。",
+  "examples": [
+    {
+      "input": "3\n15 8 17\n12 20 9\n11 7 5",
+      "output": "24",
+      "explanation": "用户1选B(8)→用户2排除B选C(9)→用户3排除C选B(7)，总消耗8+9+7=24。"
+    },
+    {
+      "input": "2\n10 10 10\n5 5 5",
+      "output": "15",
+      "explanation": "用户1选C(10，多个相同选最后)→用户2选B(5)，总消耗10+5=15。"
+    },
+    {
+      "input": "1\n3 1 2",
+      "output": "2",
+      "explanation": "只有1个用户，选最小且最后的策略C(2)。注意1和2相比选最后的C。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**贪心**问题（局部最优）。\n\n**核心规则：**\n1. 相邻用户不能用相同策略\n2. 每个用户选当前可选的最小消耗策略\n3. 相同消耗选最后一个（索引大的）\n\n**算法步骤：**\n1. 记录上一个用户选择的策略索引\n2. 遍历当前用户可选策略（排除上一个索引）\n3. 选择消耗最小且索引最大的策略\n4. 累加消耗值\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int n = sc.nextInt();\n\n    int[][] res = new int[n][3];\n    for (int i = 0; i < n; i++) {\n      res[i][0] = sc.nextInt();\n      res[i][1] = sc.nextInt();\n      res[i][2] = sc.nextInt();\n    }\n\n    System.out.println(getResult(n, res));\n  }\n\n  public static int getResult(int n, int[][] res) {\n    int last = -1;\n    int sum = 0;\n\n    for (int i = 0; i < n; i++) {\n      last = getMinEleIdx(res[i], last);\n      sum += res[i][last];\n    }\n\n    return sum;\n  }\n\n  public static int getMinEleIdx(int[] arr, int excludeIdx) {\n    int minEleVal = Integer.MAX_VALUE;\n    int minEleIdx = -1;\n\n    for (int i = 0; i < arr.length; i++) {\n      if (i == excludeIdx) continue;\n\n      if (arr[i] <= minEleVal) {\n        minEleVal = arr[i];\n        minEleIdx = i;\n      }\n    }\n\n    return minEleIdx;\n  }\n}",
+    "python": "import sys\n\n# 输入获取\nn = int(input())\nres = [list(map(int, input().split())) for _ in range(n)]\n\n\ndef getMinEleIdx(arr, excludeIdx):\n    minEleVal = sys.maxsize\n    minEleIdx = -1\n\n    for i in range(len(arr)):\n        if i == excludeIdx:\n            continue\n\n        if arr[i] <= minEleVal:\n            minEleVal = arr[i]\n            minEleIdx = i\n\n    return minEleIdx\n\n\n# 算法入口\ndef getResult():\n    last = -1\n    total = 0\n\n    for i in range(n):\n        last = getMinEleIdx(res[i], last)\n        total += res[i][last]\n\n    return total\n\n\n# 算法调用\nprint(getResult())",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nconst lines = [];\nlet m;\nrl.on(\"line\", (line) => {\n  lines.push(line);\n\n  if (lines.length === 1) {\n    m = parseInt(lines[0]);\n  }\n\n  if (m != undefined && lines.length === m + 1) {\n    lines.shift();\n    const res = lines.map((line) => line.split(\" \").map(Number));\n    const ans = [Infinity];\n    dfs(res, m, 0, -1, 0, ans);\n    console.log(ans[0]);\n\n    lines.length = 0;\n  }\n});\n\nfunction dfs(res, m, level, index, total, ans) {\n  if (level == m) {\n    ans[0] = Math.min(ans[0], total);\n    return;\n  }\n\n  const r = res[level];\n  for (let i = 0; i < r.length; i++) {\n    if (i != index) {\n      dfs(res, m, level + 1, i, total + r[i], ans);\n    }\n  }\n}",
+    "cpp": "#include <iostream>\n#include <climits>\nusing namespace std;\n\nint getMinIdx(int arr[], int excludeIdx) {\n    int minVal = INT_MAX;\n    int minIdx = -1;\n    for (int i = 0; i < 3; i++) {\n        if (i == excludeIdx) continue;\n        if (arr[i] <= minVal) {\n            minVal = arr[i];\n            minIdx = i;\n        }\n    }\n    return minIdx;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    \n    int res[n][3];\n    for (int i = 0; i < n; i++) {\n        cin >> res[i][0] >> res[i][1] >> res[i][2];\n    }\n    \n    int last = -1;\n    int sum = 0;\n    for (int i = 0; i < n; i++) {\n        last = getMinIdx(res[i], last);\n        sum += res[i][last];\n    }\n    \n    cout << sum << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <limits.h>\n\nint getMinIdx(int arr[], int excludeIdx) {\n    int minVal = INT_MAX;\n    int minIdx = -1;\n    for (int i = 0; i < 3; i++) {\n        if (i == excludeIdx) continue;\n        if (arr[i] <= minVal) {\n            minVal = arr[i];\n            minIdx = i;\n        }\n    }\n    return minIdx;\n}\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    \n    int res[n][3];\n    for (int i = 0; i < n; i++) {\n        scanf(\"%d %d %d\", &res[i][0], &res[i][1], &res[i][2]);\n    }\n    \n    int last = -1;\n    int sum = 0;\n    for (int i = 0; i < n; i++) {\n        last = getMinIdx(res[i], last);\n        sum += res[i][last];\n    }\n    \n    printf(\"%d\\n\", sum);\n    return 0;\n}"
+  }
+}

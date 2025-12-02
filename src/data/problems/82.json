@@ -1,0 +1,34 @@
+{
+  "id": "82",
+  "title": "玩牌高手",
+  "examType": "A",
+  "score": 100,
+  "description": "给定一个长度为n的整型数组，表示一个选手在n轮内可选择的牌面分数。选手基于规则选牌，\n请计算所有轮结束后其可以获得的最高总分数。\n选择规则如下：\n在每轮里选手可以选择获取该轮牌面，则其总分数加上该轮牌面分数，为其新的总分数。选手也可不选择本轮牌面直接跳到下一轮，此时将当前总分数还原为3轮前的总分数，若当前轮次小于等于3（即在第1、2、3轮选择跳过轮次），则总分数置为0。选手的初始总分数为0，且必须依次参加每一轮。\n",
+  "inputDesc": "第一行为一个小写逗号分割的字符串，表示n轮的牌面分数，1<= n <=20。\n分数值为整数，-100 <= 分数值 <= 100。\n不考虑格式问题。\n",
+  "outputDesc": "所有轮结束后选手获得的最高总分数。",
+  "examples": [
+    {
+      "input": "1,-5,-6,4,3,6,-2",
+      "output": "11",
+      "explanation": "选1(总分1)→跳过-5(重置为0)→跳过-6(0)→选4(4)→选3(7)→选6(13)→选-2(11>回退到4)，最终11。"
+    },
+    {
+      "input": "1,2,3,4,5",
+      "output": "15",
+      "explanation": "全部选择：1+2+3+4+5=15。"
+    },
+    {
+      "input": "-1,-2,-3",
+      "output": "0",
+      "explanation": "前3轮跳过都重置为0，全跳过最优。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**动态规划**问题。\n\n**状态转移方程：**\n- dp[0] = max(arr[0], 0)\n- dp[i] = max(dp[i-1] + arr[i], 0)，当1≤i≤2\n- dp[i] = max(dp[i-1] + arr[i], dp[i-3])，当i>2\n\n**核心思路：**\n- 选牌：总分加上当前牌面\n- 跳过：前3轮重置为0，之后回退到3轮前的分数\n- 每轮取两种选择的最大值\n\n**时间复杂度**：O(N)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.Scanner;\n \npublic class Main {\n  // 输入获取\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n \n    Integer[] arr =\n        Arrays.stream(sc.nextLine().split(\",\")).map(Integer::parseInt).toArray(Integer[]::new);\n \n    System.out.println(getResult(arr));\n  }\n \n  // 算法入口\n  public static int getResult(Integer[] arr) {\n    int n = arr.length;\n \n    int[] dp = new int[n];\n \n    for (int i = 0; i < n; i++) {\n      if (i == 0) {\n        dp[0] = Math.max(0, arr[0]);\n      } else if (i < 3) {\n        dp[i] = Math.max(0, dp[i - 1] + arr[i]);\n      } else {\n        dp[i] = Math.max(dp[i - 3], dp[i - 1] + arr[i]);\n      }\n    }\n \n    return dp[n - 1];\n  }\n}",
+    "python": "# 输入获取\narr = list(map(int, input().split(\",\")))\n \n \n# 算法入口\ndef getResult():\n    n = len(arr)\n \n    dp = [0] * n\n \n    for i in range(n):\n        if i == 0:\n            dp[0] = max(0, arr[0])\n        elif i < 3:\n            dp[i] = max(0, dp[i - 1] + arr[i])\n        else:\n            dp[i] = max(dp[i - 3], dp[i - 1] + arr[i])\n \n    return dp[-1]\n \n \n# 算法调用\nprint(getResult())",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nrl.on(\"line\", (line) => {\n  const arr = line.split(\",\").map((ele) => parseInt(ele));\n\n  console.log(getMaxScore(arr));\n});\n\nfunction getMaxScore(arr) {\n  const dp = [];\n\n  for (let i = 0; i < arr.length; i++) {\n    if (i === 0) {\n      dp[0] = Math.max(arr[0], 0);\n    } else if (i > 0 && i < 3) {\n      dp[i] = Math.max(dp[i - 1] + arr[i], 0);\n    } else {\n      dp[i] = Math.max(dp[i - 1] + arr[i], dp[i - 3]);\n    }\n  }\n\n  return dp.pop();\n}",
+    "cpp": "#include <iostream>\n#include <sstream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    string line;\n    getline(cin, line);\n    \n    vector<int> arr;\n    stringstream ss(line);\n    string token;\n    while (getline(ss, token, ',')) {\n        arr.push_back(stoi(token));\n    }\n    \n    int n = arr.size();\n    vector<int> dp(n);\n    \n    for (int i = 0; i < n; i++) {\n        if (i == 0) {\n            dp[0] = max(0, arr[0]);\n        } else if (i < 3) {\n            dp[i] = max(0, dp[i-1] + arr[i]);\n        } else {\n            dp[i] = max(dp[i-3], dp[i-1] + arr[i]);\n        }\n    }\n    \n    cout << dp[n-1] << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint max(int a, int b) {\n    return a > b ? a : b;\n}\n\nint main() {\n    char line[1000];\n    fgets(line, sizeof(line), stdin);\n    \n    int arr[20];\n    int n = 0;\n    char* token = strtok(line, \",\");\n    while (token) {\n        arr[n++] = atoi(token);\n        token = strtok(NULL, \",\");\n    }\n    \n    int dp[20];\n    for (int i = 0; i < n; i++) {\n        if (i == 0) {\n            dp[0] = max(0, arr[0]);\n        } else if (i < 3) {\n            dp[i] = max(0, dp[i-1] + arr[i]);\n        } else {\n            dp[i] = max(dp[i-3], dp[i-1] + arr[i]);\n        }\n    }\n    \n    printf(\"%d\\n\", dp[n-1]);\n    return 0;\n}"
+  }
+}

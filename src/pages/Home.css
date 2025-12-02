@@ -1,0 +1,123 @@
+/* ============================================
+   Home Page - Enhanced Design
+   ============================================ */
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ===== Search Container ===== */
+.search-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: var(--space-5);
+  color: var(--text-tertiary);
+  pointer-events: none;
+  transition: color var(--transition-fast);
+}
+
+.search-input {
+  width: 100%;
+  height: 56px;
+  padding: 0 var(--space-12) 0 calc(var(--space-5) + 28px);
+  font-size: var(--text-base);
+  font-family: var(--font-sans);
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-primary);
+  border-radius: var(--radius-xl);
+  outline: none;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.search-input::placeholder {
+  color: var(--text-tertiary);
+  font-weight: var(--font-normal);
+}
+
+.search-input:hover {
+  border-color: var(--border-secondary);
+  box-shadow: var(--shadow-md);
+}
+
+.search-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-primary-light), var(--shadow-md);
+}
+
+.search-input:focus + .search-icon,
+.search-box:focus-within .search-icon {
+  color: var(--color-primary);
+}
+
+.search-clear {
+  position: absolute;
+  right: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.search-clear:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-secondary);
+}
+
+/* Search Results Count */
+.search-results-count {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  padding-left: var(--space-2);
+}
+
+.search-results-count::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .search-input {
+    height: 48px;
+    font-size: var(--text-sm);
+    border-radius: var(--radius-lg);
+  }
+
+  .search-icon {
+    left: var(--space-4);
+  }
+
+  .search-input {
+    padding-left: calc(var(--space-4) + 24px);
+  }
+}

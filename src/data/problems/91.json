@@ -1,0 +1,34 @@
+{
+  "id": "91",
+  "title": "出租车计费靠谱的车",
+  "examType": "A",
+  "score": 100,
+  "description": "程序员小明打了一辆出租车去上班。出于职业敏感，他注意到这辆出租车的计费表有点问题，总是偏大。\n出租车司机解释说他不喜欢数字4，所以改装了计费表，任何数字位置遇到数字4就直接跳过，其余功能都正常。\n比如：\n23再多一块钱就变为25； 39再多一块钱变为50； 399再多一块钱变为500； 小明识破了司机的伎俩，准备利用自己的学识打败司机的阴谋。\n给出计费表的表面读数，返回实际产生的费用。",
+  "inputDesc": "只有一行，数字N，表示里程表的读数。\n(1<=N<=888888888)。",
+  "outputDesc": "一个数字，表示实际产生的费用。以回车结束。",
+  "examples": [
+    {
+      "input": "5",
+      "output": "4",
+      "explanation": "跳过4后，表面读数5实际是第4个数。"
+    },
+    {
+      "input": "17",
+      "output": "15",
+      "explanation": "1→1，7→6（大于4减1），实际=1×9+6=15。"
+    },
+    {
+      "input": "100",
+      "output": "81",
+      "explanation": "1→1，0→0，0→0，实际=1×81+0×9+0=81。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**进制转换**问题。\n\n**核心思路：**\n跳过数字4，相当于使用9进制（0-9跳过4只有9个数字）。\n- 表面读数是特殊的9进制数\n- 大于4的数字需要减1转换为真实9进制\n- 再转换为10进制即为实际费用\n\n**算法步骤：**\n1. 遍历表面读数每一位\n2. 若数字>4，则减1\n3. 累计：result = result * 9 + digit\n\n**时间复杂度**：O(log N)",
+  "codes": {
+    "java": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String line = scanner.nextLine();\n        int correct = 0;\n        for (char c : line.toCharArray()) {\n            int digit = c - '0';\n            if (digit > 4) {\n                digit--;\n            }\n            correct = correct * 9 + digit;\n        }\n        System.out.println(correct);\n    }\n}",
+    "python": "import sys\n\nline = sys.stdin.readline().strip()\ncorrect = 0\nfor c in line:\n    digit = int(c)\n    if digit > 4:\n        digit -= 1\n    correct = correct * 9 + digit\nprint(correct)",
+    "javascript": "const readline = require('readline');\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nrl.on('line', (line) => {\n  let correct = 0;\n  for (let i = 0; i < line.length; i++) {\n    let digit = parseInt(line[i]);\n    if (digit > 4) {\n      digit--;\n    }\n    correct = correct * 9 + digit;\n  }\n  console.log(correct);\n});",
+    "cpp": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    string line;\n    // 读取输入的表面读数\n    getline(cin, line);\n    // 初始化实际产生的费用\n    int correct = 0;\n    // 遍历读数的每一位数字\n    for (char c : line) {\n        int digit = c - '0'; // 将字符转换为数字\n        if (digit > 4) { // 如果数字大于4，则需要减1\n            digit--;\n        }\n        correct = correct * 9 + digit; // 将每一位数字加入到实际产生的费用中\n    }\n    // 输出实际产生的费用\n    cout << correct << endl;\n    \n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <string.h>\n\nint main() {\n    char line[10];  \n    scanf(\"%s\", line); // 读取输入的表面读数\n\n    int correct = 0; // 初始化实际产生的费用\n    int length = strlen(line); // 获取输入字符串的长度\n\n    // 遍历读数的每一位数字\n    for (int i = 0; i < length; i++) {\n        int digit = line[i] - '0'; // 将字符转换为数字\n\n        // 如果数字大于4，则需要减1，因为跳过了数字4\n        if (digit > 4) {\n            digit--;\n        }\n\n        correct = correct * 9 + digit; // 更新实际产生的费用\n    }\n\n    // 输出实际产生的费用\n    printf(\"%d\\n\", correct);\n    \n    return 0;\n}"
+  }
+}

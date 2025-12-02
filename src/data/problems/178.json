@@ -1,0 +1,29 @@
+{
+  "id": "178",
+  "title": "万能字符单词拼写",
+  "examType": "A",
+  "score": 100,
+  "description": "有一个字符串数组 words 和一个字符串 chars。\n假如可以用 chars 中的字母拼写出 words 中的某个“单词”（字符串），那么我们就认为你掌握了这个单词。\nwords 的字符仅由 a-z 英文小写字母组成，例如 \"abc\"\nchars 由 a-z 英文小写字母和 \"?\" 组成。其中英文 \"?\" 表示万能字符，能够在拼写时当作任意一个英文字母。例如：\"?\" 可以当作 \"a\" 等字母。\n注意：每次拼写时，chars 中的每个字母和万能字符都只能使用一次。\n输出词汇表 words 中你掌握的所有单词的个数。没有掌握任何单词，则输出0。\n",
+  "inputDesc": "第一行：输入数组 words 的个数，记作N。\n第二行 ~ 第N+1行：依次输入数组words的每个字符串元素\n第N+2行：输入字符串chars\n",
+  "outputDesc": "输出一个整数，表示词汇表 words 中你掌握的单词个数\n\n\n\n本题可以分别统计出chars和word中各字符的数量，然后遍历word每个字符c，比较word和chars中统计的c字符数量，如果word的c数量超过了chars的c数量，那么就就将超出数量计入diff中。\n最终比较diff和chars中万能字符‘?’的数量，如果chars中万能字符‘?’的数量 >= diff，那么说明chars可以使用万能字符补足不同部分，即可以学会word。\n\n",
+  "examples": [
+    {
+      "input": "4\ncat\nbt\nhat\ntree\natach??",
+      "output": "3",
+      "explanation": "chars有a,t,a,c,h和2个?，可拼写cat、bt、hat共3个单词"
+    },
+    {
+      "input": "3\nhello\nworld\ntest\nhe?lo",
+      "output": "1",
+      "explanation": "chars有h,e,l,o和1个?，只能拼写hello"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**字符统计**问题。\n\n**核心思路：**\n- 统计chars和word中各字符数量\n- ?作为万能字符可补足差额\n\n**算法步骤：**\n1. 统计chars中各字符和?的数量\n2. 对每个word，统计其字符数量\n3. 计算word相比chars缺少的字符总数diff\n4. 若diff<=?数量，则该word可被拼写\n\n**时间复杂度**：O(N*L)，L为单词平均长度",
+  "codes": {
+    "java": "import java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n    int n = sc.nextInt();\n\n    String[] words = new String[n];\n    for (int i = 0; i < n; i++) {\n      words[i] = sc.next();\n    }\n\n    String chars = sc.next();\n\n    System.out.println(getResult(words, n, chars));\n  }\n\n  public static int getResult(String[] words, int n, String chars) {\n    int ans = 0;\n\n    // 统计chars字符串中各字符的数量\n    int[] cnt_chars = charStatistic(chars);\n\n    for (int i = 0; i < n; i++) {\n      int diff = 0;\n\n      // 统计word字符串中各字符的数量\n      int[] cnt_word = charStatistic(words[i]);\n\n      for (int j = 0; j < 128; j++) {\n        // 记录word的某字符超过chars的对应字符出现的数量\n        diff += Math.max(cnt_word[j] - cnt_chars[j], 0);\n      }\n\n      if (diff <= cnt_chars['?']) {\n        ans++;\n        // System.out.println(words[i]);\n      }\n    }\n\n    return ans;\n  }\n\n  public static int[] charStatistic(String s) {\n    int[] cnts = new int[128];\n\n    for (int i = 0; i < s.length(); i++) {\n      char c = s.charAt(i);\n      cnts[c] += 1;\n    }\n\n    return cnts;\n  }\n}",
+    "python": "# 输入获取\nn = int(input())\n\nwords = []\nfor i in range(n):\n    words.append(input())\n\nchars = input()\n\n\ndef charStatistic(s):\n    cnts = [0] * 128\n\n    for c in s:\n        cnts[ord(c)] += 1\n\n    return cnts\n\n\n# 算法入口\ndef getResult():\n    ans = 0\n\n    # 统计chars字符串中各字符的数量\n    cnt_chars = charStatistic(chars)\n\n    for word in words:\n        diff = 0\n\n        # 统计word字符串中各字符的数量\n        cnt_word = charStatistic(word)\n\n        for j in range(128):\n            # 记录word的某字符超过chars的对应字符出现的数量\n            diff += max(cnt_word[j] - cnt_chars[j], 0)\n\n        if diff <= cnt_chars[ord('?')]:\n            ans += 1\n            # print(word)\n\n    return ans\n\n\n# 算法调用\nprint(getResult())",
+    "javascript": "",
+    "cpp": "",
+    "c": ""
+  }
+}

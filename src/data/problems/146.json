@@ -1,0 +1,29 @@
+{
+  "id": "146",
+  "title": "不含101的数",
+  "examType": "A",
+  "score": 200,
+  "description": "小明在学习二进制时，发现了一类不含 101的数，也就是：\n将数字用二进制表示，不能出现 101 。 现在给定一个整数区间 [l,r] ，请问这个区间包含了多少个不含 101 的数？\n",
+  "inputDesc": "输入的唯一一行包含两个正整数 l， r（ 1 ≤ l ≤ r ≤ 10^9）。\n",
+  "outputDesc": "输出的唯一一行包含一个整数，表示在 [l,r] 区间内一共有几个不含 101 的数。\n\n本题如果用暴力法求解，很简单\n但是本题的1 ≤ l ≤ r ≤ 10^9，也就是说区间范围最大是 1 ~ 10^9，那么上面O(n)时间复杂度的算法会超时。\n因此，我们需要找到一个性能更优的算法。\n本题需要使用数位DP算法，具体逻辑原理请看\n数位DP - 带3的数_伏城之外的博客-CSDN博客\n数位DP - 带49的数_伏城之外的博客-CSDN博客\n",
+  "examples": [
+    {
+      "input": "1 10",
+      "output": "8",
+      "explanation": "1-10的二进制分别为1,10,11,100,101,110,111,1000,1001,1010，其中101和1010含101模式，故有8个不含101的数"
+    },
+    {
+      "input": "10 20",
+      "output": "7",
+      "explanation": "10-20中二进制不含101模式的数有7个"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**数位DP**问题。\n\n**核心思路：**\n- 使用数位DP统计[1,R]内不含101的数减去[1,L-1]内的数量\n- 记录前两位状态避免出现101模式\n- 用记忆化搜索优化递归\n\n**算法步骤：**\n1. 将数字转为二进制数组\n2. DFS遍历每一位，记录前两位(pre,prepre)\n3. 若当前位=1且pre=0且prepre=1，则跳过(会形成101)\n4. 用f[p][pre][prepre]记忆化已计算结果\n5. 答案=digitSearch(R)-digitSearch(L-1)\n\n**时间复杂度**：O(logN)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    int L = sc.nextInt();\n    int R = sc.nextInt();\n    int count = digitSearch(R) - digitSearch(L - 1);\n    System.out.println(count);\n  }\n\n  public static int digitSearch(int num) {\n    Integer[] arr =\n        Arrays.stream(Integer.toBinaryString(num).split(\"\"))\n            .map(Integer::parseInt)\n            .toArray(Integer[]::new);\n\n    int[][][] f = new int[arr.length][2][2];\n\n    return dfs(0, true, f, arr, 0, 0);\n  }\n\n  public static int dfs(int p, boolean limit, int[][][] f, Integer[] arr, int pre, int prepre) {\n    if (p == arr.length) return 1;\n\n    if (!limit && f[p][pre][prepre] != 0) return f[p][pre][prepre];\n\n    int max = limit ? arr[p] : 1;\n    int count = 0;\n\n    for (int i = 0; i <= max; i++) {\n      if (i == 1 && pre == 0 && prepre == 1) continue;\n      count += dfs(p + 1, limit && i == max, f, arr, i, pre);\n    }\n\n    if (!limit) f[p][pre][prepre] = count;\n\n    return count;\n  }\n}",
+    "python": "# 算法实现\ndef dfs(p, limit, f, arr, pre, prepre):\n    if p == len(arr):\n        return 1\n\n    if not limit and f[p][pre][prepre] > 0:\n        return f[p][pre][prepre]\n\n    maxV = arr[p] if limit else 1\n    count = 0\n\n    for i in range(maxV + 1):\n        if i == 1 and pre == 0 and prepre == 1:\n            continue\n        count += dfs(p + 1, limit and i == maxV, f, arr, i, pre)\n\n    if not limit:\n        f[p][pre][prepre] = count\n\n    return count\n\n\ndef digitSearch(num):\n    arr = list(map(int, list(format(num, 'b'))))\n    f = [[[0 for k in range(2)] for j in range(2)] for i in range(len(arr))]\n    return dfs(0, True, f, arr, 0, 0)\n\n\n# 输入获取\nL, R = map(int, input().split())\n\n# 算法调用\nprint(digitSearch(R) - digitSearch(L - 1))",
+    "javascript": "/* JavaScript Node ACM模式 控制台输入获取 */\nconst readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nrl.on(\"line\", (line) => {\n  const [L, R] = line.split(\" \").map(Number);\n  const count = digitSearch(R) - digitSearch(L - 1);\n\n  console.log(count);\n});\n\nfunction digitSearch(num) {\n  const arr = num.toString(2).split(\"\").map(Number);\n  const f = new Array(arr.length)\n    .fill(0)\n    .map(() => new Array(2).fill(0).map(() => new Array(2)));\n\n  return dfs(0, true, f, arr, 0, 0);\n}\n\nfunction dfs(p, limit, f, arr, pre, prepre) {\n  if (p === arr.length) return 1;\n\n  if (!limit && f[p][pre][prepre]) return f[p][pre][prepre];\n\n  const max = limit ? arr[p] : 1;\n  let count = 0;\n\n  for (let i = 0; i <= max; i++) {\n    if (i === 1 && pre === 0 && prepre === 1) continue;\n    count += dfs(p + 1, limit && i === max, f, arr, i, pre);\n  }\n\n  if (!limit) f[p][pre][prepre] = count;\n\n  return count;\n}",
+    "cpp": "",
+    "c": ""
+  }
+}

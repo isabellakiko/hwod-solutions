@@ -1,0 +1,34 @@
+{
+  "id": "87",
+  "title": "计算最接近的数",
+  "examType": "A",
+  "score": 100,
+  "description": "给定一个数组X和正整数K，请找出使表达式：\nX[i] - X[i + 1] - ... - X[i + K - 1]\n结果最接近于数组中位数的下标 i ，如果有多个 i 满足条件，请返回最大的 i.\n其中，数组中位数：长度为N的数组，按照元素的值大小升序排列后，下标为 N/2 元素的值\n",
+  "inputDesc": "输入格式为[x1,x2,...,xn],k，其中x为数组，k为正整数。",
+  "outputDesc": "返回满足条件的最大下标i。",
+  "examples": [
+    {
+      "input": "[1,2,3,4,5],2",
+      "output": "3",
+      "explanation": "中位数为3。k=2时各窗口：1-2=-1,2-3=-1,3-4=-1,4-5=-1。都等距于3，返回最大i=3。"
+    },
+    {
+      "input": "[5,2,8,3,1],3",
+      "output": "1",
+      "explanation": "排序后[1,2,3,5,8]，中位数为3。窗口0:5-2-8=-5,窗口1:2-8-3=-9,窗口2:8-3-1=4。|3-4|=1最接近。"
+    },
+    {
+      "input": "[1,1,1,1],2",
+      "output": "2",
+      "explanation": "中位数为1，所有窗口结果都是0，与中位数差距相同，返回最大i=2。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**滑动窗口**问题。\n\n**算法步骤：**\n1. 计算数组中位数（排序后N/2位置的值）\n2. 初始化第一个长度为k的滑窗表达式结果\n3. 滑窗右移时状态转移：new = old - x[i-1] + 2*x[i] - x[i+k-1]\n4. 计算每个窗口结果与中位数的差距绝对值\n5. 记录差距最小且索引最大的i\n\n**时间复杂度**：O(N log N)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n\n    String line = sc.nextLine();\n\n    int i = line.lastIndexOf(\",\");\n\n    int[] x =\n        Arrays.stream(line.substring(1, i - 1).split(\",\")).mapToInt(Integer::parseInt).toArray();\n    int k = Integer.parseInt(line.substring(i + 1));\n\n    System.out.println(getResult(x, k));\n  }\n\n  public static int getResult(int[] x, int k) {\n    int n = x.length;\n\n    // x数组的中位数\n    int mid = Arrays.stream(x).sorted().toArray()[n / 2];\n\n    // 初始化滑窗0~k-1, window为滑窗内部元素的表达式计算结果\n    int window = x[0];\n    for (int i = 1; i < k; i++) {\n      window -= x[i];\n    }\n\n    // window和中位数的差距\n    int minDiff = Math.abs(mid - window);\n    // window滑窗起始索引\n    int idx = 0;\n\n    // 滑窗右移\n    for (int i = 1; i <= n - k; i++) {\n      // 右移一格后，新滑窗的表达式计算结果\n      window += -x[i - 1] + 2 * x[i] - x[i + k - 1];\n\n      // 新滑窗window值和中位数的差距\n      int diff = Math.abs(mid - window);\n\n      // 结果最接近于数组中位数的下标 i ，如果有多个 i 满足条件，请返回最大的 i\n      if (diff <= minDiff) {\n        minDiff = diff;\n        idx = i;\n      }\n    }\n\n    return idx;\n  }\n}",
+    "python": "# 输入获取\ntmp = input()\n\ni = tmp.rfind(\",\")\n\nx = list(map(int, tmp[1:i-1].split(\",\")))\nk = int(tmp[i+1:])\n\n\n# 核心代码\ndef getResult():\n    n = len(x)\n\n    # x数组的中位数\n    mid = sorted(x)[n // 2]\n\n    # 初始化滑窗0~k-1, window为滑窗内部元素的表达式计算结果\n    window = x[0]\n    for j in range(1, k):\n        window -= x[j]\n\n    # window和中位数的差距\n    minDiff = abs(mid - window)\n    # window滑窗起始索引\n    idx = 0\n\n    # 滑窗右移\n    for i in range(1, n-k+1):\n        # 右移一格后，新滑窗的表达式计算结果\n        window += -x[i-1] + 2 * x[i] - x[i + k -1]\n\n        # 新滑窗window值和中位数的差距\n        diff = abs(mid - window)\n\n        # 结果最接近于数组中位数的下标 i ，如果有多个 i 满足条件，请返回最大的 i\n        if diff <= minDiff:\n            minDiff = diff\n            idx = i\n\n    return idx\n\n\n# 算法调用\nprint(getResult())",
+    "javascript": "const readline = require('readline');\n\nconst rl = readline.createInterface({\n    input: process.stdin,\n    output: process.stdout\n});\n\nrl.on('line', (line) => {\n    const lastComma = line.lastIndexOf(',');\n    const x = line.substring(1, lastComma - 1).split(',').map(Number);\n    const k = parseInt(line.substring(lastComma + 1));\n    \n    const n = x.length;\n    const sorted = [...x].sort((a, b) => a - b);\n    const mid = sorted[Math.floor(n / 2)];\n    \n    let window = x[0];\n    for (let i = 1; i < k; i++) {\n        window -= x[i];\n    }\n    \n    let minDiff = Math.abs(mid - window);\n    let idx = 0;\n    \n    for (let i = 1; i <= n - k; i++) {\n        window += -x[i - 1] + 2 * x[i] - x[i + k - 1];\n        const diff = Math.abs(mid - window);\n        if (diff <= minDiff) {\n            minDiff = diff;\n            idx = i;\n        }\n    }\n    \n    console.log(idx);\n    rl.close();\n});",
+    "cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <string>\n#include <sstream>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    string line;\n    getline(cin, line);\n    \n    int lastComma = line.rfind(',');\n    string arrStr = line.substr(1, lastComma - 2);\n    int k = stoi(line.substr(lastComma + 1));\n    \n    vector<int> x;\n    stringstream ss(arrStr);\n    string token;\n    while (getline(ss, token, ',')) {\n        x.push_back(stoi(token));\n    }\n    \n    int n = x.size();\n    vector<int> sorted_x = x;\n    sort(sorted_x.begin(), sorted_x.end());\n    int mid = sorted_x[n / 2];\n    \n    int window = x[0];\n    for (int i = 1; i < k; i++) {\n        window -= x[i];\n    }\n    \n    int minDiff = abs(mid - window);\n    int idx = 0;\n    \n    for (int i = 1; i <= n - k; i++) {\n        window += -x[i - 1] + 2 * x[i] - x[i + k - 1];\n        int diff = abs(mid - window);\n        if (diff <= minDiff) {\n            minDiff = diff;\n            idx = i;\n        }\n    }\n    \n    cout << idx << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\nint cmp(const void* a, const void* b) {\n    return *(int*)a - *(int*)b;\n}\n\nint main() {\n    char line[10000];\n    fgets(line, sizeof(line), stdin);\n    \n    char* lastComma = strrchr(line, ',');\n    int k = atoi(lastComma + 1);\n    *lastComma = '\\0';\n    \n    int x[1000], n = 0;\n    char* p = line + 1;\n    while (*p && *p != ']') {\n        x[n++] = atoi(p);\n        while (*p && *p != ',' && *p != ']') p++;\n        if (*p == ',') p++;\n    }\n    \n    int sorted[1000];\n    memcpy(sorted, x, n * sizeof(int));\n    qsort(sorted, n, sizeof(int), cmp);\n    int mid = sorted[n / 2];\n    \n    int window = x[0];\n    for (int i = 1; i < k; i++) {\n        window -= x[i];\n    }\n    \n    int minDiff = abs(mid - window);\n    int idx = 0;\n    \n    for (int i = 1; i <= n - k; i++) {\n        window += -x[i - 1] + 2 * x[i] - x[i + k - 1];\n        int diff = abs(mid - window);\n        if (diff <= minDiff) {\n            minDiff = diff;\n            idx = i;\n        }\n    }\n    \n    printf(\"%d\\n\", idx);\n    return 0;\n}"
+  }
+}

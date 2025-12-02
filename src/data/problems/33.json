@@ -1,0 +1,34 @@
+{
+  "id": "33",
+  "title": "最大值",
+  "examType": "A",
+  "score": 100,
+  "description": "给定一组整数（非负），重排顺序后输出一个最大的整数。\n示例1\n输入：[10,9]\n输出：910\n说明:输出结果可能非常大，所以你需要返回一个字符串而不是整数。",
+  "inputDesc": "数字组合",
+  "outputDesc": "最大的整数",
+  "examples": [
+    {
+      "input": "10 9",
+      "output": "910",
+      "explanation": "将10和9拼接，910 > 109，所以9应该在10前面。"
+    },
+    {
+      "input": "3 30 34 5 9",
+      "output": "9534330",
+      "explanation": "按自定义规则排序：9 > 5 > 34 > 3 > 30\n拼接结果：9534330"
+    },
+    {
+      "input": "0 0",
+      "output": "0",
+      "explanation": "全是0时，应返回单个0，而不是00。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**自定义排序**问题（LeetCode 179）。\n\n**核心思想：**\n- 比较两个数a和b时，比较 a+b 和 b+a 的字符串大小\n- 如果 a+b > b+a，则a应排在b前面\n\n**算法步骤：**\n\n1. 将所有数字转为字符串\n2. 使用自定义比较函数排序：比较 str(a)+str(b) 和 str(b)+str(a)\n3. 将排序后的字符串拼接\n4. 去除前导零（特殊情况：全0返回\"0\"）\n\n**时间复杂度**：O(n log n)",
+  "codes": {
+    "java": "import java.util.Arrays;\nimport java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        // 读取输入\n        Scanner sc = new Scanner(System.in);\n        String[] input = sc.nextLine().split(\" \");  // 读取并拆分输入\n        int[] nums = new int[input.length];\n        \n        // 将输入的字符串数组转换为整数数组\n        for (int i = 0; i < input.length; i++) {\n            nums[i] = Integer.parseInt(input[i]);\n        }\n        \n       \n        int n = nums.length;\n        String[] ss = new String[n];\n        \n        // 将整数数组转换为字符串数组\n        for (int i = 0; i < n; i++) {\n            ss[i] = String.valueOf(nums[i]);\n        }\n\n        // 自定义排序规则，比较两个字符串拼接后的大小\n        Arrays.sort(ss, (a, b) -> {\n            String sa = a + b, sb = b + a;\n            return sb.compareTo(sa);  // 按照拼接后的字符串从大到小排序\n        });\n\n        // 拼接排序后的字符串\n        StringBuilder sb = new StringBuilder();\n        for (String s : ss) {\n            sb.append(s);\n        }\n\n        // 去除多余的前导零\n        int len = sb.length();\n        int k = 0;\n        while (k < len - 1 && sb.charAt(k) == '0') {\n            k++;\n        }\n\n        // 输出最终的结果字符串\n        System.out.println(sb.substring(k));\n    }\n}",
+    "python": "# 导入需要的模块\nimport functools\n\n# 读取输入并分割\ninput_str = input().split()\n\n# 将字符串数组转换为整数数组\nnums = [int(i) for i in input_str]\n\n# 将整数数组转换为字符串数组\nstr_nums = [str(num) for num in nums]\n\n# 定义自定义排序规则，比较两个字符串拼接后的大小\ndef compare(a, b):\n    if a + b > b + a:\n        return -1\n    elif a + b < b + a:\n        return 1\n    else:\n        return 0\n\n# 对字符串数组进行排序\nstr_nums.sort(key=functools.cmp_to_key(compare))\n\n# 拼接排序后的字符串\nresult = ''.join(str_nums)\n\n# 去除前导零，如果全是零，则只返回一个零\nresult = result.lstrip('0') or '0'\n\n# 输出最终结果\nprint(result)",
+    "javascript": "const readline = require(\"readline\");\n\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nrl.on(\"line\", (line) => {\n \n\n  // 将后续的输入处理为整数数组\n  const nums = line.split(\" \").map(Number);\n\n  // 将整数数组转换为字符串数组\n  let str_nums = nums.map(num => num.toString());\n\n  // 自定义排序规则，比较两个字符串拼接后的大小\n  str_nums.sort((a, b) => (b + a).localeCompare(a + b));\n\n  // 拼接排序后的字符串\n  let result = str_nums.join(\"\");\n\n  // 去除前导零，如果全是零，则只返回一个零\n  result = result.replace(/^0+/, \"\") || \"0\";\n\n  // 输出最终结果\n  console.log(result);\n});",
+    "cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <string>\nusing namespace std;\n\n// 自定义比较函数，比较拼接后的字符串\nbool compare(const string &a, const string &b) {\n    return a + b > b + a;\n}\n\nint main() {\n    // 读取输入\n    string input;\n    getline(cin, input);\n    \n    vector<string> nums;\n    string temp = \"\";\n    \n    // 将输入的字符串分割为单独的数字\n    for (char c : input) {\n        if (c == ' ') {\n            nums.push_back(temp);\n            temp = \"\";\n        } else {\n            temp += c;\n        }\n    }\n    nums.push_back(temp);\n    \n    // 对字符串数组进行排序\n    sort(nums.begin(), nums.end(), compare);\n    \n    // 拼接排序后的字符串\n    string result = \"\";\n    for (const string &num : nums) {\n        result += num;\n    }\n    \n    // 去除前导零\n    int k = 0;\n    while (k < result.size() - 1 && result[k] == '0') {\n        k++;\n    }\n    \n    // 输出最终结果\n    cout << result.substr(k) << endl;\n\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n// 自定义比较函数，比较拼接后的字符串\nint compare(const void *a, const void *b) {\n    char sa[40], sb[40];\n    strcpy(sa, *(const char **)a);\n    strcat(sa, *(const char **)b);\n    strcpy(sb, *(const char **)b);\n    strcat(sb, *(const char **)a);\n    return strcmp(sb, sa);\n}\n\nint main() {\n    char input[1000];\n    char *nums[500];\n    int n = 0;\n\n    // 读取输入\n    fgets(input, sizeof(input), stdin);\n\n    // 使用 strtok 分割输入的字符串\n    char *token = strtok(input, \" \\n\");\n    while (token != NULL) {\n        nums[n++] = token;\n        token = strtok(NULL, \" \\n\");\n    }\n\n    // 使用 qsort 排序\n    qsort(nums, n, sizeof(char *), compare);\n\n    // 拼接排序后的字符串\n    char result[1000] = \"\";\n    for (int i = 0; i < n; i++) {\n        strcat(result, nums[i]);\n    }\n\n    // 去除前导零\n    int k = 0;\n    while (result[k] == '0' && result[k + 1] != '\\0') {\n        k++;\n    }\n\n    // 输出最终结果\n    printf(\"%s\\n\", result + k);\n\n    return 0;\n}"
+  }
+}

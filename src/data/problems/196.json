@@ -1,0 +1,29 @@
+{
+  "id": "196",
+  "title": "游戏分组",
+  "examType": "B",
+  "score": 100,
+  "description": "部门准备举办一场王者荣耀表演赛，有 10 名游戏爱好者参与，分为两队，每队 5 人。\n每位参与者都有一个评分，代表着他的游戏水平。为了表演赛尽可能精彩，我们需要把 10 名参赛者分为示例尽量相近的两队。\n一队的实力可以表示为这一队 5 名队员的评分总和。\n现在给你 10 名参与者的游戏水平评分，请你根据上述要求分队，最后输出这两组的实力差绝对值。\n例：10 名参赛者的评分分别为：5 1 8 3 4 6 7 10 9 2，分组为（1 3 5 8 10）和（2 4 6 7 9），两组实力差最小，差值为1。有多种分法，但是实力差的绝对值最小为1。\n",
+  "inputDesc": "10个整数，表示10名参与者的游戏水平评分。范围在 [1, 10000] 之间。\n",
+  "outputDesc": "1个整数，表示分组后两组实力差绝对值的最小值。\n\n\n本题和华为OD机试 - 篮球比赛（Java & JS & Python & C）-CSDN博客\n类似。具体解析请参考上面博客。\n",
+  "examples": [
+    {
+      "input": "5 1 8 3 4 6 7 10 9 2",
+      "output": "1",
+      "explanation": "分为(1,3,5,8,10)和(2,4,6,7,9)两队，实力差为27-28=1"
+    },
+    {
+      "input": "1 2 3 4 5 6 7 8 9 10",
+      "output": "1",
+      "explanation": "分为(1,4,5,8,10)=28和(2,3,6,7,9)=27，实力差1"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题是一道**DFS组合枚举**问题。\n\n**核心思路：**\n- 10选5的组合问题\n- 求两队实力差最小值\n\n**算法步骤：**\n1. DFS枚举所有10选5的组合\n2. 计算每个组合的实力和\n3. 总和减去2倍组合和的绝对值即为实力差\n4. 返回最小实力差\n\n**时间复杂度**：O(C(10,5))=O(252)",
+  "codes": {
+    "java": "import java.util.ArrayList;\nimport java.util.Arrays;\nimport java.util.Scanner;\n \npublic class Main {\n  public static void main(String[] args) {\n    Scanner sc = new Scanner(System.in);\n \n    int[] arr = new int[10];\n    for (int i = 0; i < 10; i++) {\n      arr[i] = sc.nextInt();\n    }\n \n    System.out.println(getResult(arr));\n  }\n \n  public static int getResult(int[] arr) {\n    Arrays.sort(arr);\n \n    ArrayList<Integer> res = new ArrayList<>();\n    // dfs求10选5的去重组合，并将组合之和记录进res中，即res中记录的是所有可能性的5人小队实力值之和\n    dfs(arr, 0, 0, 0, res);\n \n    int sum = Arrays.stream(arr).reduce(Integer::sum).orElse(0);\n    // 某队实力为subSum，则另一队实力为sum - subSum，则两队实力差为 abs((sum - subSum) - subSum)，先求最小实力差\n    return res.stream().map(subSum -> Math.abs(sum - 2 * subSum)).min((a, b) -> a - b).orElse(0);\n  }\n \n  // 求解去重组合\n  public static void dfs(int[] arr, int index, int level, int sum, ArrayList<Integer> res) {\n    if (level == 5) {\n      res.add(sum);\n      return;\n    }\n \n    for (int i = index; i < 10; i++) {\n      if (i > index && arr[i] == arr[i - 1]) continue; // arr已经升序，这里进行树层去重\n      dfs(arr, i + 1, level + 1, sum + arr[i], res);\n    }\n  }\n}",
+    "python": "# 输入获取\narr = list(map(int, input().split()))\n \n \n# 求解去重组合\ndef dfs(arr, index, level, sumV, res):\n    if level == 5:\n        res.append(sumV)\n        return\n \n    for i in range(index, 10):\n        if i > index and arr[i] == arr[i - 1]: # arr已经升序，这里进行树层去重\n            continue\n        dfs(arr, i + 1, level + 1, sumV + arr[i], res)\n \n \n# 算法入口\ndef getResult(arr):\n    arr.sort()\n \n    res = []\n    # dfs求10选5的去重组合，并将组合之和记录进res中，即res中记录的是所有可能性的5人小队实力值之和\n    dfs(arr, 0, 0, 0, res)\n \n    sumV = sum(arr)\n    #  某队实力为subSum，则另一队实力为sum - subSum，则两队实力差为 abs((sum - subSum) - subSum)，先求最小实力差\n    return min(map(lambda subSum: abs(sumV - 2 * subSum), res))\n \n \n# 算法调用\nprint(getResult(arr))",
+    "javascript": "const rl = require(\"readline\").createInterface({ input: process.stdin });\nvar iter = rl[Symbol.asyncIterator]();\nconst readline = async () => (await iter.next()).value;\n\nvoid (async function () {\n  const arr = (await readline()).split(\" \").map(Number);\n\n  arr.sort((a, b) => a - b);\n\n  const res = [];\n  // dfs求10选5的去重组合，并将组合之和记录进res中，即res中记录的是所有可能性的5人小队实力值之和\n  dfs(arr, 0, 0, 0, res);\n\n  const sum = arr.reduce((p, c) => p + c);\n\n  // 某队实力为subSum，则另一队实力为sum - subSum，则两队实力差为 abs((sum - subSum) - subSum)，先求最小实力差\n  const ans = res\n    .map((subSum) => Math.abs(sum - 2 * subSum))\n    .sort((a, b) => a - b)[0];\n\n  console.log(ans);\n})();\n\n// 求解去重组合\nfunction dfs(arr, index, level, sum, res) {\n  if (level === 5) {\n    return res.push(sum);\n  }\n\n  for (let i = index; i < 10; i++) {\n    if (i > index && arr[i] == arr[i - 1]) continue; // arr已经升序，这里进行树层去重\n    dfs(arr, i + 1, level + 1, sum + arr[i], res);\n  }\n}",
+    "cpp": "",
+    "c": ""
+  }
+}

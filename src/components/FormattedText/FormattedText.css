@@ -1,0 +1,81 @@
+/* ============================================
+   Formatted Text Component - Content Highlighting
+   ============================================ */
+
+.formatted-text {
+  font-size: var(--text-lg);
+  line-height: 1.9;
+  color: var(--text-primary);
+}
+
+/* Smaller text for IO descriptions */
+.formatted-text.io-text {
+  font-size: var(--text-base);
+  line-height: 1.7;
+}
+
+.formatted-text .formatted-line {
+  margin-bottom: var(--space-4);
+}
+
+.formatted-text .formatted-line:last-child {
+  margin-bottom: 0;
+}
+
+/* Inline Code */
+.inline-code {
+  display: inline;
+  padding: 2px 8px;
+  margin: 0 2px;
+  background: var(--inline-code-bg);
+  color: var(--inline-code-text);
+  border: 1px solid var(--inline-code-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  font-weight: var(--font-medium);
+  white-space: nowrap;
+}
+
+/* Keyword Highlighting */
+.highlight-keyword {
+  color: var(--color-primary);
+  font-weight: var(--font-semibold);
+}
+
+/* Number Highlighting */
+.highlight-number {
+  color: var(--color-accent);
+  font-weight: var(--font-semibold);
+  font-family: var(--font-mono);
+}
+
+/* Formatted Paragraph (simpler version) */
+.formatted-paragraph {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-primary);
+}
+
+.formatted-paragraph p {
+  margin-bottom: var(--space-3);
+}
+
+.formatted-paragraph p:last-child {
+  margin-bottom: 0;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .inline-code {
+  background: var(--inline-code-bg);
+  color: var(--inline-code-text);
+  border-color: var(--inline-code-border);
+}
+
+[data-theme="dark"] .highlight-keyword {
+  color: var(--color-primary);
+}
+
+[data-theme="dark"] .highlight-number {
+  color: var(--color-accent);
+}

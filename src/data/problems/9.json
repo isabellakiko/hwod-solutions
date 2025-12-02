@@ -1,0 +1,29 @@
+{
+  "id": "9",
+  "title": "关联子串",
+  "examType": "A",
+  "score": 100,
+  "description": "给定两个字符串 str1 和 str2，如果字符串 str1 中的字符，经过排列组合后的字符串中，只要有一个字符串是 str2 的子串，则认为 str1 是 str2 的**关联子串**。\n\n若 str1 是 str2 的关联子串，请返回子串在 str2 的起始位置；若不是关联子串，则返回 -1。",
+  "inputDesc": "输入一行，包含两个字符串 str1 和 str2，用空格分隔。\n- 输入的字符串只包含小写字母\n- 两个字符串的长度范围 [1, 100000]",
+  "outputDesc": "- 若 str1 是 str2 的关联子串，返回子串在 str2 的起始位置（从 0 开始计数）\n- 若不是关联子串，返回 -1\n- 若 str2 中有多个 str1 的组合子串，返回最小的起始位置",
+  "examples": [
+    {
+      "input": "abc efghicbaiii",
+      "output": "5",
+      "explanation": "str1=\"abc\" 的排列组合包括：abc, acb, bac, bca, cab, cba。str2=\"efghicbaiii\" 中包含 \"cba\"（位置5-7），所以返回起始位置 5。"
+    },
+    {
+      "input": "abc efghiccaiii",
+      "output": "-1",
+      "explanation": "str1=\"abc\" 的所有排列组合（abc, acb, bac, bca, cab, cba）都不是 str2=\"efghiccaiii\" 的子串，返回 -1。"
+    }
+  ],
+  "solution": "**解题思路：**\n\n本题的关键是判断 str2 中是否存在一个长度为 len(str1) 的子串，使得该子串是 str1 的某个排列。\n\n**核心观察**：\n两个字符串互为排列 ⟺ 它们的字符频率（每个字符出现的次数）相同。\n\n**算法：滑动窗口 + 字符频率统计**\n\n1. 统计 str1 的字符频率\n2. 在 str2 上使用长度为 len(str1) 的滑动窗口\n3. 对每个窗口，统计其字符频率，与 str1 的频率比较\n4. 如果相同，返回当前窗口的起始位置\n5. 遍历完仍未找到，返回 -1\n\n**优化**：滑动窗口移动时，可以增量更新频率数组（O(1) 更新），而不是每次重新统计（O(n) 统计）。\n\n**时间复杂度**：O(n2 × 26) 或优化后 O(n2)",
+  "codes": {
+    "java": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String[] parts = sc.nextLine().split(\" \");\n        String str1 = parts[0];\n        String str2 = parts[1];\n        \n        int n1 = str1.length();\n        int n2 = str2.length();\n        \n        if (n1 > n2) {\n            System.out.println(-1);\n            return;\n        }\n        \n        // 统计 str1 的字符频率\n        int[] freq1 = new int[26];\n        for (char c : str1.toCharArray()) {\n            freq1[c - 'a']++;\n        }\n        \n        // 滑动窗口\n        for (int i = 0; i <= n2 - n1; i++) {\n            int[] freq2 = new int[26];\n            for (int j = 0; j < n1; j++) {\n                freq2[str2.charAt(i + j) - 'a']++;\n            }\n            if (Arrays.equals(freq1, freq2)) {\n                System.out.println(i);\n                return;\n            }\n        }\n        \n        System.out.println(-1);\n    }\n}",
+    "python": "str1, str2 = input().split()\nn1, n2 = len(str1), len(str2)\n\nif n1 > n2:\n    print(-1)\nelse:\n    # 统计 str1 的字符频率\n    freq1 = [0] * 26\n    for c in str1:\n        freq1[ord(c) - ord('a')] += 1\n    \n    # 滑动窗口\n    result = -1\n    for i in range(n2 - n1 + 1):\n        freq2 = [0] * 26\n        for j in range(n1):\n            freq2[ord(str2[i + j]) - ord('a')] += 1\n        if freq1 == freq2:\n            result = i\n            break\n    \n    print(result)",
+    "javascript": "const readline = require('readline');\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nrl.on('line', (input) => {\n  const [str1, str2] = input.split(' ');\n  const n1 = str1.length;\n  const n2 = str2.length;\n  \n  if (n1 > n2) {\n    console.log(-1);\n    rl.close();\n    return;\n  }\n  \n  // 统计 str1 的字符频率\n  const freq1 = new Array(26).fill(0);\n  for (const c of str1) {\n    freq1[c.charCodeAt(0) - 97]++;\n  }\n  \n  // 滑动窗口\n  for (let i = 0; i <= n2 - n1; i++) {\n    const freq2 = new Array(26).fill(0);\n    for (let j = 0; j < n1; j++) {\n      freq2[str2.charCodeAt(i + j) - 97]++;\n    }\n    if (freq1.every((v, idx) => v === freq2[idx])) {\n      console.log(i);\n      rl.close();\n      return;\n    }\n  }\n  \n  console.log(-1);\n  rl.close();\n});",
+    "cpp": "#include <iostream>\n#include <string>\n#include <cstring>\nusing namespace std;\n\nint main() {\n    string str1, str2;\n    cin >> str1 >> str2;\n    \n    int n1 = str1.length();\n    int n2 = str2.length();\n    \n    if (n1 > n2) {\n        cout << -1 << endl;\n        return 0;\n    }\n    \n    // 统计 str1 的字符频率\n    int freq1[26] = {0};\n    for (char c : str1) {\n        freq1[c - 'a']++;\n    }\n    \n    // 滑动窗口\n    for (int i = 0; i <= n2 - n1; i++) {\n        int freq2[26] = {0};\n        for (int j = 0; j < n1; j++) {\n            freq2[str2[i + j] - 'a']++;\n        }\n        if (memcmp(freq1, freq2, sizeof(freq1)) == 0) {\n            cout << i << endl;\n            return 0;\n        }\n    }\n    \n    cout << -1 << endl;\n    return 0;\n}",
+    "c": "#include <stdio.h>\n#include <string.h>\n\nint main() {\n    char str1[100001], str2[100001];\n    scanf(\"%s %s\", str1, str2);\n    \n    int n1 = strlen(str1);\n    int n2 = strlen(str2);\n    \n    if (n1 > n2) {\n        printf(\"-1\\n\");\n        return 0;\n    }\n    \n    // 统计 str1 的字符频率\n    int freq1[26] = {0};\n    for (int i = 0; i < n1; i++) {\n        freq1[str1[i] - 'a']++;\n    }\n    \n    // 滑动窗口\n    for (int i = 0; i <= n2 - n1; i++) {\n        int freq2[26] = {0};\n        for (int j = 0; j < n1; j++) {\n            freq2[str2[i + j] - 'a']++;\n        }\n        \n        int match = 1;\n        for (int k = 0; k < 26; k++) {\n            if (freq1[k] != freq2[k]) {\n                match = 0;\n                break;\n            }\n        }\n        \n        if (match) {\n            printf(\"%d\\n\", i);\n            return 0;\n        }\n    }\n    \n    printf(\"-1\\n\");\n    return 0;\n}"
+  }
+}
